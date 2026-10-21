@@ -1,0 +1,225 @@
+{
+  "id": "scene-2",
+  "intent": {
+    "type": "outcomeDist"
+  },
+  "template": "ringCards",
+  "title": "Outcome Distribution",
+  "subtitle": "Current status of every application — approvals, rejections, closures and processing",
+  "focusKey": "ring",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "donut",
+        "key": "ring",
+        "total": 8412,
+        "totalLabel": "Total applications",
+        "basis": "Current status · each application counted once",
+        "segments": [
+          {
+            "key": "approved",
+            "label": "Approved",
+            "count": 5211,
+            "accent": "#3ed6a0"
+          },
+          {
+            "key": "processing",
+            "label": "In processing",
+            "count": 2140,
+            "accent": "#4f9cff"
+          },
+          {
+            "key": "rejected",
+            "label": "Rejected",
+            "count": 792,
+            "accent": "#ff5d6c"
+          },
+          {
+            "key": "closed",
+            "label": "Closed · other",
+            "count": 269,
+            "accent": "#a67cff"
+          }
+        ],
+        "clean": true,
+        "centre": {
+          "value": 74.56015216357585,
+          "label": "Closure rate",
+          "caption": "6,272 of 8,412 closed"
+        }
+      },
+      "slot": "main"
+    },
+    {
+      "spec": {
+        "kind": "legend",
+        "key": "legend",
+        "items": [
+          {
+            "key": "approved",
+            "label": "Approved",
+            "count": 5211,
+            "accent": "#3ed6a0",
+            "share": 0.619472182596291
+          },
+          {
+            "key": "processing",
+            "label": "In processing",
+            "count": 2140,
+            "accent": "#4f9cff",
+            "share": 0.25439847836424156,
+            "ask": "How many visa applications are being processed?"
+          },
+          {
+            "key": "rejected",
+            "label": "Rejected",
+            "count": 792,
+            "accent": "#ff5d6c",
+            "share": 0.09415121255349501
+          },
+          {
+            "key": "closed",
+            "label": "Closed · other",
+            "count": 269,
+            "accent": "#a67cff",
+            "share": 0.03197812648597242
+          }
+        ]
+      },
+      "slot": "legend"
+    },
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "total-applications",
+        "tile": true,
+        "card": "hero",
+        "label": "Total applications",
+        "value": 8412,
+        "format": "count",
+        "icon": "applications",
+        "accent": "#4f9cff",
+        "caption": "to date",
+        "spark": {
+          "kind": "line",
+          "values": [
+            3,
+            4,
+            4,
+            5,
+            6,
+            6,
+            7,
+            8,
+            8,
+            9
+          ]
+        },
+        "ask": "Which countries or nationalities generate the most applications?"
+      },
+      "slot": "tl"
+    },
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "in-proc",
+        "tile": true,
+        "card": "hero",
+        "label": "In processing",
+        "value": 2140,
+        "format": "count",
+        "icon": "clock",
+        "accent": "#3d84f7",
+        "caption": "awaiting decision",
+        "spark": {
+          "kind": "bars",
+          "values": [
+            4,
+            5,
+            7,
+            6,
+            8,
+            9,
+            7,
+            10
+          ]
+        },
+        "ask": "How many visa applications are being processed?"
+      },
+      "slot": "bl"
+    },
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "approved-today",
+        "tile": true,
+        "card": "hero",
+        "label": "Approved today",
+        "value": 264,
+        "format": "count",
+        "icon": "approved",
+        "accent": "#3ed6a0",
+        "delta": {
+          "value": 12,
+          "unit": "count",
+          "basis": "vs yesterday"
+        },
+        "spark": {
+          "kind": "bars",
+          "values": [
+            3,
+            4,
+            5,
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        "ask": "How does today's performance compare with yesterday?"
+      },
+      "slot": "tr"
+    },
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "rejected-today",
+        "tile": true,
+        "card": "hero",
+        "label": "Rejected today",
+        "value": 41,
+        "format": "count",
+        "icon": "rejected",
+        "accent": "#ff5d6c",
+        "delta": {
+          "value": 2,
+          "unit": "count",
+          "basis": "vs yesterday",
+          "goodWhen": "none"
+        },
+        "spark": {
+          "kind": "bars",
+          "values": [
+            5,
+            4,
+            6,
+            5,
+            6,
+            7,
+            6,
+            7
+          ]
+        },
+        "ask": "How many applications have been rejected, and what are the outcomes?"
+      },
+      "slot": "br"
+    }
+  ],
+  "spoken": "Of 8,412 applications, 5,211 are approved, 792 rejected, 269 closed for other reasons and 2,140 still in processing. The closure rate is 74.6%.",
+  "summary": {
+    "primary": "Closure rate 74.6%.",
+    "secondary": "5,211 approved · 792 rejected · 2,140 in processing."
+  }
+}

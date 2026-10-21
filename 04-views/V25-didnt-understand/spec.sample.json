@@ -1,0 +1,35 @@
+{
+  "id": "scene-27",
+  "intent": {
+    "type": "unsupported",
+    "text": "What is the weather in Dubai?"
+  },
+  "template": "notice",
+  "title": "How I Can Help",
+  "subtitle": "Applications, journeys, outcomes and processing times",
+  "focusKey": "notice",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "notice",
+        "key": "notice",
+        "title": "I don’t have that information yet",
+        "text": "I can tell you about applications, the online visa journey, outcomes, processing times, revenue and where applicants come from.",
+        "suggestions": [
+          "Show the online visa journey",
+          "How many visa applications are being processed?",
+          "What are the application outcomes?",
+          "How long do tourist visas from India take?",
+          "Top countries by applications"
+        ]
+      },
+      "slot": "hero"
+    }
+  ],
+  "spoken": "I’m sorry, I don’t have that information yet. I would be glad to tell you about applications, journeys, outcomes or processing times.",
+  "summary": {
+    "primary": "I don’t have that information yet.",
+    "secondary": "I can help with applications, journeys, outcomes and processing times."
+  }
+}

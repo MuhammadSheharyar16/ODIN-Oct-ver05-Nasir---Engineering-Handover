@@ -1,0 +1,300 @@
+/* ═══════════════════════════════════════════════════════════════════════
+ * ODIN journey glass — premium + accessible.
+ * ver05: the light (white) theme below is re-pointed to dark hero glass at the
+ * end of this section so the journey matches Home's cards (design review 20 Oct).
+ * Applies to the journey stage cards; every other card uses the tile/capsule
+ * family in cards.css.
+ *
+ * Matches the approved custom-report cards: white frosted glass (≈ 72–80%
+ * white, 20–26px blur) with dark navy ink. White text on light glass over a
+ * daylight sky cannot reach WCAG AA, so cards carry DARK INK:
+ *   --ink-1 #0F1B2D  primary values     ≈ 15:1 on the frosted fill
+ *   --ink-2 #344054  labels             ≈ 9:1
+ *   --ink-3 #475467  captions / basis   ≈ 7:1  (never lighter than #667085)
+ *   good    #067647  deltas up          ≈ 6:1
+ *   warn    #B42318  deltas down        ≈ 6:1
+ * Colour is never the only signal: deltas keep ▲/▼ and signs.
+ * Accent lives in the rim light, icon chips and bars — not in body text.
+ * Loaded after scene.css / v1.css so it wins.
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --ink-1: #0f1b2d;
+  --ink-2: #344054;
+  --ink-3: #475467;
+  --ink-good: #067647;
+  --ink-warn: #b42318;
+  --lg-fill: rgba(255, 255, 255, 0.74);
+  --lg-fill-top: rgba(255, 255, 255, 0.88);
+  --lg-blur: 24px;
+}
+
+.jcard__glass,
+.vj-row,
+.vj-out {
+  color: var(--ink-1) !important;
+  text-shadow: none;
+  background:
+    linear-gradient(165deg, var(--lg-fill-top) 0%, var(--lg-fill) 42%, rgba(255, 255, 255, 0.68) 100%),
+    radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--accent, #7fb6ff) 16%, transparent), transparent 60%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 color-mix(in srgb, var(--accent, #7fb6ff) 22%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent, #7fb6ff) 32%, transparent),
+    0 0 26px color-mix(in srgb, var(--accent, #7fb6ff) 34%, transparent),
+    0 14px 34px rgba(15, 27, 45, 0.18),
+    0 2px 6px rgba(15, 27, 45, 0.08);
+  backdrop-filter: blur(var(--lg-blur)) saturate(1.5);
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(1.5);
+}
+
+/* Everything inside a card uses dark ink, no glow shadows.
+   (!important: this is a theme layer over component rules of mixed specificity.) */
+:is(.jcard__glass, .vj-row, .vj-out) * {
+  color: var(--ink-1) !important;
+  text-shadow: none !important;
+}
+
+/* Labels and captions: ink-2 / ink-3. */
+:is(.jcard__glass, .vj-row, .vj-out)
+  :is(.metric__label, .jcard__label, .tm-card__label, .tm__stage-label, .tm__stages-head > span:first-child, .jorb__label, .geo-card__name, .rev__top-h, .pod__sub, .vj-row__label, .vj-out__label, .ranking__title, .compare__label, .bars__label, .facts__text) {
+  color: var(--ink-2) !important;
+}
+:is(.jcard__glass, .vj-row, .vj-out)
+  :is(.metric__caption, .jcard__basis, .jcard__days, .jcard__sub, .tm-card__note, .tm-card__na, .dtag__basis, .jorb__days, .jar-stats span, .rev__top-row span, .vj-row__days, .vj-out__days, .metric__basis, .ranking__basis, .bars__basis, .facts__sub, .unit, small) {
+  color: var(--ink-3) !important;
+}
+.jcard.is-na .jcard__count,
+.jcard .tm-card__na { color: var(--ink-3) !important; }
+
+/* Deltas: semantic ink that passes AA on white, arrows kept. */
+:is(.jcard__glass, .vj-row, .vj-out)
+  :is(.dtag.is-good, .dtag.is-good *, .jcard__delta.is-up, .jcard__delta.is-up *, .metric__delta.is-good, .metric__delta.is-good *, .is-up) {
+  color: var(--ink-good) !important;
+}
+:is(.jcard__glass, .vj-row, .vj-out)
+  :is(.dtag.is-warn, .dtag.is-warn *, .jcard__delta.is-down, .jcard__delta.is-down *, .metric__delta.is-warn, .metric__delta.is-warn *, .is-down) {
+  color: var(--ink-warn) !important;
+}
+:is(.jcard__glass) :is(.dtag.is-flat, .dtag.is-flat *, .metric__delta.is-flat) {
+  color: var(--ink-3) !important;
+}
+:is(.jcard__glass,
+.vj-row,
+.vj-out) :is(.dtag,
+.jcard__delta,
+.metric__delta) .dtag__basis,
+:is(.jcard__glass) .jcard__basis {
+  color: var(--ink-3) !important;
+}
+
+/* Accent appears in icons and stage numbers, darkened for contrast. */
+:is(.jcard__glass, .vj-row, .vj-out)
+  :is(svg, .jcard__n, .metric__icon, .tm-card__icon, .pod__glyph) {
+  color: color-mix(in srgb, var(--accent, #4f9cff) 62%, #0f1b2d) !important;
+  filter: none;
+}
+
+/* Solid accent chips keep white ink — accent is deepened so white passes AA. */
+.tm__stage-icon,
+.pod__badge,
+.pod__rank,
+.jcard__tag,
+/* (0,2,1)+ so it beats the accent-icon rule for glyphs inside chips. */
+:is(.jcard__glass) :is(.tm__stage-icon,
+.pod__badge,
+.pod__rank,
+.jcard__badge),
+:is(.jcard__glass) :is(.tm__stage-icon,
+.pod__badge,
+.pod__rank,
+.jcard__badge) :is(svg,
+*) {
+  color: #fff !important;
+}
+.jcard__tag {
+  color: #fff !important;
+  background: var(--chip) !important;
+  border: 0 !important;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* Bars/sparks inside light cards: slightly deeper accent so they read on white. */
+:is(.__none__) .mbars > span {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 85%, white), color-mix(in srgb, var(--accent) 80%, #0f1b2d));
+  box-shadow: none;
+}
+
+/* Specular sheen + slow light sweep (white on white: never lowers contrast). */
+.jcard__glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.85) 47%, rgba(255, 255, 255, 0.15) 55%, transparent 64%) -160% 0 / 260% 100% no-repeat;
+  opacity: 0.55;
+  animation: lg-sweep 8s var(--ease-in-out) infinite;
+  animation-delay: calc(var(--i, 0) * 0.45s + 1.2s);
+}
+@keyframes lg-sweep {
+  0%, 64% { background-position: -160% 0; }
+  100% { background-position: 160% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jcard__glass::before { animation: none; opacity: 0; }
+}
+
+.jcard__glass {
+  position: relative;
+  overflow: hidden;
+}
+:is(.jcard__glass) > * {
+  position: relative;
+}
+
+/* Emphasis: accent ring + bloom, card stays light. */
+.jcard.is-emphasis .jcard__glass {
+  border-color: #fff;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 0 0 2px color-mix(in srgb, var(--accent) 80%, white),
+    0 0 30px var(--accent),
+    0 0 72px color-mix(in srgb, var(--accent) 42%, transparent),
+    0 14px 34px rgba(15, 27, 45, 0.2);
+}
+
+/* Unavailable: neutral rim, muted (but still AA) ink. */
+.jcard.is-na .jcard__glass { --accent: #98a2b3; }
+.jcard.is-na .jcard__count { font-size: 0.62em; letter-spacing: 0; }
+
+/* ver05 · D3: the journey cards join ODIN's card family (Home capsules, hero glass):
+ * dark blue glass, white ink, accent rim. Same ink tokens, re-pointed for dark glass. */
+.jcard__glass,
+.vj-row,
+.vj-out {
+  --ink-1: #ffffff;
+  --ink-2: rgba(236, 243, 255, 0.95);
+  --ink-3: rgba(222, 233, 252, 0.9);
+  --ink-good: #5fe3a6;
+  --ink-warn: #ff9a9a;
+  background:
+    linear-gradient(165deg, rgba(46, 66, 116, 0.66) 0%, rgba(16, 27, 58, 0.6) 55%, rgba(10, 18, 42, 0.64) 100%),
+    radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--accent, #7fb6ff) 26%, transparent), transparent 62%) !important;
+  border: 1px solid color-mix(in srgb, var(--accent, #7fb6ff) 52%, rgba(255, 255, 255, 0.5)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    0 0 0 1px color-mix(in srgb, var(--accent, #7fb6ff) 24%, transparent),
+    0 0 26px color-mix(in srgb, var(--accent, #7fb6ff) 36%, transparent),
+    0 16px 36px rgba(2, 8, 30, 0.36) !important;
+}
+:is(.jcard__glass, .vj-row, .vj-out) * { text-shadow: 0 1px 10px rgba(2, 8, 36, 0.55) !important; }
+.jcard__glass::before { opacity: 0.18; }
+.jcard.is-emphasis .jcard__glass {
+  border-color: color-mix(in srgb, var(--accent) 80%, #fff) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 0 0 2px color-mix(in srgb, var(--accent) 70%, transparent),
+    0 0 30px var(--accent),
+    0 0 72px color-mix(in srgb, var(--accent) 40%, transparent),
+    0 16px 36px rgba(2, 8, 30, 0.38) !important;
+}
+
+/* ── Text that sits directly on the 3D scene (titles, ring callouts, jar crowns,
+ *    globe readouts): white ink with a soft dark halo for ≥ 4.5:1 on the sky. ── */
+.scene__title h1,
+.scene__title p,
+.ring2__label,
+.ring2__center,
+.ring2__basis,
+.ring2__legend li,
+.geo__head,
+.rev__head,
+.tm__readout,
+.ch-core__text,
+.rev__core-text,
+.jar__crown,
+.jorbs__rej {
+  text-shadow: 0 1px 2px rgba(6, 14, 36, 0.85), 0 0 10px rgba(6, 14, 36, 0.55), 0 0 26px rgba(6, 14, 36, 0.35);
+}
+.scene__title p { color: #fff; text-shadow: 0 1px 2px rgba(6, 14, 36, 0.95), 0 0 8px rgba(6, 14, 36, 0.7), 0 0 22px rgba(6, 14, 36, 0.45); }
+/* The room is no longer dimmed behind answers: a feathered lens under the title keeps it AA on the bright sky. */
+.scene__title-morph { isolation: isolate; }
+.scene__title-morph::before { content: ''; position: absolute; inset: -18% -6%; z-index: -1; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(6, 14, 36, 0.34), rgba(6, 14, 36, 0.16) 62%, rgba(6, 14, 36, 0)); }
+
+/* Outcome badges (Approved / Rejected / Visit completed): solid accent disc, white glyph. */
+.jcard__badge {
+  color: #fff !important;
+  background: radial-gradient(circle at 38% 32%, color-mix(in srgb, var(--accent) 70%, white), color-mix(in srgb, var(--accent) 72%, #0f1b2d) 75%);
+  border: 0;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 60%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Deltas over the 3D globe: dark pill so semantic colour keeps ≥ 4.5:1. */
+.tm__readout .dtag,
+.rev__core-text .dtag,
+.ch-core__text .dtag {
+  padding: 0.2em 0.7em;
+  border-radius: 999px;
+  background: rgba(6, 14, 36, 0.62);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+  text-shadow: none;
+}
+.tm__readout .dtag.is-good, .rev__core-text .dtag.is-good, .ch-core__text .dtag.is-good { color: #5ef0b4; }
+.tm__readout .dtag.is-warn, .rev__core-text .dtag.is-warn, .ch-core__text .dtag.is-warn { color: #ffa395; }
+.tm__readout .dtag__basis, .rev__core-text .dtag__basis { color: rgba(235, 242, 255, 0.86); }
+
+
+/* Long KPI labels wrap to two lines rather than truncating. */
+.glass .metric__label {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.15;
+}
+
+/* Readouts that sit on ODIN's globe: a soft dark lens behind the text keeps
+   ≥ 7:1 whatever the globe/spectrum is doing underneath. */
+.rev__core-text,
+.ch-core__text,
+.tm__readout {
+  isolation: isolate;
+}
+.rev__core-text::before,
+.ch-core__text::before,
+.tm__readout::before {
+  content: '';
+  position: absolute;
+  inset: -18% -14%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(6, 14, 36, 0.62), rgba(6, 14, 36, 0.32) 62%, transparent 100%);
+  pointer-events: none;
+}
+/* Revenue v1: a deeper lens (the readout sits on the globe's busiest area). */
+.rev__core-text::before { inset: -22% -20%; background: radial-gradient(closest-side, rgba(6, 14, 36, 0.74), rgba(6, 14, 36, 0.42) 60%, transparent 100%); }
+.rev__core-text { position: relative; }
+.ch-core__text { position: relative; }
+
+/* ── Phone refinements (readability first) ── */
+.vj-row__nums.is-na b,
+.vj-out b:only-of-type { font-variant-numeric: tabular-nums; }
+.vj-row__nums.is-na b { font-size: 13px !important; font-weight: 650; color: var(--ink-2) !important; white-space: nowrap; }
+.vj-out:has(.vj-out__days) b { white-space: nowrap; }
+.journey.is-vertical .vj-out b { font-size: clamp(14px, 5.2cqw, 30px); }
+.rev.is-narrow .pending-tag { position: relative; top: auto; bottom: auto; left: auto; right: auto; transform: none; max-width: 100%; white-space: normal; text-align: center; font-size: 11.5px; padding: 4px 11px; }
+.scene.mode-compact .tm.is-narrow .tm__lbl { display: none; }
+.scene.mode-compact .tm.is-narrow .tm__big { font-size: clamp(20px, 5.4cqh, 40px); }
+.scene.mode-compact .tm.is-narrow .tm__big small { display: block; font-size: 0.5em; }
+
+/* Phones: the stage strip keeps its numbers; filter tabs move to voice ("by country"). */
+.scene.mode-compact .tm.is-narrow .tm__tabs { display: none; }
+.scene.mode-compact .tm.is-narrow .tm__stages-head { margin-bottom: 1cqh; }
+.scene.mode-compact .tm.is-narrow .tm__stages { padding: 1.4cqh 2.4cqw; }
+
+.vj-out b.is-na { font-size: 12.5px !important; color: var(--ink-2) !important; white-space: nowrap; overflow: visible !important; text-overflow: clip !important; }
+.vj-out__label { white-space: nowrap; }
+:is(.jcard__glass) .jcard__n { color: color-mix(in srgb, var(--accent) 50%, #fff) !important; }

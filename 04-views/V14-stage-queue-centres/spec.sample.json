@@ -1,0 +1,80 @@
+{
+  "id": "scene-10",
+  "intent": {
+    "type": "queue",
+    "channel": "centre"
+  },
+  "template": "stage",
+  "title": "Where Applications Are Waiting",
+  "subtitle": "Centre applications currently waiting at each stage, with age bands",
+  "focusKey": "queue",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "queue",
+        "key": "queue",
+        "items": [
+          {
+            "key": "appointment",
+            "label": "Appointment booked",
+            "icon": "calendar",
+            "accent": "#f5ac45",
+            "waiting": 1087,
+            "avgWait": 1.3,
+            "buckets": {
+              "lt1": 591,
+              "d13": 254,
+              "gt3": 242
+            }
+          },
+          {
+            "key": "payment",
+            "label": "Payment at centre",
+            "icon": "payment",
+            "accent": "#f7bb5a",
+            "waiting": 0,
+            "avgWait": 0.1,
+            "buckets": {
+              "lt1": 0,
+              "d13": 0,
+              "gt3": 0
+            }
+          },
+          {
+            "key": "biometrics",
+            "label": "Biometrics captured",
+            "icon": "biometric",
+            "accent": "#f2c46e",
+            "waiting": 2345,
+            "avgWait": 0.1,
+            "buckets": {
+              "lt1": 1728,
+              "d13": 606,
+              "gt3": 11
+            }
+          },
+          {
+            "key": "interview",
+            "label": "Interview",
+            "icon": "review",
+            "accent": "#c9a3ff",
+            "waiting": 0,
+            "avgWait": 0.2,
+            "buckets": {
+              "lt1": 0,
+              "d13": 0,
+              "gt3": 0
+            }
+          }
+        ]
+      },
+      "slot": "stage"
+    }
+  ],
+  "spoken": "Biometrics captured has the most applications waiting, 2,345, with an average wait of 0.1 days. Across all stages, 253 have been waiting more than three days. This shows where applications are waiting; it does not establish why.",
+  "summary": {
+    "primary": "Biometrics captured: 2,345 waiting now.",
+    "secondary": "253 applications waiting more than 3 days across all stages."
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "id": "scene-12",
+  "intent": {
+    "type": "tops"
+  },
+  "template": "band",
+  "title": "Top Countries, Nationalities & Centres",
+  "subtitle": "Where applications come from · residence, nationality and attributed centre, to date",
+  "focusKey": "podiums",
+  "presence": "dissolved",
+  "env": "low",
+  "components": [
+    {
+      "spec": {
+        "kind": "podiums",
+        "key": "podiums",
+        "total": 8412,
+        "columns": [
+          {
+            "key": "res",
+            "title": "Top countries",
+            "sub": "by applications · residence",
+            "icon": "globe",
+            "accent": "#f5ac45",
+            "share": true,
+            "items": [
+              {
+                "label": "Lebanon",
+                "code": "LB",
+                "value": 1195
+              },
+              {
+                "label": "Nepal",
+                "code": "NP",
+                "value": 1043
+              },
+              {
+                "label": "India",
+                "code": "IN",
+                "value": 908
+              },
+              {
+                "label": "Pakistan",
+                "code": "PK",
+                "value": 732
+              },
+              {
+                "label": "Egypt",
+                "code": "EG",
+                "value": 580
+              }
+            ]
+          },
+          {
+            "key": "nat",
+            "title": "Top nationalities",
+            "sub": "by applications",
+            "icon": "people",
+            "accent": "#8b6cff",
+            "share": true,
+            "items": [
+              {
+                "label": "Indian",
+                "value": 1422
+              },
+              {
+                "label": "Pakistani",
+                "value": 1102
+              },
+              {
+                "label": "Filipino",
+                "value": 858
+              },
+              {
+                "label": "Egyptian",
+                "value": 690
+              },
+              {
+                "label": "Bangladeshi",
+                "value": 614
+              }
+            ]
+          },
+          {
+            "key": "cen",
+            "title": "Top centres",
+            "sub": "applications linked to each centre",
+            "icon": "centre",
+            "accent": "#33d69a",
+            "items": [
+              {
+                "label": "Manila VAC",
+                "value": 292
+              },
+              {
+                "label": "Mumbai VAC",
+                "value": 271
+              },
+              {
+                "label": "Cairo VAC",
+                "value": 235
+              },
+              {
+                "label": "New Delhi VAC",
+                "value": 213
+              },
+              {
+                "label": "Dhaka VAC",
+                "value": 209
+              }
+            ]
+          }
+        ]
+      },
+      "slot": "main"
+    }
+  ],
+  "spoken": "By country of residence, Lebanon leads with 1,195 applications. By nationality, Indian applicants lead with 1,422. Manila VAC has the most applications of any centre, 292.",
+  "summary": {
+    "primary": "Lebanon leads by residence; Indian by nationality.",
+    "secondary": "Manila VAC has the most centre applications (292)."
+  }
+}

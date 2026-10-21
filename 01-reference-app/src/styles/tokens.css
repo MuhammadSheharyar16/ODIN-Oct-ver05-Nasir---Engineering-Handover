@@ -1,0 +1,57 @@
+/*
+ * ODIN design tokens — v0.1 (creative build).
+ * Values are design hypotheses for approval, not workbook facts.
+ * Layout uses a 1920×1080 reference frame: 1 --px = one reference pixel,
+ * scaled to fit the viewport so the composition holds on laptops and 4K walls.
+ */
+:root {
+  --px: min(calc(100vw / 1920), calc(100vh / 1080));
+
+  /* Ink */
+  --ink-strong: #ffffff;
+  --ink: rgba(255, 255, 255, 0.92);
+  --ink-soft: rgba(255, 255, 255, 0.74);
+  --ink-faint: rgba(255, 255, 255, 0.52);
+  --ink-shadow: 0 1px 2px rgba(8, 18, 40, 0.45), 0 0 18px rgba(8, 18, 40, 0.25);
+
+  /* Glass surfaces */
+  --glass-fill: rgba(255, 255, 255, 0.1);
+  --glass-fill-strong: rgba(255, 255, 255, 0.16);
+  --glass-tint: rgba(28, 44, 78, 0.28);
+  --glass-edge: rgba(255, 255, 255, 0.38);
+  --glass-edge-soft: rgba(255, 255, 255, 0.16);
+  --glass-blur: calc(var(--px) * 22);
+
+  /* KPI accents — one restrained hue per object */
+  --accent-revenue: #f5b34f;
+  --accent-entered: #5aa2ff;
+  --accent-approved: #42d6a4;
+  --accent-closure: #a983ff;
+  --accent-odin: #66b8ff;
+  --accent-odin-core: #9fd8ff;
+
+  /* Semantic */
+  --up: #4ee0a8;
+  --down: #ff8a7a;
+  --neutral: rgba(255, 255, 255, 0.7);
+  --unavailable: rgba(255, 255, 255, 0.55);
+
+  /* Type */
+  --font-ui: 'Inter Variable', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  --track-label: 0.14em;
+
+  /* Motion (initial hypotheses, see Magic Box 04) */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --t-quick: 200ms;
+  --t-focus: 650ms;
+  --t-scene: 1100ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-quick: 1ms;
+    --t-focus: 1ms;
+    --t-scene: 1ms;
+  }
+}

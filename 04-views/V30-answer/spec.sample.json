@@ -1,0 +1,78 @@
+{
+  "id": "scene-24-answer",
+  "intent": {
+    "type": "answer",
+    "items": [
+      "rejected"
+    ],
+    "filters": {}
+  },
+  "template": "glance",
+  "title": "Application Outcomes",
+  "subtitle": "The figure you asked for · the full picture is available whenever you wish",
+  "focusKey": "glance",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "glance",
+        "key": "glance",
+        "item": "rejected",
+        "label": "Rejected",
+        "value": 792,
+        "format": "count",
+        "accent": "#ff5d6c",
+        "facts": [
+          {
+            "label": "Share of applications",
+            "value": "9.4%"
+          },
+          {
+            "label": "Total applications",
+            "value": "8,412"
+          }
+        ],
+        "more": [],
+        "lights": [
+          {
+            "key": "processing",
+            "label": "In processing",
+            "count": 2140,
+            "accent": "#4f9cff"
+          },
+          {
+            "key": "approved",
+            "label": "Approved",
+            "count": 5211,
+            "accent": "#3ed6a0"
+          },
+          {
+            "key": "rejected",
+            "label": "Rejected",
+            "count": 792,
+            "accent": "#ff5d6c"
+          },
+          {
+            "key": "closed",
+            "label": "Closed · other",
+            "count": 269,
+            "accent": "#a67cff"
+          }
+        ]
+      },
+      "slot": "hero"
+    }
+  ],
+  "spoken": "792 applications have been rejected, 9.4% of the total.",
+  "summary": {
+    "primary": "792 applications have been rejected, 9.4% of the total.",
+    "secondary": "Share of applications 9.4% · Total applications 8,412"
+  },
+  "depth": "glance",
+  "beats": [
+    {
+      "target": "globe",
+      "words": 9
+    }
+  ]
+}

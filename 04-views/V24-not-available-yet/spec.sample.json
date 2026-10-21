@@ -1,0 +1,34 @@
+{
+  "id": "scene-19",
+  "intent": {
+    "type": "outOfScope",
+    "bq": "BQ12",
+    "title": "Reviewer processing time",
+    "reason": "Reviewer-level assignment data is planned for a later phase."
+  },
+  "template": "notice",
+  "title": "Reviewer processing time",
+  "subtitle": "BQ12 · planned for a later release",
+  "focusKey": "notice",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "notice",
+        "key": "notice",
+        "title": "Coming in a later release",
+        "text": "Reviewer-level assignment data is planned for a later phase.",
+        "suggestions": [
+          "What are the application outcomes?",
+          "Show the online visa journey"
+        ]
+      },
+      "slot": "hero"
+    }
+  ],
+  "spoken": "I’m sorry, that isn’t available yet. Reviewer-level assignment data is planned for a later phase.",
+  "summary": {
+    "primary": "Reviewer processing time will be available in a later release.",
+    "secondary": "Reviewer-level assignment data is planned for a later phase."
+  }
+}

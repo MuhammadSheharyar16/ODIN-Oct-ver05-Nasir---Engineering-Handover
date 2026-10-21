@@ -1,0 +1,163 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ODIN Handover</title>
+<style>
+:root{--bg:#0b1424;--panel:rgba(30,48,92,.55);--line:rgba(160,190,255,.28);--ink:#fff;--ink2:#d5e0f5;--ink3:#aab9d4;--acc:#7fb6ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(120% 80% at 50% -10%,#1d3566,var(--bg) 60%);color:var(--ink);font:16px/1.5 Inter,-apple-system,system-ui,sans-serif}
+main{max-width:1320px;margin:0 auto;padding:48px 24px 80px}h1{font-size:clamp(28px,4vw,44px);margin:0 0 6px;letter-spacing:-.02em}h2{margin:48px 0 16px;font-size:22px}
+.lead{color:var(--ink2);max-width:780px}.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:24px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 18px}.step b{color:var(--acc)}.step p{margin:4px 0 0;color:var(--ink2);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.card{display:block;text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .2s,border-color .2s}
+.card:hover,.card:focus-visible{transform:translateY(-3px);border-color:var(--acc);outline:none}.card img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#16233f}
+.meta{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 0}.id{font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums}
+.st{font-size:12px;font-weight:650;padding:2px 10px;border-radius:999px;color:var(--s);border:1px solid var(--s)}
+.card h3{margin:6px 16px 4px;font-size:17px}.card p{margin:0 16px;color:var(--ink2);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px 16px}.chips span{font-size:11px;padding:2px 8px;border-radius:8px;background:rgba(255,255,255,.08);color:var(--ink2)}.chips .e{color:#cfe3ff;background:rgba(79,156,255,.18)}
+.effects{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.eff{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:14px;background:var(--panel);border:1px solid var(--line);color:inherit;text-decoration:none}.eff b{color:var(--acc)}.eff:hover,.eff:focus-visible{border-color:var(--acc);outline:none}
+footer{margin-top:56px;color:var(--ink3);font-size:13px}code{background:rgba(255,255,255,.08);padding:1px 6px;border-radius:6px}
+@media (max-width:600px){main{padding:28px 16px 60px}}
+</style></head><body><main>
+<h1>ODIN Oct ver05 Nasir - Engineering Handover</h1>
+<p class="lead">Every ODIN screen and effect, numbered so engineering can take one at a time into its own app without replacing its core. Version 0.5.0 · reference app 0.5.0 · stack matched to engineering (React 19.2, three 0.180, Vite 7, TS 5.8).</p>
+<div class="steps">
+<div class="step"><b>1 · Read</b><p><code>INTEGRATION-GUIDE.md</code> and <code>STACK.md</code></p></div>
+<div class="step"><b>2 · Pick</b><p>A screen below (V01–V32) or an effect (E00–E13)</p></div>
+<div class="step"><b>3 · Port</b><p>Give your Claude <code>06-port-kit/CLAUDE.md</code> + a prompt from <code>PORT-PROMPTS.md</code></p></div>
+<div class="step"><b>4 · Verify</b><p>Contract + acceptance tests in <code>06-port-kit/tests</code></p></div>
+</div>
+<h2>Screens</h2><div class="grid"><a class="card" href="04-views/V01-executive-home/README.md">
+  <img src="04-views/V01-executive-home/screens/wide.jpg" alt="Executive Home capture" loading="lazy">
+  <div class="meta"><span class="id">V01</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Executive Home</h3><p>Total applications in the globe with four live KPI capsules.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E03</span><span class="e">E05</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E10</span></div></a><a class="card" href="04-views/V02-applications-in-processing/README.md">
+  <img src="04-views/V02-applications-in-processing/screens/wide.jpg" alt="Applications in Processing capture" loading="lazy">
+  <div class="meta"><span class="id">V02</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Applications in Processing</h3><p>Live inventory in processing, today’s movement and where the queue sits.</p>
+  <div class="chips"><span>BQ01</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E04</span><span class="e">E05</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V04-outcome-distribution/README.md">
+  <img src="04-views/V04-outcome-distribution/screens/wide.jpg" alt="Outcome Distribution capture" loading="lazy">
+  <div class="meta"><span class="id">V04</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Outcome Distribution</h3><p>Closure rate with the full status split and four headline cards.</p>
+  <div class="chips"><span>BQ26</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E04</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V05-processing-time-matrix-online/README.md">
+  <img src="04-views/V05-processing-time-matrix-online/screens/wide.jpg" alt="Processing Time Matrix · online capture" loading="lazy">
+  <div class="meta"><span class="id">V05</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Processing Time Matrix · online</h3><p>End-to-end time in ODIN, six duration cards and the stage-wise strip.</p>
+  <div class="chips"><span>BQ04</span><span>BQ07</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E05</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V06-processing-time-matrix-centre-visits/README.md">
+  <img src="04-views/V06-processing-time-matrix-centre-visits/screens/wide.jpg" alt="Processing Time Matrix · centre visits capture" loading="lazy">
+  <div class="meta"><span class="id">V06</span><span class="st" style="--s:#ff8a8a">Red</span></div>
+  <h3>Processing Time Matrix · centre visits</h3><p>The same matrix for centre visit stages.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E05</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V07-time-matrix-focus-stage/README.md">
+  <img src="04-views/V07-time-matrix-focus-stage/screens/wide.jpg" alt="Time Matrix · focus stage capture" loading="lazy">
+  <div class="meta"><span class="id">V07</span><span class="st" style="--s:#ff8a8a">Red</span></div>
+  <h3>Time Matrix · focus stage</h3><p>The matrix with one stage highlighted (VAS→ICP, with ICP, biometrics).</p>
+  <div class="chips"><span>BQ08</span><span>BQ09</span><span>BQ10</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E05</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V08-vas-revenue-v1/README.md">
+  <img src="04-views/V08-vas-revenue-v1/screens/wide.jpg" alt="VAS Revenue · v1 capture" loading="lazy">
+  <div class="meta"><span class="id">V08</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>VAS Revenue · v1</h3><p>Revenue total and breakdown by country, centre, service and nationality.</p>
+  <div class="chips"><span>BQ05</span><span>BQ27</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E04</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V09-application-journey-v1/README.md">
+  <img src="04-views/V09-application-journey-v1/screens/wide.jpg" alt="Application Journey · v1 capture" loading="lazy">
+  <div class="meta"><span class="id">V09</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Application Journey · v1</h3><p>Traveller walks the online journey on the floor; each stage lights up with its metric. Both ICP reviews lead to one ICP decision, then a single Approved and a single Rejected (each with its without / after biometric split).</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E04</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V12-centre-ranking-by-time/README.md">
+  <img src="04-views/V12-centre-ranking-by-time/screens/wide.jpg" alt="Centre Ranking by Time capture" loading="lazy">
+  <div class="meta"><span class="id">V12</span><span class="st" style="--s:#ff8a8a">Red</span></div>
+  <h3>Centre Ranking by Time</h3><p>Centres ranked by average processing days.</p>
+  <div class="chips"><span>BQ11</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V13-stage-queue-online/README.md">
+  <img src="04-views/V13-stage-queue-online/screens/wide.jpg" alt="Stage Queue · online capture" loading="lazy">
+  <div class="meta"><span class="id">V13</span><span class="st" style="--s:#ff8a8a">Red</span></div>
+  <h3>Stage Queue · online</h3><p>Applications waiting at each stage with age bands.</p>
+  <div class="chips"><span>BQ13</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E04</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V14-stage-queue-centres/README.md">
+  <img src="04-views/V14-stage-queue-centres/screens/wide.jpg" alt="Stage Queue · centres capture" loading="lazy">
+  <div class="meta"><span class="id">V14</span><span class="st" style="--s:#ff8a8a">Red</span></div>
+  <h3>Stage Queue · centres</h3><p>The stage queue for centre visits.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E04</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V15-performance-comparison/README.md">
+  <img src="04-views/V15-performance-comparison/screens/wide.jpg" alt="Performance Comparison capture" loading="lazy">
+  <div class="meta"><span class="id">V15</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Performance Comparison</h3><p>Today, yesterday, last 7 days, previous 7 days and month to date.</p>
+  <div class="chips"><span>BQ14</span><span>BQ15</span><span>BQ16</span><span>BQ17</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E04</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V16-top-countries-nationalities-and-centres/README.md">
+  <img src="04-views/V16-top-countries-nationalities-and-centres/screens/wide.jpg" alt="Top Countries, Nationalities &amp; Centres capture" loading="lazy">
+  <div class="meta"><span class="id">V16</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Top Countries, Nationalities &amp; Centres</h3><p>Three glass leaderboards in depth (nationalities in front, countries and centres set back, each reflected on the floor): a hero #1 with its share, ranks 2–5 with bars against the leader, and the top-5 share.</p>
+  <div class="chips"><span>BQ18</span><span>BQ22</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V17-top-countries-on-the-globe/README.md">
+  <img src="04-views/V17-top-countries-on-the-globe/screens/wide.jpg" alt="Top Countries on the Globe capture" loading="lazy">
+  <div class="meta"><span class="id">V17</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Top Countries on the Globe</h3><p>3D Earth with the top ten countries on plinths.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E04</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V18-channels-notice/README.md">
+  <img src="04-views/V18-channels-notice/screens/wide.jpg" alt="Channels Notice capture" loading="lazy">
+  <div class="meta"><span class="id">V18</span><span class="st" style="--s:#f5ac45">Amber</span></div>
+  <h3>Channels Notice</h3><p>All applications are submitted online; centres handle visits only.</p>
+  <div class="chips"><span>BQ21</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V20-travel-purpose-mix/README.md">
+  <img src="04-views/V20-travel-purpose-mix/screens/wide.jpg" alt="Travel Purpose Mix capture" loading="lazy">
+  <div class="meta"><span class="id">V20</span><span class="st" style="--s:#ff8a8a">Red</span></div>
+  <h3>Travel Purpose Mix</h3><p>Share of applications by recorded visa purpose.</p>
+  <div class="chips"><span>BQ19</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V21-applicant-occupation-mix/README.md">
+  <img src="04-views/V21-applicant-occupation-mix/screens/wide.jpg" alt="Applicant Occupation Mix capture" loading="lazy">
+  <div class="meta"><span class="id">V21</span><span class="st" style="--s:#ff8a8a">Red</span></div>
+  <h3>Applicant Occupation Mix</h3><p>Share of applications by recorded occupation.</p>
+  <div class="chips"><span>BQ20</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V22-applications-focus-v1/README.md">
+  <img src="04-views/V22-applications-focus-v1/screens/wide.jpg" alt="Applications (focus) · v1 capture" loading="lazy">
+  <div class="meta"><span class="id">V22</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Applications (focus) · v1</h3><p>Application count for any filter, with status bars.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V23-processing-time-focus/README.md">
+  <img src="04-views/V23-processing-time-focus/screens/wide.jpg" alt="Processing Time (focus) capture" loading="lazy">
+  <div class="meta"><span class="id">V23</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Processing Time (focus)</h3><p>Average processing time for any filter vs the overall average.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V24-not-available-yet/README.md">
+  <img src="04-views/V24-not-available-yet/screens/wide.jpg" alt="Not Available Yet capture" loading="lazy">
+  <div class="meta"><span class="id">V24</span><span class="st" style="--s:#a9b6cc">Out</span></div>
+  <h3>Not Available Yet</h3><p>Honest notice: why this question cannot be answered yet and what to ask instead.</p>
+  <div class="chips"><span>BQ06</span><span>BQ12</span><span>BQ23</span><span>BQ24</span><span>+5</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V26-application-journey-v2/README.md">
+  <img src="04-views/V26-application-journey-v2/screens/wide.jpg" alt="Application Journey · v2 capture" loading="lazy">
+  <div class="meta"><span class="id">V26</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Application Journey · v2</h3><p>The online journey on a glass board of jars: an application icon travels stage to stage, the arriving jar glows and its count lights up. Both ICP reviews lead to one ICP decision, then a single Approved and a single Rejected (each with its without / after biometric split).</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V27-application-outcomes/README.md">
+  <img src="04-views/V27-application-outcomes/screens/wide.jpg" alt="Application Outcomes capture" loading="lazy">
+  <div class="meta"><span class="id">V27</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Application Outcomes</h3><p>Outcomes as a spiral galaxy in a dark glass portal (arms sized by share), each metric on a glossy glass card glowing in its colour; ODIN spotlights one outcome at a time.</p>
+  <div class="chips"><span>BQ02</span><span>BQ03</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V28-vas-revenue-v2/README.md">
+  <img src="04-views/V28-vas-revenue-v2/screens/wide.jpg" alt="VAS Revenue · v2 capture" loading="lazy">
+  <div class="meta"><span class="id">V28</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>VAS Revenue · v2</h3><p>Gold revenue core, fed by neon streams from four full breakdowns of the same total (country and centre in scope; service and nationality as post-October previews).</p>
+  <div class="chips"><span>BQ05</span><span>BQ27</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V29-applications-v2/README.md">
+  <img src="04-views/V29-applications-v2/screens/wide.jpg" alt="Applications · v2 capture" loading="lazy">
+  <div class="meta"><span class="id">V29</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Applications · v2</h3><p>Application core: a glass orb of status-coloured lights (one per application) with a segmented status ring, approval and closure rates as gauge cards, and the status breakdown that sums to the total.</p>
+  <div class="chips"><span>BQ01</span><span>BQ02</span><span>BQ03</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V30-answer/README.md">
+  <img src="04-views/V30-answer/screens/wide.jpg" alt="Answer capture" loading="lazy">
+  <div class="meta"><span class="id">V30</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Answer</h3><p>Answer-first: only what was asked. One metric sits inside the answer sphere (Applications v2 style: deep-blue glass, status lights) with two supporting facts; each follow-up (&quot;and approved?&quot;) adds its card beside the globe by morph, up to three. &quot;Full picture&quot; opens the full page.</p>
+  <div class="chips"><span>BQ01</span><span>BQ02</span><span>BQ03</span><span>BQ04</span><span>+2</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span><span class="e">E12</span></div></a><a class="card" href="04-views/V31-top-countries-nationalities-and-centres-v2/README.md">
+  <img src="04-views/V31-top-countries-nationalities-and-centres-v2/screens/wide.jpg" alt="Top Countries, Nationalities &amp; Centres · v2 capture" loading="lazy">
+  <div class="meta"><span class="id">V31</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Top Countries, Nationalities &amp; Centres · v2</h3><p>Skyline: five glass pillars per breakdown standing on the floor, heights by value, light particles rising slowly inside each pillar; the leader of each breakdown glows brightest.</p>
+  <div class="chips"><span>BQ18</span><span>BQ22</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V32-vas-revenue-v3/README.md">
+  <img src="04-views/V32-vas-revenue-v3/screens/wide.jpg" alt="VAS Revenue · v3 capture" loading="lazy">
+  <div class="meta"><span class="id">V32</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>VAS Revenue · v3</h3><p>The gold revenue core in the centre on its floor beam, with two breakdown panels on each side (country and centre left; service and nationality right) feeding it through Home’s energy links.</p>
+  <div class="chips"><span>BQ05</span><span>BQ27</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V25-didnt-understand/README.md">
+  <img src="04-views/V25-didnt-understand/screens/wide.jpg" alt="Didn’t Understand capture" loading="lazy">
+  <div class="meta"><span class="id">V25</span><span class="st" style="--s:#9fd0ff">System</span></div>
+  <h3>Didn’t Understand</h3><p>Fallback when a question is outside ODIN’s data, with suggested questions.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a></div>
+<h2>System states</h2><div class="grid"><a class="card" href="04-views/S01-intro-load-in/README.md">
+  <img src="04-views/S01-intro-load-in/screens/wide-3200ms.jpg" alt="Intro load-in capture" loading="lazy">
+  <div class="meta"><span class="id">S01</span><span class="st" style="--s:#9fd0ff">System</span></div>
+  <h3>Intro load-in</h3><p>ODIN appears: room, globe and capsules assemble with the intro pulse.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E09</span><span class="e">E10</span></div></a><a class="card" href="04-views/S02-question-composer/README.md">
+  <img src="04-views/S02-question-composer/screens/wide.jpg" alt="Question composer capture" loading="lazy">
+  <div class="meta"><span class="id">S02</span><span class="st" style="--s:#9fd0ff">System</span></div>
+  <h3>Question composer</h3><p>Typed question or pick from the catalogue (required / all scope).</p>
+  <div class="chips"></div></a><a class="card" href="04-views/S03-thinking/README.md">
+  <img src="04-views/S03-thinking/screens/wide.jpg" alt="Thinking capture" loading="lazy">
+  <div class="meta"><span class="id">S03</span><span class="st" style="--s:#9fd0ff">System</span></div>
+  <h3>Thinking</h3><p>The heard question is echoed while ODIN resolves the answer.</p>
+  <div class="chips"></div></a><a class="card" href="04-views/S04-morph-transition/README.md">
+  <img src="04-views/S04-morph-transition/screens/4-rise-1000ms.jpg" alt="Morph transition capture" loading="lazy">
+  <div class="meta"><span class="id">S04</span><span class="st" style="--s:#9fd0ff">System</span></div>
+  <h3>Morph transition</h3><p>Any screen to any screen: six choreographies, particles through ODIN, morph sound.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E09</span></div></a><a class="card" href="04-views/S05-speaking-summary/README.md">
+  <img src="04-views/S05-speaking-summary/screens/wide.jpg" alt="Speaking + summary capture" loading="lazy">
+  <div class="meta"><span class="id">S05</span><span class="st" style="--s:#9fd0ff">System</span></div>
+  <h3>Speaking + summary</h3><p>ODIN speaks; the spectrum wraps the focus object and the summary strip captions it.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E03</span><span class="e">E09</span></div></a></div>
+<h2>Effects</h2><div class="effects"><a class="eff" href="03-effects/E00-canvas-layer/SPEC.md"><b>E00</b><span>3D canvas layer (Stage)</span></a><a class="eff" href="03-effects/E01-morph/SPEC.md"><b>E01</b><span>Morph transitions (six choreographies)</span></a><a class="eff" href="03-effects/E02-particles/SPEC.md"><b>E02</b><span>Transition particles</span></a><a class="eff" href="03-effects/E03-globe-aura/SPEC.md"><b>E03</b><span>ODIN globe + speaking aura</span></a><a class="eff" href="03-effects/E04-3d-objects/SPEC.md"><b>E04</b><span>3D objects on HTML placeholders</span></a><a class="eff" href="03-effects/E05-energy-streams/SPEC.md"><b>E05</b><span>Energy streams</span></a><a class="eff" href="03-effects/E06-environment/SPEC.md"><b>E06</b><span>Environment: room, backdrop blur (none / depth of field / full), camera push</span></a><a class="eff" href="03-effects/E07-post-fx/SPEC.md"><b>E07</b><span>Post-FX glow</span></a><a class="eff" href="03-effects/E08-count-up/SPEC.md"><b>E08</b><span>Count-up numbers</span></a><a class="eff" href="03-effects/E09-sound/SPEC.md"><b>E09</b><span>Sound</span></a><a class="eff" href="03-effects/E10-intro/SPEC.md"><b>E10</b><span>Intro load-in</span></a><a class="eff" href="03-effects/E11-composer/SPEC.md"><b>E11</b><span>Screen composer + bridge</span></a><a class="eff" href="03-effects/E12-response-composer/SPEC.md"><b>E12</b><span>Response composer (any phrasing → screen, depth, spotlight)</span></a><a class="eff" href="03-effects/E13-answer-transitions/SPEC.md"><b>E13</b><span>Answer-state transitions (T01–T06) and screen morph IDs (M01–M06)</span></a></div>
+<footer>DEMO DATA · not live. LogicEra for AEGI / EIX. Generated 2026-10-21.</footer>
+</main></body></html>

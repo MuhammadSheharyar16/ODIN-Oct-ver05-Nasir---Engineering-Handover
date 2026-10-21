@@ -1,0 +1,180 @@
+{
+  "id": "scene-6",
+  "intent": {
+    "type": "revenue",
+    "filters": {}
+  },
+  "template": "stageTall",
+  "title": "VAS Revenue",
+  "subtitle": "Total and breakdown by country, centre, service and nationality",
+  "focusKey": "revenue",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "revenue",
+        "key": "revenue",
+        "preview": true,
+        "validation": false,
+        "amount": 12407700,
+        "delta": 18,
+        "dims": [
+          {
+            "key": "countries",
+            "label": "Operating countries",
+            "share": 0.49,
+            "accent": "#4fb6ff",
+            "items": [
+              "Lebanon",
+              "Nepal",
+              "India"
+            ],
+            "value": 6079773,
+            "bars": [
+              76,
+              77,
+              78,
+              79,
+              80,
+              81,
+              82,
+              83,
+              84
+            ],
+            "top": [
+              {
+                "name": "Lebanon",
+                "value": 2310313.74
+              },
+              {
+                "name": "Nepal",
+                "value": 1823931.9
+              },
+              {
+                "name": "India",
+                "value": 1215954.6
+              }
+            ]
+          },
+          {
+            "key": "centres",
+            "label": "Visa centres",
+            "share": 0.27,
+            "accent": "#8b6cff",
+            "items": [
+              "Mumbai VAC",
+              "Beirut VAC",
+              "Dhaka VAC"
+            ],
+            "value": 3350079,
+            "bars": [
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43
+            ],
+            "top": [
+              {
+                "name": "Mumbai VAC",
+                "value": 1273030.02
+              },
+              {
+                "name": "Beirut VAC",
+                "value": 1005023.7
+              },
+              {
+                "name": "Dhaka VAC",
+                "value": 670015.8
+              }
+            ]
+          },
+          {
+            "key": "services",
+            "label": "Service types",
+            "share": 0.17,
+            "accent": "#f5ac45",
+            "items": [
+              "Visa fee",
+              "Lounge",
+              "Courier"
+            ],
+            "value": 2109309,
+            "bars": [
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52
+            ],
+            "top": [
+              {
+                "name": "Visa fee",
+                "value": 801537.42
+              },
+              {
+                "name": "Lounge",
+                "value": 632792.7
+              },
+              {
+                "name": "Courier",
+                "value": 421861.80000000005
+              }
+            ]
+          },
+          {
+            "key": "nationalities",
+            "label": "Applicant nationalities",
+            "share": 0.07,
+            "accent": "#33d69a",
+            "items": [
+              "Indian",
+              "Pakistani",
+              "Filipino"
+            ],
+            "value": 868539.0000000001,
+            "bars": [
+              65,
+              66,
+              67,
+              68,
+              69,
+              70,
+              71,
+              72,
+              73
+            ],
+            "top": [
+              {
+                "name": "Indian",
+                "value": 330044.82000000007
+              },
+              {
+                "name": "Pakistani",
+                "value": 260561.7
+              },
+              {
+                "name": "Filipino",
+                "value": 173707.80000000005
+              }
+            ]
+          }
+        ]
+      },
+      "slot": "stage"
+    }
+  ],
+  "spoken": "VAS revenue stands at AED 12.4 million, up 18.0 percent on the previous period. Operating countries account for the largest share, 49 percent.",
+  "summary": {
+    "primary": "VAS revenue AED 12.4 million · +18.0% vs previous period.",
+    "secondary": "Operating countries account for the largest share (49%)."
+  }
+}

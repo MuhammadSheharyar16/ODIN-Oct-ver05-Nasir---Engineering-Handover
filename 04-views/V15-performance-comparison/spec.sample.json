@@ -1,0 +1,87 @@
+{
+  "id": "scene-11",
+  "intent": {
+    "type": "periods"
+  },
+  "template": "stage",
+  "title": "Today Compared With Earlier",
+  "subtitle": "Visas processed today, yesterday, this week and this month",
+  "focusKey": "periods",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "periods",
+        "key": "periods",
+        "items": [
+          {
+            "key": "today",
+            "label": "Today",
+            "value": 296,
+            "cmp": "vs yesterday, same time",
+            "delta": 8,
+            "accent": "#4f9cff",
+            "approval": 88.6,
+            "days": 3.6,
+            "approvalDelta": 0.8,
+            "daysDelta": -6.2
+          },
+          {
+            "key": "yesterday",
+            "label": "Yesterday",
+            "value": 274,
+            "cmp": "full day",
+            "delta": null,
+            "accent": "#8b6cff",
+            "approval": 87.8,
+            "days": 3.8,
+            "approvalDelta": null,
+            "daysDelta": null
+          },
+          {
+            "key": "last7",
+            "label": "Last 7 days",
+            "value": 1954,
+            "cmp": "vs previous 7 days",
+            "delta": 6,
+            "accent": "#f5ac45",
+            "approval": 87.9,
+            "days": 3.8,
+            "approvalDelta": 1.1,
+            "daysDelta": -4.4
+          },
+          {
+            "key": "prev7",
+            "label": "Previous 7 days",
+            "value": 1843,
+            "cmp": "baseline",
+            "delta": null,
+            "accent": "#4fb6ff",
+            "approval": 86.9,
+            "days": 4,
+            "approvalDelta": null,
+            "daysDelta": null
+          },
+          {
+            "key": "mtd",
+            "label": "Month to date",
+            "value": 4322,
+            "cmp": "since 1 Oct",
+            "delta": null,
+            "accent": "#33d69a",
+            "approval": 87.4,
+            "days": 3.9,
+            "approvalDelta": null,
+            "daysDelta": null
+          }
+        ]
+      },
+      "slot": "stage"
+    }
+  ],
+  "spoken": "Today 296 visas have been processed, 8.0 percent more than yesterday at the same time. Over the last seven days 1,954 were processed, up 6.0 percent on the previous seven days. Yesterday closed at 274.",
+  "summary": {
+    "primary": "Today: 296 processed (+8.0% vs yesterday).",
+    "secondary": "Last 7 days 1,954 · approval 88.6% today."
+  }
+}

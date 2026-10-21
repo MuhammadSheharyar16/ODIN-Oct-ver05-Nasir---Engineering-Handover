@@ -1,0 +1,61 @@
+{
+  "id": "scene-15",
+  "intent": {
+    "type": "mix",
+    "dim": "purpose"
+  },
+  "template": "stage",
+  "title": "Travel Purpose Mix",
+  "subtitle": "Recorded visa purpose · post-October feature, shown for design review (mock)",
+  "focusKey": "ring",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "ring",
+        "key": "ring",
+        "total": 8412,
+        "totalLabel": "Applications",
+        "basis": "Recorded values only · unknowns kept separate",
+        "segments": [
+          {
+            "key": "tourism",
+            "label": "Tourism",
+            "count": 5047,
+            "accent": "#4f9cff"
+          },
+          {
+            "key": "business",
+            "label": "Business",
+            "count": 1178,
+            "accent": "#f5ac45"
+          },
+          {
+            "key": "family",
+            "label": "Family visit",
+            "count": 757,
+            "accent": "#a67cff"
+          },
+          {
+            "key": "transit",
+            "label": "Transit",
+            "count": 925,
+            "accent": "#4fd6ff"
+          },
+          {
+            "key": "medical",
+            "label": "Medical treatment",
+            "count": 505,
+            "accent": "#33d69a"
+          }
+        ]
+      },
+      "slot": "stage"
+    }
+  ],
+  "spoken": "Tourism accounts for the largest share, 5,047 applications. This uses recorded visa purpose values and is planned after October.",
+  "summary": {
+    "primary": "Tourism: 5,047 applications (largest share).",
+    "secondary": "Recorded purpose values · post-October (F27)."
+  }
+}

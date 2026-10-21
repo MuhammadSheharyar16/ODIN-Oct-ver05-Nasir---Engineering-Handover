@@ -1,0 +1,111 @@
+{
+  "id": "scene-13",
+  "intent": {
+    "type": "geo"
+  },
+  "template": "stage",
+  "title": "Top Countries",
+  "subtitle": "Applications by country of residence to date",
+  "focusKey": "geo",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "geo",
+        "key": "geo",
+        "heading": "Top Countries",
+        "subheading": "By applications",
+        "basis": "Country of residence",
+        "period": "To date",
+        "items": [
+          {
+            "code": "LB",
+            "name": "Lebanon",
+            "value": 1195,
+            "delta": 11.7,
+            "lat": 34,
+            "lon": 36
+          },
+          {
+            "code": "NP",
+            "name": "Nepal",
+            "value": 1043,
+            "delta": 13.5,
+            "lat": 28,
+            "lon": 84
+          },
+          {
+            "code": "IN",
+            "name": "India",
+            "value": 908,
+            "delta": 9.7,
+            "lat": 21,
+            "lon": 78
+          },
+          {
+            "code": "PK",
+            "name": "Pakistan",
+            "value": 732,
+            "delta": 14.9,
+            "lat": 30,
+            "lon": 70
+          },
+          {
+            "code": "EG",
+            "name": "Egypt",
+            "value": 580,
+            "delta": 6.5,
+            "lat": 26,
+            "lon": 30
+          },
+          {
+            "code": "PH",
+            "name": "Philippines",
+            "value": 513,
+            "delta": 14.8,
+            "lat": 13,
+            "lon": 122
+          },
+          {
+            "code": "BD",
+            "name": "Bangladesh",
+            "value": 463,
+            "delta": 4.1,
+            "lat": 24,
+            "lon": 90
+          },
+          {
+            "code": "JO",
+            "name": "Jordan",
+            "value": 404,
+            "delta": 10.4,
+            "lat": 31,
+            "lon": 36
+          },
+          {
+            "code": "NG",
+            "name": "Nigeria",
+            "value": 345,
+            "delta": 13.3,
+            "lat": 9,
+            "lon": 8
+          },
+          {
+            "code": "GB",
+            "name": "United Kingdom",
+            "value": 303,
+            "delta": 7.9,
+            "lat": 54,
+            "lon": -2
+          }
+        ]
+      },
+      "slot": "stage"
+    }
+  ],
+  "spoken": "Lebanon has the most applications, 1,195, followed by Nepal with 1,043 and India with 908. Countries are by applicant residence, not nationality.",
+  "summary": {
+    "primary": "Lebanon leads with 1,195 applications.",
+    "secondary": "Then Nepal (1,043) and India (908) · by residence."
+  }
+}

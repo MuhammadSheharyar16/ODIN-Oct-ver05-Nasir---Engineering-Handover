@@ -1,0 +1,118 @@
+{
+  "id": "scene-8",
+  "intent": {
+    "type": "ranking",
+    "dimension": "centre",
+    "measure": "avgDays",
+    "order": "desc",
+    "filters": {}
+  },
+  "template": "focus",
+  "title": "Centres by average processing time",
+  "subtitle": "Centres ranked by average processing time, slowest first",
+  "focusKey": "ranking",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "ranking",
+        "key": "ranking",
+        "title": "Top 8 centres",
+        "basis": "average processing time · slowest first",
+        "format": "days",
+        "items": [
+          {
+            "key": "los",
+            "code": "NG",
+            "label": "Lagos VAC",
+            "value": 6.4,
+            "sub": "Nigeria · 129 applications"
+          },
+          {
+            "key": "dac",
+            "code": "BD",
+            "label": "Dhaka VAC",
+            "value": 5.9,
+            "sub": "Bangladesh · 209 applications"
+          },
+          {
+            "key": "lhe",
+            "code": "PK",
+            "label": "Lahore VAC",
+            "value": 5,
+            "sub": "Pakistan · 197 applications"
+          },
+          {
+            "key": "khi",
+            "code": "PK",
+            "label": "Karachi VAC",
+            "value": 4.7,
+            "sub": "Pakistan · 177 applications"
+          },
+          {
+            "key": "ktm",
+            "code": "NP",
+            "label": "Kathmandu VAC",
+            "value": 4.6,
+            "sub": "Nepal · 183 applications"
+          },
+          {
+            "key": "cai",
+            "code": "EG",
+            "label": "Cairo VAC",
+            "value": 4.1,
+            "sub": "Egypt · 235 applications"
+          },
+          {
+            "key": "del",
+            "code": "IN",
+            "label": "New Delhi VAC",
+            "value": 3.6,
+            "sub": "India · 213 applications"
+          },
+          {
+            "key": "bey",
+            "code": "LB",
+            "label": "Beirut VAC",
+            "value": 3.6,
+            "sub": "Lebanon · 160 applications"
+          }
+        ],
+        "highlight": 0,
+        "accent": "#a67cff"
+      },
+      "slot": "hero"
+    },
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "rank-lead",
+        "label": "Slowest",
+        "value": 6.4,
+        "format": "days",
+        "icon": "ranking",
+        "accent": "#3ed6a0",
+        "caption": "Lagos VAC"
+      },
+      "slot": "left1"
+    },
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "rank-second",
+        "label": "Next",
+        "value": 5.9,
+        "format": "days",
+        "icon": "centre",
+        "accent": "#4fd6ff",
+        "caption": "Dhaka VAC"
+      },
+      "slot": "left2"
+    }
+  ],
+  "spoken": "Ranked by average processing time, Lagos VAC is the slowest at 6.4 days, followed by Dhaka VAC at 5.9 days. This ranks observed processing times; it does not explain why they differ.",
+  "summary": {
+    "primary": "Lagos VAC: 6.4 days — average processing time, slowest first.",
+    "secondary": "Then Dhaka VAC (5.9 days) and Lahore VAC (5.0 days)."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "scene-23",
+  "intent": {
+    "type": "count",
+    "filters": {},
+    "style": "core"
+  },
+  "template": "appcore",
+  "title": "Applications",
+  "subtitle": "Application volume to date",
+  "focusKey": "appcore",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "appcore",
+        "key": "appcore",
+        "total": 8412,
+        "caption": "to date",
+        "segments": [
+          {
+            "key": "processing",
+            "label": "In processing",
+            "count": 2140,
+            "accent": "#4f9cff"
+          },
+          {
+            "key": "approved",
+            "label": "Approved",
+            "count": 5211,
+            "accent": "#3ed6a0"
+          },
+          {
+            "key": "rejected",
+            "label": "Rejected",
+            "count": 792,
+            "accent": "#ff5d6c"
+          },
+          {
+            "key": "closed",
+            "label": "Closed · other",
+            "count": 269,
+            "accent": "#a67cff"
+          }
+        ],
+        "approval": {
+          "rate": 86.8,
+          "approved": 5211,
+          "decided": 6003
+        },
+        "closure": {
+          "rate": 74.56015216357585,
+          "closed": 6272
+        }
+      },
+      "slot": "stage"
+    }
+  ],
+  "spoken": "There are 8,412 applications to date. 2,140 are in processing, 5,211 approved and 792 rejected. The approval rate is 86.8% of decided applications.",
+  "summary": {
+    "primary": "8,412 applications to date.",
+    "secondary": "2,140 in processing · approval rate 86.8% · closure rate 74.6%."
+  }
+}

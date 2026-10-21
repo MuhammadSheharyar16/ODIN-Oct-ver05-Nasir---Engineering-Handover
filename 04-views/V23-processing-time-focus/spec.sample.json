@@ -1,0 +1,75 @@
+{
+  "id": "scene-18-answer",
+  "intent": {
+    "type": "answer",
+    "items": [
+      "processing_time"
+    ],
+    "filters": {
+      "country": "IN"
+    }
+  },
+  "template": "glance",
+  "title": "Processing Time",
+  "subtitle": "The figure you asked for · the full picture is available whenever you wish",
+  "focusKey": "glance",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "glance",
+        "key": "glance",
+        "item": "processing_time",
+        "label": "Average processing time",
+        "value": 3.6,
+        "format": "days",
+        "accent": "#4fd6ff",
+        "caption": "from India",
+        "facts": [
+          {
+            "label": "Applications",
+            "value": "1,422"
+          },
+          {
+            "label": "In processing now",
+            "value": "360"
+          }
+        ],
+        "more": [],
+        "lights": [
+          {
+            "key": "time",
+            "label": "Time",
+            "count": 6,
+            "accent": "#4fd6ff"
+          },
+          {
+            "key": "time2",
+            "label": "Time",
+            "count": 3,
+            "accent": "#a67cff"
+          },
+          {
+            "key": "time3",
+            "label": "Time",
+            "count": 1,
+            "accent": "#4f9cff"
+          }
+        ]
+      },
+      "slot": "hero"
+    }
+  ],
+  "spoken": "Average processing time is 3.6 days from India.",
+  "summary": {
+    "primary": "Average processing time is 3.6 days from India.",
+    "secondary": "Applications 1,422 · In processing now 360"
+  },
+  "depth": "glance",
+  "beats": [
+    {
+      "target": "globe",
+      "words": 8
+    }
+  ]
+}

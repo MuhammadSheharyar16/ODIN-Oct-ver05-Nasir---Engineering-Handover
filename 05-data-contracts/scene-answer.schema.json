@@ -1,0 +1,2829 @@
+{
+  "$ref": "#/definitions/SceneAnswer",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "AppCoreSpec": {
+      "additionalProperties": false,
+      "description": "Applications v2: application core (status-coloured lights + segmented ring) with rate cards and status breakdown.",
+      "properties": {
+        "approval": {
+          "additionalProperties": false,
+          "properties": {
+            "approved": {
+              "type": "number"
+            },
+            "decided": {
+              "type": "number"
+            },
+            "rate": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "rate",
+            "approved",
+            "decided"
+          ],
+          "type": "object"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "closure": {
+          "additionalProperties": false,
+          "properties": {
+            "closed": {
+              "type": "number"
+            },
+            "rate": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "rate",
+            "closed"
+          ],
+          "type": "object"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "appcore",
+          "type": "string"
+        },
+        "segments": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "count": {
+                "type": "number"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "count",
+              "accent"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "total": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "total",
+        "caption",
+        "segments",
+        "approval",
+        "closure"
+      ],
+      "type": "object"
+    },
+    "BarsSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "accent": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        },
+        "format": {
+          "$ref": "#/definitions/ValueFormat"
+        },
+        "items": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "value"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "bars",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "title",
+        "basis",
+        "format",
+        "items",
+        "accent"
+      ],
+      "type": "object"
+    },
+    "BoardSpec": {
+      "additionalProperties": false,
+      "description": "Home-style board: ODIN globe readout, four capsules, stage row (Applications in processing).",
+      "properties": {
+        "capsules": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "delta": {
+                "additionalProperties": false,
+                "properties": {
+                  "basis": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "enum": [
+                      "count",
+                      "pp",
+                      "percent"
+                    ],
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "value",
+                  "unit",
+                  "basis"
+                ],
+                "type": "object"
+              },
+              "detail": {
+                "type": "string"
+              },
+              "format": {
+                "enum": [
+                  "count",
+                  "percent"
+                ],
+                "type": "string"
+              },
+              "icon": {
+                "enum": [
+                  "entered",
+                  "approved",
+                  "closure",
+                  "revenue"
+                ],
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "value",
+              "format",
+              "accent",
+              "icon"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "hero": {
+          "additionalProperties": false,
+          "properties": {
+            "caption": {
+              "type": "string"
+            },
+            "delta": {
+              "type": "number"
+            },
+            "deltaBasis": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "value": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "value",
+            "label",
+            "delta",
+            "deltaBasis",
+            "caption"
+          ],
+          "type": "object"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "board",
+          "type": "string"
+        },
+        "orb": {
+          "const": "glass",
+          "description": "'glass': a calm glass sphere replaces ODIN's globe for this answer.",
+          "type": "string"
+        },
+        "stages": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "count": {
+                "type": "number"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "share": {
+                "type": "number"
+              },
+              "top": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "count",
+              "share",
+              "accent"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "stagesTitle": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "hero",
+        "capsules",
+        "stagesTitle",
+        "stages"
+      ],
+      "type": "object"
+    },
+    "Channel": {
+      "enum": [
+        "online",
+        "centre"
+      ],
+      "type": "string"
+    },
+    "ChannelsSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "centre": {
+          "additionalProperties": false,
+          "properties": {
+            "bars": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "count": {
+              "type": "number"
+            },
+            "delta": {
+              "type": "number"
+            },
+            "share": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "count",
+            "share",
+            "delta",
+            "bars"
+          ],
+          "type": "object"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "channels",
+          "type": "string"
+        },
+        "online": {
+          "additionalProperties": false,
+          "properties": {
+            "bars": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "count": {
+              "type": "number"
+            },
+            "delta": {
+              "type": "number"
+            },
+            "share": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "count",
+            "share",
+            "delta",
+            "bars"
+          ],
+          "type": "object"
+        },
+        "status": {
+          "enum": [
+            "valid",
+            "amber"
+          ],
+          "type": "string"
+        },
+        "total": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "total",
+        "online",
+        "centre",
+        "status"
+      ],
+      "type": "object"
+    },
+    "CompareSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "compare",
+          "type": "string"
+        },
+        "sides": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "rows": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "format": {
+                      "$ref": "#/definitions/ValueFormat"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "value",
+                    "format"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "accent",
+              "rows"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "sides"
+      ],
+      "type": "object"
+    },
+    "ComponentSpec": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/BoardSpec"
+        },
+        {
+          "$ref": "#/definitions/LegendSpec"
+        },
+        {
+          "$ref": "#/definitions/MetricSpec"
+        },
+        {
+          "$ref": "#/definitions/JourneySpec"
+        },
+        {
+          "$ref": "#/definitions/DonutSpec"
+        },
+        {
+          "$ref": "#/definitions/RankingSpec"
+        },
+        {
+          "$ref": "#/definitions/CompareSpec"
+        },
+        {
+          "$ref": "#/definitions/BarsSpec"
+        },
+        {
+          "$ref": "#/definitions/FactsSpec"
+        },
+        {
+          "$ref": "#/definitions/NoticeSpec"
+        },
+        {
+          "$ref": "#/definitions/TimeMatrixSpec"
+        },
+        {
+          "$ref": "#/definitions/ChannelsSpec"
+        },
+        {
+          "$ref": "#/definitions/PodiumsSpec"
+        },
+        {
+          "$ref": "#/definitions/GeoSpec"
+        },
+        {
+          "$ref": "#/definitions/RevenueSpec"
+        },
+        {
+          "$ref": "#/definitions/PeriodsSpec"
+        },
+        {
+          "$ref": "#/definitions/QueueSpec"
+        },
+        {
+          "$ref": "#/definitions/RingSpec"
+        },
+        {
+          "$ref": "#/definitions/AppCoreSpec"
+        },
+        {
+          "$ref": "#/definitions/GlanceSpec"
+        }
+      ]
+    },
+    "Delta": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "type": "string"
+        },
+        "goodWhen": {
+          "enum": [
+            "up",
+            "down",
+            "none"
+          ],
+          "type": "string"
+        },
+        "unit": {
+          "enum": [
+            "count",
+            "pp",
+            "percent",
+            "days"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "unit",
+        "basis"
+      ],
+      "type": "object"
+    },
+    "DonutSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "type": "string"
+        },
+        "centre": {
+          "additionalProperties": false,
+          "description": "Replaces the total in the ring's centre (e.g. the closure rate the screen answers).",
+          "properties": {
+            "caption": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "value": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "value",
+            "label"
+          ],
+          "type": "object"
+        },
+        "clean": {
+          "description": "No callouts: the legend is a separate component.",
+          "type": "boolean"
+        },
+        "closure": {
+          "additionalProperties": false,
+          "description": "Closure rate pill shown under the galaxy ring.",
+          "properties": {
+            "basis": {
+              "type": "string"
+            },
+            "value": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "value",
+            "basis"
+          ],
+          "type": "object"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "donut",
+          "type": "string"
+        },
+        "segments": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "count": {
+                "type": "number"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "count",
+              "accent"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "total": {
+          "type": "number"
+        },
+        "totalLabel": {
+          "type": "string"
+        },
+        "variant": {
+          "description": "'galaxy' (Application Outcomes v2, wide): spiral galaxy in a dark portal, glass metric cards. 'cards' (Application Outcomes v1): 3D donut around the application core, four hero-glass cards.",
+          "enum": [
+            "galaxy",
+            "cards"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "total",
+        "totalLabel",
+        "segments",
+        "basis"
+      ],
+      "type": "object"
+    },
+    "FactsSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "icon": {
+                "$ref": "#/definitions/IconName"
+              },
+              "sub": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "icon",
+              "text",
+              "accent"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "facts",
+          "type": "string"
+        },
+        "ring": {
+          "additionalProperties": false,
+          "properties": {
+            "basis": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "value": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "label",
+            "value",
+            "basis"
+          ],
+          "type": "object"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "title",
+        "items"
+      ],
+      "type": "object"
+    },
+    "Filters": {
+      "additionalProperties": false,
+      "properties": {
+        "centre": {
+          "type": "string"
+        },
+        "channel": {
+          "$ref": "#/definitions/Channel"
+        },
+        "country": {
+          "type": "string"
+        },
+        "visaType": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "FloorData": {
+      "additionalProperties": false,
+      "properties": {
+        "bio1": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "bio2": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "bio3": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "dec": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "home": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "icp1": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "icp2": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "no": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "ok": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "pay": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "sub": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "toicp": {
+          "$ref": "#/definitions/FloorStageData"
+        },
+        "vas": {
+          "$ref": "#/definitions/FloorStageData"
+        }
+      },
+      "required": [
+        "home",
+        "sub",
+        "pay",
+        "vas",
+        "toicp",
+        "icp1",
+        "bio1",
+        "bio2",
+        "bio3",
+        "icp2",
+        "dec",
+        "ok",
+        "no"
+      ],
+      "type": "object"
+    },
+    "FloorStageData": {
+      "additionalProperties": false,
+      "description": "`split`: an outcome's total by route (without biometric / after biometric).",
+      "properties": {
+        "delta": {
+          "type": "number"
+        },
+        "metric": {
+          "type": "number"
+        },
+        "say": {
+          "type": "string"
+        },
+        "split": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "tone": {
+                "enum": [
+                  "icp",
+                  "bio"
+                ],
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "label",
+              "value",
+              "tone"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "metric",
+        "delta",
+        "say"
+      ],
+      "type": "object"
+    },
+    "GeoSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "type": "string"
+        },
+        "heading": {
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "delta": {
+                "type": "number"
+              },
+              "lat": {
+                "type": "number"
+              },
+              "lon": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "code",
+              "name",
+              "value",
+              "delta",
+              "lat",
+              "lon"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "geo",
+          "type": "string"
+        },
+        "period": {
+          "type": "string"
+        },
+        "subheading": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "heading",
+        "subheading",
+        "basis",
+        "period",
+        "items"
+      ],
+      "type": "object"
+    },
+    "GlanceSpec": {
+      "additionalProperties": false,
+      "description": "Glance answer (composer depth 1): one KPI inside ODIN's core, with two supporting facts.",
+      "properties": {
+        "accent": {
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "facts": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label",
+              "value"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "format": {
+          "$ref": "#/definitions/ValueFormat"
+        },
+        "item": {
+          "description": "Answer-first: the hero's composer measure, and the other asked metrics (cards beside ODIN).",
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "glance",
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "lights": {
+          "description": "The sphere's lights (Applications v2 style): one light per application, coloured by status (gold for revenue).",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "count": {
+                "type": "number"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "count",
+              "accent"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "more": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "caption": {
+                "type": "string"
+              },
+              "format": {
+                "$ref": "#/definitions/ValueFormat"
+              },
+              "item": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "item",
+              "label",
+              "value",
+              "format",
+              "accent"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "label",
+        "value",
+        "format",
+        "accent",
+        "facts"
+      ],
+      "type": "object"
+    },
+    "IconName": {
+      "anyOf": [
+        {
+          "const": "people",
+          "type": "string"
+        },
+        {
+          "const": "applications",
+          "type": "string"
+        },
+        {
+          "const": "clock",
+          "type": "string"
+        },
+        {
+          "const": "approved",
+          "type": "string"
+        },
+        {
+          "const": "rejected",
+          "type": "string"
+        },
+        {
+          "const": "closure",
+          "type": "string"
+        },
+        {
+          "const": "processing",
+          "type": "string"
+        },
+        {
+          "const": "globe",
+          "type": "string"
+        },
+        {
+          "const": "centre",
+          "type": "string"
+        },
+        {
+          "const": "revenue",
+          "type": "string"
+        },
+        {
+          "const": "compare",
+          "type": "string"
+        },
+        {
+          "const": "ranking",
+          "type": "string"
+        },
+        {
+          "const": "online",
+          "type": "string"
+        },
+        {
+          "const": "info",
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/StageIcon"
+        }
+      ]
+    },
+    "Intent": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "home",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "back",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "channel": {
+              "$ref": "#/definitions/Channel"
+            },
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "style": {
+              "const": "jars",
+              "type": "string"
+            },
+            "type": {
+              "const": "journey",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "channel",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "style": {
+              "const": "galaxy",
+              "type": "string"
+            },
+            "type": {
+              "const": "outcomes",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "type": {
+              "const": "time",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "style": {
+              "const": "core",
+              "type": "string"
+            },
+            "type": {
+              "const": "count",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "dimension": {
+              "enum": [
+                "country",
+                "centre",
+                "visaType"
+              ],
+              "type": "string"
+            },
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "measure": {
+              "enum": [
+                "applications",
+                "approvalRate",
+                "avgDays"
+              ],
+              "type": "string"
+            },
+            "order": {
+              "enum": [
+                "desc",
+                "asc"
+              ],
+              "type": "string"
+            },
+            "type": {
+              "const": "ranking",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "dimension",
+            "measure",
+            "order",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "entities": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "kind": {
+                    "enum": [
+                      "country",
+                      "centre",
+                      "visaType",
+                      "channel"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "key"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "type": {
+              "const": "compare",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "entities",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "breakdown": {
+              "type": "boolean"
+            },
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "preview": {
+              "type": "boolean"
+            },
+            "style": {
+              "enum": [
+                "core",
+                "sides"
+              ],
+              "type": "string"
+            },
+            "type": {
+              "const": "revenue",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "processing",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "channel": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Channel"
+                },
+                {
+                  "const": "all",
+                  "type": "string"
+                }
+              ]
+            },
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "stage": {
+              "type": "string"
+            },
+            "type": {
+              "const": "timeMatrix",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "channel",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "channel": {
+              "$ref": "#/definitions/Channel"
+            },
+            "type": {
+              "const": "queue",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "channel"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "periods",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "channels",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "style": {
+              "const": "skyline",
+              "type": "string"
+            },
+            "type": {
+              "const": "tops",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": {
+              "const": "answer",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "items",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "geo",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "outcomeDist",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "dim": {
+              "enum": [
+                "purpose",
+                "occupation"
+              ],
+              "type": "string"
+            },
+            "type": {
+              "const": "mix",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "dim"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "journeyMap",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "bq": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "type": {
+              "const": "outOfScope",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "bq",
+            "title",
+            "reason"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "type": {
+              "const": "unsupported",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "text"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "JourneySpec": {
+      "additionalProperties": false,
+      "properties": {
+        "approved": {
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "type": "number"
+            },
+            "days": {
+              "type": "number"
+            },
+            "delta": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "count",
+            "days"
+          ],
+          "type": "object"
+        },
+        "channel": {
+          "$ref": "#/definitions/Channel"
+        },
+        "emphasisKey": {
+          "description": "Stage with the most applications currently waiting (factual emphasis).",
+          "type": "string"
+        },
+        "emphasisLabel": {
+          "description": "Tag on the emphasised stage (default \"Most waiting now\").",
+          "type": "string"
+        },
+        "floor": {
+          "$ref": "#/definitions/FloorData",
+          "description": "Floor journey data (online map incl. biometric branch). Wide screens render it on the floor."
+        },
+        "heading": {
+          "additionalProperties": false,
+          "description": "Heading drawn inside the v2 jar board.",
+          "properties": {
+            "subtitle": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "title",
+            "subtitle"
+          ],
+          "type": "object"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "journey",
+          "type": "string"
+        },
+        "outcomeLabels": {
+          "additionalProperties": false,
+          "description": "Outcome labels (default Approved / Rejected; centre visits: Visit completed / Missed).",
+          "properties": {
+            "bad": {
+              "type": "string"
+            },
+            "badShort": {
+              "type": "string"
+            },
+            "good": {
+              "type": "string"
+            },
+            "goodShort": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "good",
+            "bad"
+          ],
+          "type": "object"
+        },
+        "rejected": {
+          "additionalProperties": false,
+          "properties": {
+            "count": {
+              "type": "number"
+            },
+            "days": {
+              "type": "number"
+            },
+            "delta": {
+              "type": "number"
+            },
+            "unavailable": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "count",
+            "days"
+          ],
+          "type": "object"
+        },
+        "stages": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "count": {
+                "type": "number"
+              },
+              "days": {
+                "type": "number"
+              },
+              "delta": {
+                "type": "number"
+              },
+              "icon": {
+                "$ref": "#/definitions/StageIcon"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "sub": {
+                "type": "string"
+              },
+              "unavailable": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "icon",
+              "accent",
+              "count",
+              "days"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "variant": {
+          "description": "'pedestals' (3.1 primary), 'orbs' (3.2 journey map) or 'jars' (online journey v2, wide).",
+          "enum": [
+            "pedestals",
+            "orbs",
+            "jars"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "channel",
+        "stages",
+        "approved",
+        "rejected"
+      ],
+      "type": "object"
+    },
+    "LegendSpec": {
+      "additionalProperties": false,
+      "description": "Status legend grid (2×2 glass pills) under a distribution ring.",
+      "properties": {
+        "items": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "ask": {
+                "type": "string"
+              },
+              "count": {
+                "type": "number"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "share": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "count",
+              "share",
+              "accent"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "legend",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "items"
+      ],
+      "type": "object"
+    },
+    "MetricSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "accent": {
+          "type": "string"
+        },
+        "ask": {
+          "description": "Follow-up question asked when the tile's chevron is pressed.",
+          "type": "string"
+        },
+        "caption": {
+          "type": "string"
+        },
+        "card": {
+          "const": "hero",
+          "description": "C · hero glass: glossy capsule glass carrying the chart, for a page's headline cards.",
+          "type": "string"
+        },
+        "delta": {
+          "$ref": "#/definitions/Delta"
+        },
+        "format": {
+          "$ref": "#/definitions/ValueFormat"
+        },
+        "hero": {
+          "type": "boolean"
+        },
+        "icon": {
+          "$ref": "#/definitions/IconName"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "metric",
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "spark": {
+          "additionalProperties": false,
+          "description": "Optional mini chart drawn in the card.",
+          "properties": {
+            "kind": {
+              "enum": [
+                "bars",
+                "line"
+              ],
+              "type": "string"
+            },
+            "values": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "kind",
+            "values"
+          ],
+          "type": "object"
+        },
+        "tile": {
+          "description": "Tinted glass KPI tile (icon badge, white ink, chevron).",
+          "type": "boolean"
+        },
+        "unavailableReason": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "label",
+        "value",
+        "format",
+        "icon",
+        "accent"
+      ],
+      "type": "object"
+    },
+    "NoticeSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "notice",
+          "type": "string"
+        },
+        "suggestions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "text": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "title",
+        "text",
+        "suggestions"
+      ],
+      "type": "object"
+    },
+    "PeriodsSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "approval": {
+                "type": "number"
+              },
+              "approvalDelta": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "cmp": {
+                "type": "string"
+              },
+              "days": {
+                "type": "number"
+              },
+              "daysDelta": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "delta": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "value",
+              "cmp",
+              "delta",
+              "accent",
+              "approval",
+              "days",
+              "approvalDelta",
+              "daysDelta"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "periods",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "items"
+      ],
+      "type": "object"
+    },
+    "Placed": {
+      "additionalProperties": false,
+      "properties": {
+        "slot": {
+          "type": "string"
+        },
+        "spec": {
+          "$ref": "#/definitions/ComponentSpec"
+        }
+      },
+      "required": [
+        "spec",
+        "slot"
+      ],
+      "type": "object"
+    },
+    "PodiumColumn": {
+      "additionalProperties": false,
+      "description": "`share`: the column's items are shares of all applications (centres are attributed applications only, so no share).",
+      "properties": {
+        "accent": {
+          "type": "string"
+        },
+        "icon": {
+          "$ref": "#/definitions/IconName"
+        },
+        "items": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "sub": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "label",
+              "value"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "share": {
+          "type": "boolean"
+        },
+        "sub": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "title",
+        "sub",
+        "icon",
+        "accent",
+        "items"
+      ],
+      "type": "object"
+    },
+    "PodiumsSpec": {
+      "additionalProperties": false,
+      "description": "v1 leaderboards (default) · v2 'skyline': glass pillars with rising particles. `total` = all applications (for shares).",
+      "properties": {
+        "columns": {
+          "items": {
+            "$ref": "#/definitions/PodiumColumn"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "podiums",
+          "type": "string"
+        },
+        "total": {
+          "type": "number"
+        },
+        "variant": {
+          "const": "skyline",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "columns"
+      ],
+      "type": "object"
+    },
+    "PresenceMode": {
+      "description": "Where ODIN's globe goes in this scene.",
+      "enum": [
+        "home",
+        "core",
+        "dissolved"
+      ],
+      "type": "string"
+    },
+    "QueueSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "avgWait": {
+                "type": "number"
+              },
+              "buckets": {
+                "additionalProperties": false,
+                "properties": {
+                  "d13": {
+                    "type": "number"
+                  },
+                  "gt3": {
+                    "type": "number"
+                  },
+                  "lt1": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "lt1",
+                  "d13",
+                  "gt3"
+                ],
+                "type": "object"
+              },
+              "icon": {
+                "$ref": "#/definitions/StageIcon"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "waiting": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "icon",
+              "accent",
+              "waiting",
+              "avgWait",
+              "buckets"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "queue",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "items"
+      ],
+      "type": "object"
+    },
+    "RankingSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "accent": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        },
+        "format": {
+          "$ref": "#/definitions/ValueFormat"
+        },
+        "highlight": {
+          "description": "Index highlighted (e.g. the leader or the item asked about).",
+          "type": "number"
+        },
+        "items": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "sub": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "value"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "ranking",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "title",
+        "basis",
+        "format",
+        "items",
+        "accent"
+      ],
+      "type": "object"
+    },
+    "RevenueBreakdown": {
+      "additionalProperties": false,
+      "properties": {
+        "accent": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "preview": {
+          "description": "Post-October dimension shown as a labelled design preview.",
+          "type": "boolean"
+        },
+        "rest": {
+          "additionalProperties": false,
+          "properties": {
+            "label": {
+              "type": "string"
+            },
+            "share": {
+              "type": "number"
+            },
+            "value": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "label",
+            "share",
+            "value"
+          ],
+          "type": "object"
+        },
+        "rows": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "share": {
+                "type": "number"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "name",
+              "share",
+              "value"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "sub": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "title",
+        "sub",
+        "accent",
+        "rows",
+        "rest"
+      ],
+      "type": "object"
+    },
+    "RevenueSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "amount": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "breakdowns": {
+          "description": "v2 (revenue core): each dimension is a full breakdown of the same total.",
+          "items": {
+            "$ref": "#/definitions/RevenueBreakdown"
+          },
+          "type": "array"
+        },
+        "delta": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "dims": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "bars": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "share": {
+                "type": "number"
+              },
+              "top": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "value"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "value": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "share",
+              "accent",
+              "value",
+              "bars",
+              "top"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "revenue",
+          "type": "string"
+        },
+        "layout": {
+          "const": "sides",
+          "description": "v3: the core in the centre, two breakdown panels on each side.",
+          "type": "string"
+        },
+        "preview": {
+          "type": "boolean"
+        },
+        "validation": {
+          "description": "v2: values shown, flagged \"validation required\" until AEGI Finance approves the definition.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "preview",
+        "amount",
+        "delta",
+        "dims"
+      ],
+      "type": "object"
+    },
+    "RingSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "ring",
+          "type": "string"
+        },
+        "segments": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "count": {
+                "type": "number"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "count",
+              "accent"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "total": {
+          "type": "number"
+        },
+        "totalLabel": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "total",
+        "totalLabel",
+        "segments",
+        "basis"
+      ],
+      "type": "object"
+    },
+    "SceneAnswer": {
+      "additionalProperties": false,
+      "properties": {
+        "backdrop": {
+          "description": "Backdrop blur this screen asks for (src/lib/backdrop.ts): 'dof' exterior lens blur, 'full' both layers. Default sharp.",
+          "enum": [
+            "none",
+            "dof",
+            "full"
+          ],
+          "type": "string"
+        },
+        "beats": {
+          "description": "Answer view: the spectrum follows ODIN's words, one beat per metric ('globe' = the sphere, else a card's spot key).",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "target": {
+                "type": "string"
+              },
+              "words": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "target",
+              "words"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "components": {
+          "items": {
+            "$ref": "#/definitions/Placed"
+          },
+          "type": "array"
+        },
+        "depth": {
+          "description": "Composer depth that produced this scene (free-text questions only).",
+          "enum": [
+            "glance",
+            "context",
+            "explore"
+          ],
+          "type": "string"
+        },
+        "env": {
+          "description": "'floor': the camera pushes onto the interior floor and the environment stays sharp. 'low': a gentle tilt down so cards can stand on the floor (Top countries v1).",
+          "enum": [
+            "floor",
+            "low"
+          ],
+          "type": "string"
+        },
+        "focusKey": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "intent": {
+          "$ref": "#/definitions/Intent"
+        },
+        "presence": {
+          "$ref": "#/definitions/PresenceMode"
+        },
+        "spoken": {
+          "description": "Exactly what ODIN says — also what the summary strip highlights.",
+          "type": "string"
+        },
+        "spot": {
+          "description": "Composer spotlight: the item the question asked about (screens mark items with data-spot-key).",
+          "type": "string"
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "summary": {
+          "additionalProperties": false,
+          "properties": {
+            "primary": {
+              "type": "string"
+            },
+            "secondary": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "primary",
+            "secondary"
+          ],
+          "type": "object"
+        },
+        "template": {
+          "$ref": "#/definitions/Template"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "intent",
+        "template",
+        "title",
+        "subtitle",
+        "components",
+        "focusKey",
+        "presence",
+        "spoken",
+        "summary"
+      ],
+      "type": "object"
+    },
+    "StageIcon": {
+      "enum": [
+        "submit",
+        "payment",
+        "review",
+        "upload",
+        "biometric",
+        "calendar",
+        "checkin",
+        "documents"
+      ],
+      "type": "string"
+    },
+    "Template": {
+      "enum": [
+        "glance",
+        "stageTall",
+        "band",
+        "journey",
+        "floor",
+        "jars",
+        "galaxy",
+        "revenue",
+        "appcore",
+        "board",
+        "matrix",
+        "outcomes",
+        "focus",
+        "notice",
+        "stage",
+        "ringCards"
+      ],
+      "type": "string"
+    },
+    "TimeMatrixSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "applications": {
+          "type": "number"
+        },
+        "avg": {
+          "type": "number"
+        },
+        "avgDelta": {
+          "type": "number"
+        },
+        "fastest": {
+          "additionalProperties": false,
+          "properties": {
+            "days": {
+              "type": "number"
+            },
+            "label": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "label",
+            "days"
+          ],
+          "type": "object"
+        },
+        "focusStage": {
+          "description": "Highlighted stage (for stage-specific questions).",
+          "type": "string"
+        },
+        "hourly": {
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "timeMatrix",
+          "type": "string"
+        },
+        "longest": {
+          "additionalProperties": false,
+          "properties": {
+            "days": {
+              "type": "number"
+            },
+            "label": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "label",
+            "days"
+          ],
+          "type": "object"
+        },
+        "median": {
+          "type": "number"
+        },
+        "medianDelta": {
+          "type": "number"
+        },
+        "p90": {
+          "type": "number"
+        },
+        "previewNote": {
+          "description": "Online matrix: biometric-branch stage times are a design preview (F25 red).",
+          "type": "string"
+        },
+        "scopeLabel": {
+          "type": "string"
+        },
+        "sla": {
+          "description": "Ring around the centre readout (0–1); decorative frame when undefined.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "stages": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "accent": {
+                "type": "string"
+              },
+              "days": {
+                "type": "number"
+              },
+              "icon": {
+                "$ref": "#/definitions/StageIcon"
+              },
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "icon",
+              "accent",
+              "days"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "tabs": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "active": {
+                "type": "boolean"
+              },
+              "ask": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label",
+              "ask"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "key",
+        "scopeLabel",
+        "avg",
+        "avgDelta",
+        "median",
+        "medianDelta",
+        "p90",
+        "applications",
+        "hourly",
+        "fastest",
+        "longest",
+        "stages",
+        "tabs"
+      ],
+      "type": "object"
+    },
+    "ValueFormat": {
+      "enum": [
+        "count",
+        "days",
+        "percent",
+        "currency"
+      ],
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "id": "scene-16",
+  "intent": {
+    "type": "mix",
+    "dim": "occupation"
+  },
+  "template": "stage",
+  "title": "Applicant Occupation Mix",
+  "subtitle": "Recorded applicant occupation · post-October feature, shown for design review (mock)",
+  "focusKey": "ring",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "ring",
+        "key": "ring",
+        "total": 8412,
+        "totalLabel": "Applications",
+        "basis": "Recorded values only · unknowns kept separate",
+        "segments": [
+          {
+            "key": "professional",
+            "label": "Professionals",
+            "count": 2608,
+            "accent": "#4f9cff"
+          },
+          {
+            "key": "skilled",
+            "label": "Skilled trades",
+            "count": 2019,
+            "accent": "#f5ac45"
+          },
+          {
+            "key": "business",
+            "label": "Business owners",
+            "count": 1094,
+            "accent": "#a67cff"
+          },
+          {
+            "key": "student",
+            "label": "Students",
+            "count": 925,
+            "accent": "#4fd6ff"
+          },
+          {
+            "key": "other",
+            "label": "Other / not stated",
+            "count": 1767,
+            "accent": "#8796b4"
+          }
+        ]
+      },
+      "slot": "stage"
+    }
+  ],
+  "spoken": "Professionals accounts for the largest share, 2,608 applications. This uses recorded occupation values and is planned after October.",
+  "summary": {
+    "primary": "Professionals: 2,608 applications (largest share).",
+    "secondary": "Recorded occupation values · post-October (F28)."
+  }
+}

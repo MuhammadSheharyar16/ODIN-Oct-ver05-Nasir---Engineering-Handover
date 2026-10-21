@@ -1,0 +1,510 @@
+/* HUD elements are positioned by the layout engine (centre-based, px) and
+   size their contents from their own box via container units. */
+
+/* ───────── Insight strip ───────── */
+.insight-strip {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  container-type: size;
+}
+
+.insight-strip__inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 2.4cqw;
+  padding: 0 3cqw;
+  border-radius: 32cqh;
+  /* Translucent navy glass: the room shows through, blurred and darkened by the
+     backdrop filter so white ink stays at AA+ on the brightest floor. */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.03) 42%, rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, rgba(20, 32, 66, 0.26), rgba(10, 18, 42, 0.34));
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  box-shadow:
+    0 2cqh 6cqh rgba(8, 16, 36, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 28px rgba(160, 200, 255, 0.08);
+  backdrop-filter: blur(18px) saturate(1.6) brightness(0.72);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6) brightness(0.72);
+  color: var(--ink-strong);
+  text-shadow: 0 1px 3px rgba(6, 14, 36, 0.55), 0 0 12px rgba(6, 14, 36, 0.35);
+  overflow: hidden;
+}
+
+.insight-strip__tag {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  flex: none;
+  font-size: 16cqh;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.insight-strip__icon {
+  width: 38cqh;
+  height: 38cqh;
+  color: #f6c46c;
+  filter: drop-shadow(0 0 6px rgba(246, 196, 108, 0.75));
+}
+
+.insight-strip__rule {
+  flex: none;
+  width: 1px;
+  height: 64cqh;
+  background: rgba(255, 255, 255, 0.34);
+}
+
+.insight-strip__text {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.insight-strip__text p {
+  margin: 0;
+}
+
+.insight-strip__primary {
+  font-size: 21cqh;
+  font-weight: 520;
+  line-height: 1.3;
+}
+
+.insight-strip__secondary {
+  margin-top: 3cqh !important;
+  font-size: 15.5cqh;
+  font-weight: 440;
+  color: rgba(225, 236, 255, 0.82);
+}
+
+.insight-strip__caption {
+  margin: 0;
+  font-size: 18.5cqh;
+  font-weight: 500;
+  line-height: 1.38;
+}
+
+.caption-word {
+  transition: color 180ms ease, opacity 180ms ease, text-shadow 220ms ease;
+}
+
+.caption-word.is-pending {
+  /* Still to be spoken: dimmer but readable (≥ 4.5:1 on the lighter glass). */
+  color: rgba(222, 234, 252, 0.8);
+}
+
+.caption-word.is-current {
+  color: #ffffff;
+  text-shadow: 0 0 0.6em rgba(170, 210, 255, 0.85);
+}
+
+.caption-word.is-spoken {
+  color: #ffffff;
+}
+
+.insight-strip.mode-compact .insight-strip__caption {
+  font-size: 14cqh;
+}
+
+.insight-strip.mode-short .insight-strip__caption {
+  font-size: 24cqh;
+}
+
+/* Phones: icon-only tag, two tight lines. */
+.insight-strip.is-compact .insight-strip__inner {
+  gap: 3.5cqw;
+  padding: 0 5cqw;
+  border-radius: 24cqh;
+}
+
+.insight-strip.is-compact .insight-strip__tag-text,
+.insight-strip.is-compact .insight-strip__rule {
+  display: none;
+}
+
+.insight-strip.is-compact .insight-strip__icon {
+  width: 26cqh;
+  height: 26cqh;
+}
+
+.insight-strip.mode-compact .insight-strip__primary {
+  font-size: 15cqh;
+}
+
+.insight-strip.mode-compact .insight-strip__secondary {
+  font-size: 12.4cqh;
+  line-height: 1.32;
+}
+
+.insight-strip.mode-short .insight-strip__primary {
+  font-size: 30cqh;
+}
+
+.insight-strip.mode-short .insight-strip__secondary {
+  display: none;
+}
+
+/* ───────── Mic bar ───────── */
+.mic-bar {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  container-type: size;
+}
+
+.mic-bar__inner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 3cqh;
+  padding: 0 40cqh 0 8cqh;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0.12));
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    0 0 26cqh rgba(170, 210, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(18px) saturate(1.25);
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  color: var(--ink-strong);
+}
+
+.mic-bar__button {
+  width: 84cqh;
+  height: 84cqh;
+  border-radius: 50%;
+  border: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: #3a6fd8;
+  background: radial-gradient(circle at 50% 35%, #ffffff, #e9f1ff);
+  box-shadow: 0 0 22cqh rgba(150, 200, 255, 0.9), inset 0 -2px 4px rgba(80, 120, 200, 0.18);
+}
+
+.mic-bar__button svg {
+  width: 44cqh;
+  height: 44cqh;
+}
+
+.mic-bar__wave {
+  display: block;
+  width: 100%;
+  height: 56cqh;
+  min-width: 0;
+}
+
+.mic-bar__prompt {
+  font-size: 29cqh;
+  font-weight: 480;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-shadow: 0 1px 6px rgba(8, 18, 40, 0.35);
+}
+
+/* ───────── Composer (typed questions) ───────── */
+.mic-bar {
+  cursor: text;
+}
+
+.mic-bar.is-open .mic-bar__inner {
+  grid-template-columns: auto minmax(0, 1fr);
+  padding-right: 12cqh;
+}
+
+.mic-bar__form {
+  display: flex;
+  align-items: center;
+  gap: 12cqh;
+  min-width: 0;
+}
+
+.mic-bar__kbd {
+  flex: none;
+  width: 34cqh;
+  height: 34cqh;
+  opacity: 0.75;
+}
+
+.mic-bar__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 28cqh;
+  font-weight: 500;
+  text-shadow: 0 1px 6px rgba(8, 18, 40, 0.35);
+}
+
+.mic-bar__input::placeholder {
+  color: rgba(240, 246, 255, 0.72);
+}
+
+.mic-bar__send,
+.mic-bar__list,
+.mic-bar__close {
+  flex: none;
+  width: 62cqh;
+  height: 62cqh;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.mic-bar__send {
+  background: radial-gradient(circle at 40% 35%, #8cc4ff, #3a6fd8);
+  box-shadow: 0 0 16px rgba(110, 170, 255, 0.85);
+}
+
+.mic-bar__close,
+.mic-bar__list {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.mic-bar__list.is-on {
+  background: rgba(140, 196, 255, 0.34);
+  box-shadow: inset 0 0 0 1px rgba(190, 225, 255, 0.6);
+}
+
+.mic-bar__send svg,
+.mic-bar__list svg,
+.mic-bar__close svg {
+  width: 50%;
+  height: 50%;
+}
+
+.mic-bar__heard {
+  font-size: 26cqh;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  text-shadow: 0 1px 6px rgba(8, 18, 40, 0.35);
+}
+
+.mic-bar__heard em {
+  font-style: normal;
+  margin-left: 0.4em;
+  background: linear-gradient(90deg, #cfe6ff, #ffffff, #cfe6ff);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: thinking-shimmer 1.2s linear infinite;
+}
+
+@keyframes thinking-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: 0 0; }
+}
+
+.composer-chips {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  pointer-events: auto;
+  animation: chips-in 380ms var(--ease-out) both;
+}
+
+.composer-chips .chip {
+  background: rgba(24, 38, 72, 0.55);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 6px 18px rgba(8, 16, 36, 0.25);
+}
+
+.composer-chips.mode-compact .chip,
+.composer-chips.mode-short .chip {
+  font-size: 12px;
+  padding: 6px 10px;
+}
+
+@keyframes chips-in {
+  from { opacity: 0; transform: translate(-50%, calc(-100% + 12px)); }
+  to { opacity: 1; transform: translate(-50%, -100%); }
+}
+
+/* ── Question picker (scope catalogue over the composer) ── */
+.qp {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px;
+  /* No live backdrop blur: the list scrolls over a 3D scene that changes every frame, and a
+     re-blurred backdrop made Chrome drop the layer mid-scroll (blinking). A near-opaque glass tint
+     with a sheen reads the same and stays steady. */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0) 30%),
+    linear-gradient(180deg, rgba(18, 32, 66, 0.95), rgba(10, 20, 44, 0.97));
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 24px 60px rgba(4, 10, 28, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  color: #fff;
+  pointer-events: auto;
+  overflow: hidden;
+  animation: qp-in 420ms var(--ease-out) both;
+  z-index: 5;
+  /* Own compositor layer; painting stays inside the panel. */
+  will-change: transform;
+  contain: layout paint;
+  isolation: isolate;
+}
+
+@keyframes qp-in {
+  from { opacity: 0; transform: translate(-50%, calc(-100% + 16px)) scale(0.98); }
+  to { opacity: 1; transform: translate(-50%, -100%); }
+}
+
+.qp__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
+
+.qp__tabs {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.qp__tabs button {
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 560;
+  cursor: pointer;
+}
+
+.qp__tabs button b {
+  margin-left: 4px;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.qp__tabs button.is-on {
+  background: rgba(140, 196, 255, 0.26);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(190, 225, 255, 0.45);
+}
+
+.qp__legend {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.qp__body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 8px 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+
+.qp__group h3 {
+  margin: 10px 8px 4px;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(180, 210, 255, 0.7);
+}
+
+.qp__row {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.qp__row.is-hi {
+  background: rgba(120, 180, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(170, 210, 255, 0.28);
+}
+
+.qp__id {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.55);
+  font-variant-numeric: tabular-nums;
+}
+
+.qp__q {
+  font-size: 14px;
+  font-weight: 520;
+  line-height: 1.3;
+  min-width: 0;
+}
+
+.qp__q em {
+  display: block;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 450;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.qp__pill {
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  --c: 255, 255, 255;
+  color: rgb(var(--c));
+  background: rgba(var(--c), 0.12);
+  box-shadow: inset 0 0 0 1px rgba(var(--c), 0.35);
+}
+
+.qp__pill.is-green { --c: 78, 224, 168; }
+.qp__pill.is-amber { --c: 255, 196, 92; }
+.qp__pill.is-validation { --c: 140, 220, 255; }
+.qp__pill.is-red { --c: 255, 128, 140; }
+.qp__pill.is-out { --c: 190, 196, 214; }
+
+.qp__empty {
+  padding: 18px 12px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.qp.is-compact { border-radius: 18px; }
+.qp.is-compact .qp__row { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 8px; }
+.qp.is-compact .qp__id { display: none; }
+.qp.is-compact .qp__q { font-size: 13px; }

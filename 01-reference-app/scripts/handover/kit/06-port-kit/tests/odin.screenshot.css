@@ -1,0 +1,6 @@
+/* Applied only while the acceptance test takes its screenshot.
+   The 3D canvas is full screen behind the UI: hide it so the HTML layer is compared.
+   Live clock, voice-preview note and speech-progress caption change every run. */
+canvas { visibility: hidden !important; }
+body, .app { background: #0b1424 !important; }
+.chrome-time, .dev-note, .insight-strip__caption { visibility: hidden !important; }

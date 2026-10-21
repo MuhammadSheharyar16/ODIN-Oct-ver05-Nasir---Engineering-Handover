@@ -1,0 +1,162 @@
+{
+  "id": "scene-1",
+  "intent": {
+    "type": "processing"
+  },
+  "template": "board",
+  "title": "Applications in Processing",
+  "subtitle": "Applications awaiting a final decision, and today’s movement",
+  "focusKey": "board",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "board",
+        "key": "board",
+        "hero": {
+          "value": 2140,
+          "label": "In processing now",
+          "delta": 7,
+          "deltaBasis": "since the start of today",
+          "caption": "Awaiting a final decision"
+        },
+        "orb": "glass",
+        "capsules": [
+          {
+            "id": "entered-today",
+            "label": "Entered processing today",
+            "value": 312,
+            "format": "count",
+            "accent": "#4f9cff",
+            "icon": "entered",
+            "delta": {
+              "value": 18,
+              "unit": "count",
+              "basis": "vs yesterday, same time"
+            }
+          },
+          {
+            "id": "closed-today",
+            "label": "Closed today",
+            "value": 305,
+            "format": "count",
+            "accent": "#3ed6a0",
+            "icon": "approved",
+            "detail": "264 approved · 41 rejected"
+          },
+          {
+            "id": "most-waiting",
+            "label": "Most waiting · Submission to ICP",
+            "value": 643,
+            "format": "count",
+            "accent": "#a67cff",
+            "icon": "revenue",
+            "detail": "30% of open applications"
+          },
+          {
+            "id": "open-share",
+            "label": "Still open",
+            "value": 25.4,
+            "format": "percent",
+            "accent": "#4fd6ff",
+            "icon": "closure",
+            "detail": "of all 8,412 applications"
+          }
+        ],
+        "stagesTitle": "Where they are now",
+        "stages": [
+          {
+            "key": "submission",
+            "label": "Application submission",
+            "count": 284,
+            "share": 0.13271028037383178,
+            "accent": "#4f9cff",
+            "top": false
+          },
+          {
+            "key": "payment",
+            "label": "Payment",
+            "count": 336,
+            "share": 0.15700934579439252,
+            "accent": "#4f9cff",
+            "top": false
+          },
+          {
+            "key": "vas-review",
+            "label": "VAS internal review",
+            "count": 530,
+            "share": 0.24766355140186916,
+            "accent": "#4f9cff",
+            "top": false
+          },
+          {
+            "key": "to-icp",
+            "label": "Submission to ICP",
+            "count": 643,
+            "share": 0.30046728971962616,
+            "accent": "#a67cff",
+            "top": true
+          },
+          {
+            "key": "icp",
+            "label": "ICP processing",
+            "count": 347,
+            "share": 0.16214953271028038,
+            "accent": "#a67cff",
+            "top": false
+          }
+        ]
+      },
+      "slot": "main"
+    },
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "in-proc-hero",
+        "label": "In processing now",
+        "value": 2140,
+        "format": "count",
+        "icon": "processing",
+        "accent": "#4f9cff",
+        "hero": true,
+        "caption": "awaiting a final decision"
+      },
+      "slot": "hero"
+    },
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "entered-today",
+        "label": "Entered processing today",
+        "value": 312,
+        "format": "count",
+        "icon": "applications",
+        "accent": "#4fd6ff",
+        "delta": {
+          "value": 18,
+          "unit": "count",
+          "basis": "vs yesterday, same time"
+        }
+      },
+      "slot": "left1"
+    },
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "closed-today",
+        "label": "Closed today",
+        "value": 305,
+        "format": "count",
+        "icon": "approved",
+        "accent": "#3ed6a0",
+        "caption": "264 approved · 41 rejected"
+      },
+      "slot": "left2"
+    }
+  ],
+  "spoken": "2,140 applications are in processing. 312 entered today and 305 were closed, so the queue is up 7 since this morning. Submission to ICP holds the most, 643.",
+  "summary": {
+    "primary": "2,140 applications in processing now.",
+    "secondary": "312 entered today · 305 closed · Submission to ICP holds the most."
+  }
+}

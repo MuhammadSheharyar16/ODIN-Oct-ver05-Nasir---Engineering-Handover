@@ -1,0 +1,153 @@
+/* ═══════════════════════════════════════════════════════════════════════
+ * Card option C · hero glass — Home capsule glass in a card shape.
+ *   A capsule (live pulse) · B tile (analysis) · C hero glass (headline + chart)
+ * Clear tinted glass, thin neon rim with a slow travelling glint, white-hot
+ * hairline, curved sheen, soft halo. A darker optical centre keeps white ink
+ * at AA+ on bright sky. Accent desaturated like the capsules.
+ * ═══════════════════════════════════════════════════════════════════════ */
+@property --hg-a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+.hglass {
+  --hg: color-mix(in srgb, var(--accent, var(--a, #4f9cff)) 64%, #c9d6ee);
+  isolation: isolate;
+  overflow: visible;
+  border: 0 !important;
+  background:
+    radial-gradient(95% 70% at 50% -8%, color-mix(in srgb, var(--hg) 36%, transparent), transparent 64%),
+    radial-gradient(80% 70% at 50% 112%, color-mix(in srgb, var(--hg) 30%, transparent), transparent 70%),
+    radial-gradient(75% 85% at 38% 52%, rgba(7, 14, 38, 0.64), rgba(10, 18, 46, 0.46) 78%, rgba(10, 18, 46, 0.32)),
+    color-mix(in srgb, var(--hg) 16%, rgba(12, 20, 46, 0.46)) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(1.35) brightness(0.8) !important;
+  backdrop-filter: blur(10px) saturate(1.35) brightness(0.8) !important;
+  box-shadow:
+    0 0 2px color-mix(in srgb, var(--hg) 80%, transparent),
+    0 0 14px color-mix(in srgb, var(--hg) 42%, transparent),
+    0 0 48px color-mix(in srgb, var(--hg) 16%, transparent),
+    0 18px 42px rgba(6, 12, 30, 0.28),
+    inset 0 0 12px color-mix(in srgb, var(--hg) 62%, transparent),
+    inset 0 0 40px color-mix(in srgb, var(--hg) 28%, transparent),
+    inset 0 0 90px color-mix(in srgb, var(--hg) 10%, transparent) !important;
+  text-shadow: 0 1px 6px rgba(4, 10, 36, 0.7);
+}
+.hglass > :not(.hg__fx) { position: relative; z-index: 1; }
+.hglass > .tile__go { position: absolute; z-index: 2; }
+
+.hg__fx, .hg__fx > i { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; }
+.hg__fx { z-index: 0; }
+
+/* Soft halo: light bleeding off the glass into the room */
+.hg__halo {
+  inset: -5px !important;
+  border: 7px solid color-mix(in srgb, var(--hg) 70%, #fff 30%);
+  filter: blur(14px);
+  opacity: 0.46;
+  z-index: -1;
+  animation: hg-breathe 6s ease-in-out infinite alternate;
+}
+@keyframes hg-breathe { from { opacity: 0.36; } to { opacity: 0.56; } }
+
+/* Neon rim (thin) + glint travelling around it */
+.hg__rim, .hg__rim::after {
+  padding: 1.4px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.hg__rim {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--hg) 40%, #fff 60%) 0%,
+    var(--hg) 34%,
+    color-mix(in srgb, var(--hg) 85%, #fff 15%) 72%,
+    color-mix(in srgb, var(--hg) 55%, #fff 45%) 100%);
+  filter: drop-shadow(0 0 4px var(--hg));
+}
+.hg__rim::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.6px;
+  background: conic-gradient(from var(--hg-a), transparent 0deg 300deg, rgba(255, 255, 255, 0.95) 336deg, transparent 352deg);
+  animation: hg-glint 11s linear infinite;
+  animation-delay: calc(var(--hg-i, 0) * -2.7s);
+}
+@keyframes hg-glint { to { --hg-a: 360deg; } }
+
+/* White-hot hairline inside the tube + lower rim reflection */
+.hg__core {
+  inset: 1.5px !important;
+  border: 0.75px solid color-mix(in srgb, var(--hg) 25%, #fff 75%);
+  opacity: 0.55;
+}
+.hg__core::after {
+  content: '';
+  position: absolute;
+  inset: auto 16% 2px 16%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--hg) 50%, #fff 50%), transparent);
+  opacity: 0.45;
+  filter: blur(2px);
+}
+
+/* Curved specular sheen across the top */
+.hg__sheen {
+  inset: 3px 7% auto 7% !important;
+  height: 30%;
+  border-radius: 999px 999px 50% 50% / 100% 100% 40% 40% !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.08) 45%, transparent 92%);
+  filter: blur(1.2px);
+}
+
+/* Badge reads as a glass bead on hero glass */
+.hglass :is(.tile__badge, .tmx-card__badge) {
+  background: radial-gradient(circle at 36% 28%, color-mix(in srgb, var(--hg) 40%, rgba(255, 255, 255, 0.3)), rgba(8, 16, 42, 0.6) 72%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--hg) 60%, #fff), inset 0 2px 6px rgba(255, 255, 255, 0.25), 0 0 14px color-mix(in srgb, var(--hg) 45%, transparent);
+}
+.hglass .tile__go { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.45); }
+
+/* ── Hero chart ── */
+.hchart { position: relative; }
+.tile.hglass .hchart { width: 25cqw; height: 46cqh; align-self: end; margin-bottom: 13cqh; }
+/* Matrix: chart sits under the value, as in the approved layout */
+.tmx-card.hglass .hchart--inbody { width: 100%; max-width: 200px; height: 46px; margin-top: 6px; }
+
+.hchart--bars { display: flex; align-items: flex-end; gap: 7%; border-bottom: 1px solid color-mix(in srgb, var(--hg) 40%, rgba(255, 255, 255, 0.25)); }
+.hchart--bars span {
+  flex: 1;
+  border-radius: 3px 3px 1px 1px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--hg) 70%, #fff 10%), color-mix(in srgb, var(--hg) 32%, transparent));
+  box-shadow: inset 0 1.5px 0 color-mix(in srgb, var(--hg) 30%, #fff), 0 0 6px color-mix(in srgb, var(--hg) 35%, transparent);
+  transform-origin: bottom;
+  animation: bar-rise 0.9s cubic-bezier(.16, 1, .3, 1) both;
+  animation-delay: calc(0.6s + var(--i) * 0.05s);
+}
+.hchart--bars span.is-now {
+  background: linear-gradient(180deg, #fff, color-mix(in srgb, var(--hg) 70%, #fff) 30%, var(--hg));
+  box-shadow: 0 0 10px var(--hg), 0 0 22px color-mix(in srgb, var(--hg) 60%, transparent);
+}
+
+.hchart--line svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.hchart__grid { stroke: rgba(255, 255, 255, 0.12); stroke-width: 1; stroke-dasharray: 2 4; vector-effect: non-scaling-stroke; }
+.hchart__glow { fill: none; stroke: var(--hg); stroke-width: 7; opacity: 0.28; filter: blur(3px); vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.hchart__line {
+  fill: none; stroke-width: 2.4; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round;
+  stroke-dasharray: 1 1; animation: hchart-draw 1.4s cubic-bezier(.16, 1, .3, 1) 0.5s both;
+}
+.hchart__area { animation: hchart-fade 1.2s ease 0.9s both; }
+@keyframes hchart-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes hchart-fade { from { opacity: 0; } }
+.hchart__dot {
+  position: absolute; width: 7px; height: 7px; margin: -3.5px 0 0 -3.5px; border-radius: 50%;
+  background: #fff; box-shadow: 0 0 6px #fff, 0 0 14px var(--hg);
+  animation: hchart-fade 0.4s ease 1.8s both;
+}
+.hchart__dot::after {
+  content: ''; position: absolute; inset: -5px; border-radius: 50%;
+  border: 1.5px solid var(--hg); animation: hchart-ping 2.4s ease-out 2s infinite;
+}
+@keyframes hchart-ping { from { transform: scale(0.4); opacity: 0.9; } to { transform: scale(1.9); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hg__halo, .hg__rim::after, .hchart--bars span, .hchart__line, .hchart__area, .hchart__dot, .hchart__dot::after { animation: none; }
+}

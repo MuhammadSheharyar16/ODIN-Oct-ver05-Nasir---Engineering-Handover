@@ -1,0 +1,1712 @@
+{
+  "rows": [
+    {
+      "question": "How many applications are in processing?",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "in_processing"
+      }
+    },
+    {
+      "question": "How many are being processed right now?",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "in_processing"
+      }
+    },
+    {
+      "question": "How many visa applications are in progress",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "in_processing"
+      }
+    },
+    {
+      "question": "How big is the backlog?",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "in_processing"
+      }
+    },
+    {
+      "question": "How many are still pending?",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "in_processing"
+      }
+    },
+    {
+      "question": "Just the number of applications in processing",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "in_processing"
+      }
+    },
+    {
+      "question": "Quickly, how many are pending?",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "in_processing"
+      }
+    },
+    {
+      "question": "In processing, briefly",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "in_processing"
+      }
+    },
+    {
+      "question": "Give me the full picture of applications in processing",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [
+          "full"
+        ],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V02",
+        "depth": "context",
+        "item": "hero"
+      }
+    },
+    {
+      "question": "Show me everything on applications in processing",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [
+          "full",
+          "show"
+        ],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V02",
+        "depth": "context",
+        "item": "hero"
+      }
+    },
+    {
+      "question": "Where are the applications in processing?",
+      "query": {
+        "measure": "in_processing",
+        "filters": {},
+        "cues": [
+          "where"
+        ],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V26",
+        "depth": "explore",
+        "item": null
+      }
+    },
+    {
+      "question": "How many applications from India are in processing?",
+      "query": {
+        "measure": "in_processing",
+        "filters": {
+          "country": "IN"
+        },
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "in_processing"
+      }
+    },
+    {
+      "question": "How many applications are being processed in Mumbai?",
+      "query": {
+        "measure": "in_processing",
+        "filters": {
+          "centre": "mum"
+        },
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "in_processing"
+      }
+    },
+    {
+      "question": "How many new applications came in today?",
+      "query": {
+        "measure": "entered_today",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "entered_today"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "entered_today"
+      }
+    },
+    {
+      "question": "How many applications were submitted today?",
+      "query": {
+        "measure": "entered_today",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "entered_today"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "entered_today"
+      }
+    },
+    {
+      "question": "Just the number of new applications today",
+      "query": {
+        "measure": "entered_today",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "entered_today"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "entered_today"
+      }
+    },
+    {
+      "question": "How many applications do we have?",
+      "query": {
+        "measure": "applications_total",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "applications_total"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "applications_total"
+      }
+    },
+    {
+      "question": "Total applications",
+      "query": {
+        "measure": "applications_total",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "applications_total"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "applications_total"
+      }
+    },
+    {
+      "question": "How many visas have we had since launch?",
+      "query": {
+        "measure": "applications_total",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "applications_total"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "applications_total"
+      }
+    },
+    {
+      "question": "Just give me the total",
+      "query": {
+        "measure": "applications_total",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "applications_total"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "applications_total"
+      }
+    },
+    {
+      "question": "Applications, in a word",
+      "query": {
+        "measure": "applications_total",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "applications_total"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "applications_total"
+      }
+    },
+    {
+      "question": "How many applications from India?",
+      "query": {
+        "measure": "applications_total",
+        "filters": {
+          "country": "IN"
+        },
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "applications_total"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "applications_total"
+      }
+    },
+    {
+      "question": "How many tourist visa applications?",
+      "query": {
+        "measure": "applications_total",
+        "filters": {
+          "visaType": "tourist30"
+        },
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "applications_total"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "applications_total"
+      }
+    },
+    {
+      "question": "Break down applications by status",
+      "query": {
+        "measure": "applications_total",
+        "filters": {},
+        "cues": [
+          "breakdown"
+        ],
+        "followUp": null,
+        "measures": [
+          "applications_total"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V04",
+        "depth": "explore",
+        "item": null
+      }
+    },
+    {
+      "question": "Tell me more about the applications",
+      "query": {
+        "measure": "applications_total",
+        "filters": {},
+        "cues": [
+          "more"
+        ],
+        "followUp": null,
+        "measures": [
+          "applications_total"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V04",
+        "depth": "explore",
+        "item": null
+      }
+    },
+    {
+      "question": "How many visas have been approved?",
+      "query": {
+        "measure": "approved",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "approved"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "approved"
+      }
+    },
+    {
+      "question": "How many were granted?",
+      "query": {
+        "measure": "approved",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "approved"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "approved"
+      }
+    },
+    {
+      "question": "How many were rejected?",
+      "query": {
+        "measure": "rejected",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "rejected"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "rejected"
+      }
+    },
+    {
+      "question": "How many applications got refused?",
+      "query": {
+        "measure": "rejected",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "rejected"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "rejected"
+      }
+    },
+    {
+      "question": "Only the number of rejections",
+      "query": {
+        "measure": "rejected",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "rejected"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "rejected"
+      }
+    },
+    {
+      "question": "What are the outcomes?",
+      "query": {
+        "measure": "outcomes",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V27",
+        "depth": "context",
+        "item": null
+      }
+    },
+    {
+      "question": "Show me the decisions",
+      "query": {
+        "measure": "outcomes",
+        "filters": {},
+        "cues": [
+          "show"
+        ],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V27",
+        "depth": "context",
+        "item": null
+      }
+    },
+    {
+      "question": "Break down the outcomes",
+      "query": {
+        "measure": "outcomes",
+        "filters": {},
+        "cues": [
+          "breakdown"
+        ],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V04",
+        "depth": "explore",
+        "item": null
+      }
+    },
+    {
+      "question": "Approved applications from India",
+      "query": {
+        "measure": "approved",
+        "filters": {
+          "country": "IN"
+        },
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "approved"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "approved"
+      }
+    },
+    {
+      "question": "How many approvals in more detail",
+      "query": {
+        "measure": "approved",
+        "filters": {},
+        "cues": [
+          "more"
+        ],
+        "followUp": null,
+        "measures": [
+          "approved"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V04",
+        "depth": "explore",
+        "item": "approved"
+      }
+    },
+    {
+      "question": "What is the approval rate?",
+      "query": {
+        "measure": "approval_rate",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "approval_rate"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "approval_rate"
+      }
+    },
+    {
+      "question": "What percentage of applications are approved?",
+      "query": {
+        "measure": "approval_rate",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "approval_rate"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "approval_rate"
+      }
+    },
+    {
+      "question": "Success rate, quickly",
+      "query": {
+        "measure": "approval_rate",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "approval_rate"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "approval_rate"
+      }
+    },
+    {
+      "question": "Approval rate for Pakistan",
+      "query": {
+        "measure": "approval_rate",
+        "filters": {
+          "country": "PK"
+        },
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "approval_rate"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "approval_rate"
+      }
+    },
+    {
+      "question": "What percentage of visa applications have been closed?",
+      "query": {
+        "measure": "closure_rate",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "closure_rate"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "closure_rate"
+      }
+    },
+    {
+      "question": "What is the closure rate?",
+      "query": {
+        "measure": "closure_rate",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "closure_rate"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "closure_rate"
+      }
+    },
+    {
+      "question": "Just the closure rate",
+      "query": {
+        "measure": "closure_rate",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "closure_rate"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "closure_rate"
+      }
+    },
+    {
+      "question": "Closure rate for India",
+      "query": {
+        "measure": "closure_rate",
+        "filters": {
+          "country": "IN"
+        },
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "closure_rate"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "closure_rate"
+      }
+    },
+    {
+      "question": "Closure rate in more detail",
+      "query": {
+        "measure": "closure_rate",
+        "filters": {},
+        "cues": [
+          "more"
+        ],
+        "followUp": null,
+        "measures": [
+          "closure_rate"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V27",
+        "depth": "explore",
+        "item": "closed"
+      }
+    },
+    {
+      "question": "How long does it take to process a visa?",
+      "query": {
+        "measure": "processing_time",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "processing_time"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "processing_time"
+      }
+    },
+    {
+      "question": "What is the average processing time?",
+      "query": {
+        "measure": "processing_time",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "processing_time"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "processing_time"
+      }
+    },
+    {
+      "question": "What is the turnaround?",
+      "query": {
+        "measure": "processing_time",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "processing_time"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "processing_time"
+      }
+    },
+    {
+      "question": "Show me the time matrix",
+      "query": {
+        "measure": "processing_time",
+        "filters": {},
+        "cues": [
+          "full",
+          "show"
+        ],
+        "followUp": null,
+        "measures": [
+          "processing_time"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V05",
+        "depth": "context",
+        "item": "core"
+      }
+    },
+    {
+      "question": "Turnaround time, quickly",
+      "query": {
+        "measure": "processing_time",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "processing_time"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "processing_time"
+      }
+    },
+    {
+      "question": "How long for India?",
+      "query": {
+        "measure": "processing_time",
+        "filters": {
+          "country": "IN"
+        },
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "processing_time"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "processing_time"
+      }
+    },
+    {
+      "question": "How long do tourist visas take?",
+      "query": {
+        "measure": "processing_time",
+        "filters": {
+          "visaType": "tourist30"
+        },
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "processing_time"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "processing_time"
+      }
+    },
+    {
+      "question": "Which stage takes the longest?",
+      "query": {
+        "measure": "stage_time",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V05",
+        "depth": "context",
+        "item": "stages"
+      }
+    },
+    {
+      "question": "How long is each stage?",
+      "query": {
+        "measure": "stage_time",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "processing_time"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V05",
+        "depth": "context",
+        "item": "stages"
+      }
+    },
+    {
+      "question": "Stage times in detail",
+      "query": {
+        "measure": "stage_time",
+        "filters": {},
+        "cues": [
+          "more"
+        ],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V26",
+        "depth": "explore",
+        "item": null
+      }
+    },
+    {
+      "question": "Show the online visa journey",
+      "query": {
+        "measure": "journey",
+        "filters": {},
+        "cues": [
+          "show"
+        ],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V26",
+        "depth": "context",
+        "item": null
+      }
+    },
+    {
+      "question": "Walk me through the pipeline",
+      "query": {
+        "measure": "journey",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V26",
+        "depth": "context",
+        "item": null
+      }
+    },
+    {
+      "question": "Where are the online applications?",
+      "query": {
+        "measure": "applications_total",
+        "filters": {},
+        "cues": [
+          "where"
+        ],
+        "followUp": null,
+        "measures": [
+          "applications_total"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V26",
+        "depth": "explore",
+        "item": null
+      }
+    },
+    {
+      "question": "Show me the funnel",
+      "query": {
+        "measure": "journey",
+        "filters": {},
+        "cues": [
+          "show"
+        ],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V26",
+        "depth": "context",
+        "item": null
+      }
+    },
+    {
+      "question": "Which countries generate the most applications?",
+      "query": {
+        "measure": "by_country",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V16",
+        "depth": "context",
+        "item": "res"
+      }
+    },
+    {
+      "question": "Where do applicants come from?",
+      "query": {
+        "measure": "by_country",
+        "filters": {},
+        "cues": [
+          "where"
+        ],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V16",
+        "depth": "context",
+        "item": "res"
+      }
+    },
+    {
+      "question": "Top countries",
+      "query": {
+        "measure": "by_country",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V16",
+        "depth": "context",
+        "item": "res"
+      }
+    },
+    {
+      "question": "Break down applications by country",
+      "query": {
+        "measure": "by_country",
+        "filters": {},
+        "cues": [
+          "breakdown"
+        ],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V17",
+        "depth": "explore",
+        "item": null
+      }
+    },
+    {
+      "question": "Which nationalities apply the most?",
+      "query": {
+        "measure": "by_nationality",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V16",
+        "depth": "context",
+        "item": "nat"
+      }
+    },
+    {
+      "question": "Top nationalities",
+      "query": {
+        "measure": "by_nationality",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V16",
+        "depth": "context",
+        "item": "nat"
+      }
+    },
+    {
+      "question": "Which centres are busiest?",
+      "query": {
+        "measure": "by_centre",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V16",
+        "depth": "context",
+        "item": "cen"
+      }
+    },
+    {
+      "question": "Which centres have the most applications?",
+      "query": {
+        "measure": "by_centre",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V16",
+        "depth": "context",
+        "item": "cen"
+      }
+    },
+    {
+      "question": "What is our revenue?",
+      "query": {
+        "measure": "revenue",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "revenue"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "revenue"
+      }
+    },
+    {
+      "question": "How much money have we made?",
+      "query": {
+        "measure": "revenue",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "revenue"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "revenue"
+      }
+    },
+    {
+      "question": "Just the revenue number",
+      "query": {
+        "measure": "revenue",
+        "filters": {},
+        "cues": [
+          "less"
+        ],
+        "followUp": null,
+        "measures": [
+          "revenue"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "revenue"
+      }
+    },
+    {
+      "question": "Revenue by country",
+      "query": {
+        "measure": "revenue_breakdown",
+        "filters": {},
+        "cues": [
+          "breakdown"
+        ],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V28",
+        "depth": "explore",
+        "item": "countries"
+      }
+    },
+    {
+      "question": "Break down revenue",
+      "query": {
+        "measure": "revenue_breakdown",
+        "filters": {},
+        "cues": [
+          "breakdown"
+        ],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V28",
+        "depth": "explore",
+        "item": "countries"
+      }
+    },
+    {
+      "question": "Which countries bring in the most revenue?",
+      "query": {
+        "measure": "revenue_breakdown",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V28",
+        "depth": "context",
+        "item": "countries"
+      }
+    },
+    {
+      "question": "How does today's performance compare with yesterday?",
+      "query": {
+        "measure": "daily_comparison",
+        "filters": {},
+        "cues": [
+          "compare"
+        ],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V15",
+        "depth": "context",
+        "item": "today"
+      }
+    },
+    {
+      "question": "How are we trending this week?",
+      "query": {
+        "measure": "daily_comparison",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V15",
+        "depth": "context",
+        "item": "today"
+      }
+    },
+    {
+      "question": "Last 7 days performance",
+      "query": {
+        "measure": "daily_comparison",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [],
+        "additive": false
+      },
+      "expected": {
+        "view": "V15",
+        "depth": "context",
+        "item": "today"
+      }
+    },
+    {
+      "question": "How many were approved and rejected?",
+      "query": {
+        "measure": "approved",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "approved",
+          "rejected"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "approved+rejected"
+      }
+    },
+    {
+      "question": "Approved, rejected and in processing",
+      "query": {
+        "measure": "approved",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "approved",
+          "rejected",
+          "in_processing"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "approved+rejected+in_processing"
+      }
+    },
+    {
+      "question": "What is the approval rate and the closure rate?",
+      "query": {
+        "measure": "approval_rate",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "approval_rate",
+          "closure_rate"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V30",
+        "depth": "glance",
+        "item": "approval_rate+closure_rate"
+      }
+    },
+    {
+      "question": "Approved, rejected, in processing and entered today",
+      "query": {
+        "measure": "approved",
+        "filters": {},
+        "cues": [],
+        "followUp": null,
+        "measures": [
+          "approved",
+          "rejected",
+          "in_processing",
+          "entered_today"
+        ],
+        "additive": false
+      },
+      "expected": {
+        "view": "V27",
+        "depth": "context",
+        "item": "approved"
+      }
+    },
+    {
+      "question": "Compare India and Pakistan",
+      "query": {
+        "measure": "compare",
+        "filters": {
+          "country": "IN"
+        },
+        "cues": [
+          "compare"
+        ],
+        "followUp": null,
+        "entities": [
+          {
+            "kind": "country",
+            "key": "IN"
+          },
+          {
+            "kind": "country",
+            "key": "PK"
+          }
+        ]
+      },
+      "expected": {
+        "view": "V24",
+        "depth": "explore",
+        "item": null
+      }
+    },
+    {
+      "question": "India vs Nepal",
+      "query": {
+        "measure": "compare",
+        "filters": {
+          "country": "IN"
+        },
+        "cues": [
+          "compare"
+        ],
+        "followUp": null,
+        "entities": [
+          {
+            "kind": "country",
+            "key": "IN"
+          },
+          {
+            "kind": "country",
+            "key": "NP"
+          }
+        ]
+      },
+      "expected": {
+        "view": "V24",
+        "depth": "explore",
+        "item": null
+      }
+    }
+  ],
+  "scripts": [
+    {
+      "name": "Answer, then add, then full picture",
+      "steps": [
+        {
+          "question": "How many were rejected?",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "rejected"
+          ]
+        },
+        {
+          "question": "And approved?",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "rejected",
+            "approved"
+          ]
+        },
+        {
+          "question": "What about in processing?",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "rejected",
+            "approved",
+            "in_processing"
+          ]
+        },
+        {
+          "question": "Full picture",
+          "view": "V27",
+          "depth": "context",
+          "items": null
+        }
+      ]
+    },
+    {
+      "name": "A fourth metric opens the full page",
+      "steps": [
+        {
+          "question": "Approved and rejected",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "approved",
+            "rejected"
+          ]
+        },
+        {
+          "question": "Also in processing",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "approved",
+            "rejected",
+            "in_processing"
+          ]
+        },
+        {
+          "question": "And entered today as well",
+          "view": "V27",
+          "depth": "context",
+          "items": null
+        }
+      ]
+    },
+    {
+      "name": "A new question replaces the answer",
+      "steps": [
+        {
+          "question": "How many were rejected?",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "rejected"
+          ]
+        },
+        {
+          "question": "What is the closure rate?",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "closure_rate"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Already on screen → highlight only",
+      "steps": [
+        {
+          "question": "Give me the full picture of applications in processing",
+          "view": "V02",
+          "depth": "context",
+          "items": null
+        },
+        {
+          "question": "How many came in today?",
+          "view": "V02",
+          "depth": "context",
+          "items": null
+        }
+      ]
+    },
+    {
+      "name": "More, more, less, less",
+      "steps": [
+        {
+          "question": "How many applications are in processing?",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "in_processing"
+          ]
+        },
+        {
+          "question": "Tell me more",
+          "view": "V02",
+          "depth": "context",
+          "items": null
+        },
+        {
+          "question": "More detail",
+          "view": "V26",
+          "depth": "explore",
+          "items": null
+        },
+        {
+          "question": "Less detail",
+          "view": "V02",
+          "depth": "context",
+          "items": null
+        },
+        {
+          "question": "Just the number",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "in_processing"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Glance, then more",
+      "steps": [
+        {
+          "question": "Just the closure rate",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "closure_rate"
+          ]
+        },
+        {
+          "question": "Tell me more",
+          "view": "V04",
+          "depth": "context",
+          "items": null
+        }
+      ]
+    },
+    {
+      "name": "Filter keeps the subject",
+      "steps": [
+        {
+          "question": "How many were rejected?",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "rejected"
+          ]
+        },
+        {
+          "question": "And for India?",
+          "view": "V30",
+          "depth": "glance",
+          "items": [
+            "rejected"
+          ]
+        }
+      ]
+    }
+  ]
+}

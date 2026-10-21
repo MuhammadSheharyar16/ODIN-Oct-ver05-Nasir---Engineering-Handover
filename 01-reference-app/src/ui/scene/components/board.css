@@ -1,0 +1,45 @@
+.board, .board__energy { position: absolute; inset: 0; }
+.board__energy .energy { position: absolute; inset: 0; width: 100%; height: 100%; }
+.board__presence { position: absolute; visibility: hidden; border-radius: 50%; }
+.board__delta { margin-top: calc(var(--r) * 0.05); font-size: calc(var(--r) * 0.072); font-weight: 650; color: #7ef0bf; }
+.board__delta.is-down { color: #ffa59b; }
+.board__delta span { color: rgba(225, 238, 255, 0.9); font-weight: 500; }
+
+/* Stage row: one glass bar on the floor in front of ODIN, five stages in process order. */
+.board__row { position: absolute; display: flex; align-items: stretch; gap: calc(var(--u) * 10px); padding: calc(var(--u) * 10px); border-radius: 999px;
+  background: linear-gradient(180deg, rgba(40,62,118,.46), rgba(14,26,60,.6)); border: 1px solid rgba(255,255,255,.32);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 14px 34px rgba(6,14,36,.3); color: #fff; text-shadow: 0 1px 2px rgba(6,14,36,.4);
+  animation: board-in .9s cubic-bezier(.16,1,.3,1) .45s both; }
+@keyframes board-in { from { opacity: 0; transform: translateY(14px); } }
+.board__row-title { flex: 0 0 auto; align-self: center; width: calc(var(--u) * 118px); padding-left: calc(var(--u) * 14px); white-space: normal; line-height: 1.3; font-size: calc(var(--u) * 11.5px); font-weight: 650; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.92); text-shadow: 0 1px 8px rgba(6,14,36,.7); }
+.board__stage { position: relative; flex: 1 1 0; min-width: 0; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; align-items: baseline; column-gap: calc(var(--u) * 8px);
+  align-content: center; row-gap: calc(var(--u) * 2px); padding: calc(var(--u) * 4px) calc(var(--u) * 20px) calc(var(--u) * 8px); border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); overflow: hidden; }
+.board__stage.is-top { background: color-mix(in srgb, var(--a) 26%, rgba(255,255,255,.05)); border-color: color-mix(in srgb, var(--a) 70%, #fff); box-shadow: 0 0 22px color-mix(in srgb, var(--a) 45%, transparent); }
+.board__stage-name { grid-column: 1 / -1; line-height: 1.2; font-size: calc(var(--u) * 12.5px); font-weight: 650; letter-spacing: .04em; color: rgba(255,255,255,.88); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.board__stage b { font-size: calc(var(--u) * 24px); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
+.board__stage-share { font-size: calc(var(--u) * 13px); color: rgba(232,240,255,.75); font-weight: 600; }
+.board__stage i { position: absolute; left: calc(var(--u) * 18px); right: calc(var(--u) * 18px); bottom: calc(var(--u) * 5px); height: calc(var(--u) * 3px); border-radius: 2px; background: rgba(255,255,255,.12); }
+.board__stage i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--w); border-radius: 2px; background: var(--a); box-shadow: 0 0 8px var(--a); }
+.board__stage + .board__stage::before { content: ''; position: absolute; left: -1px; top: 30%; bottom: 30%; width: 0; }
+
+/* Glass orb readout (reference: icon · label · number · caption) */
+.board__orb { position: absolute; pointer-events: none; }
+.board__readout.is-glass .globe-readout__label { margin: calc(var(--r) * 0.05) 0 calc(var(--r) * 0.03); }
+.board__readout.is-glass .globe-readout__value { font-size: calc(var(--r) * 0.36); font-weight: 600; }
+.board__readout.is-glass .globe-readout__qualifier { margin-top: calc(var(--r) * 0.06); }
+.board__hourglass { width: calc(var(--r) * 0.17); height: calc(var(--r) * 0.17); color: #cfe4ff; filter: drop-shadow(0 0 8px rgba(140,190,255,.8)); }
+
+/* Application lights inside the glass sphere, under the readout */
+.board__lights { position: absolute; border-radius: 50%; overflow: hidden; pointer-events: none; mix-blend-mode: screen; z-index: 1;
+  -webkit-mask-image: radial-gradient(circle, #000 76%, transparent 86%); mask-image: radial-gradient(circle, #000 76%, transparent 86%);
+  animation: board-lights-in 1.4s ease 0.4s both; }
+.board__lights canvas { display: block; }
+@keyframes board-lights-in { from { opacity: 0; } }
+.board__readout.is-glass { z-index: 2; isolation: isolate; }
+.board__readout.is-glass::before { content: ''; position: absolute; left: 50%; top: 50%; width: calc(var(--r) * 1.5); height: calc(var(--r) * 1.05); translate: -50% -50%; z-index: -1; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(3, 10, 36, 0.62), rgba(3, 10, 36, 0.3) 62%, rgba(3, 10, 36, 0)); pointer-events: none; }
+
+/* Gauge capsules ("Still open"): same rhythm as the others; the ring is a clean gauge beside the text */
+.board .capsule.is-horizontal .capsule__ring { width: 40cqh; height: 40cqh; }
+@media (prefers-reduced-motion: reduce) { .board__lights { animation: none; } }

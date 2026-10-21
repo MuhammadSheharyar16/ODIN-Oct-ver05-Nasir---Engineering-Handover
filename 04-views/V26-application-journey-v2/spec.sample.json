@@ -1,0 +1,251 @@
+{
+  "id": "scene-20",
+  "intent": {
+    "type": "journey",
+    "channel": "online",
+    "filters": {},
+    "style": "jars"
+  },
+  "template": "jars",
+  "title": "Application Journey",
+  "subtitle": "End-to-end application path with biometric and non-biometric decision routes",
+  "focusKey": "journey",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "total-online",
+        "label": "Total online applications",
+        "value": 8412,
+        "format": "count",
+        "icon": "applications",
+        "accent": "#4f9cff",
+        "caption": "to date",
+        "delta": {
+          "value": 5.4,
+          "unit": "percent",
+          "basis": "vs yesterday"
+        },
+        "spark": {
+          "kind": "bars",
+          "values": [
+            15,
+            22,
+            28,
+            32,
+            34,
+            34,
+            32,
+            28,
+            23,
+            8
+          ]
+        }
+      },
+      "slot": "tl"
+    },
+    {
+      "spec": {
+        "kind": "metric",
+        "key": "e2e-online",
+        "label": "Average time to decision",
+        "value": 3.8,
+        "format": "days",
+        "icon": "clock",
+        "accent": "#4fd6ff",
+        "caption": "submission to final decision",
+        "delta": {
+          "value": -0.2,
+          "unit": "days",
+          "basis": "vs yesterday",
+          "goodWhen": "down"
+        },
+        "spark": {
+          "kind": "line",
+          "values": [
+            5.1,
+            4.9,
+            4.8,
+            4.9,
+            4.5,
+            4.4,
+            4.2,
+            4.3,
+            4,
+            3.8
+          ]
+        }
+      },
+      "slot": "tr"
+    },
+    {
+      "spec": {
+        "kind": "journey",
+        "key": "journey",
+        "channel": "online",
+        "stages": [
+          {
+            "key": "submission",
+            "label": "Application submission",
+            "icon": "submit",
+            "accent": "#4f9cff",
+            "count": 8412,
+            "days": 0.4,
+            "delta": -6.7
+          },
+          {
+            "key": "payment",
+            "label": "Payment",
+            "icon": "payment",
+            "accent": "#5aa8ff",
+            "count": 8092,
+            "days": 0.2,
+            "delta": 6.8
+          },
+          {
+            "key": "vas-review",
+            "label": "VAS internal review",
+            "icon": "review",
+            "accent": "#6db4ff",
+            "count": 7714,
+            "days": 0.6,
+            "delta": 11.1
+          },
+          {
+            "key": "to-icp",
+            "label": "Submission to ICP",
+            "icon": "upload",
+            "accent": "#7cc0ff",
+            "count": 7117,
+            "days": 0.4,
+            "delta": 9.8
+          },
+          {
+            "key": "icp",
+            "label": "ICP processing",
+            "sub": "Biometric & review",
+            "icon": "biometric",
+            "accent": "#9b8cff",
+            "count": 6393,
+            "days": 2.2,
+            "delta": -2.3
+          }
+        ],
+        "approved": {
+          "count": 5211,
+          "days": 3.1,
+          "delta": 9.7
+        },
+        "rejected": {
+          "count": 792,
+          "days": 2.6,
+          "delta": -5.1
+        },
+        "emphasisKey": "to-icp",
+        "floor": {
+          "home": {
+            "metric": 312,
+            "delta": 6.7,
+            "say": "Every journey starts at home. 312 applications entered processing today."
+          },
+          "sub": {
+            "metric": 8412,
+            "delta": -6.7,
+            "say": "8,412 online applications have been submitted."
+          },
+          "pay": {
+            "metric": 8092,
+            "delta": 6.8,
+            "say": "8,092 have paid, 96 percent of submissions."
+          },
+          "vas": {
+            "metric": 7714,
+            "delta": 11.1,
+            "say": "VAS has reviewed 7,714 applications."
+          },
+          "toicp": {
+            "metric": 7117,
+            "delta": 9.8,
+            "say": "7,117 files have been submitted to ICP."
+          },
+          "icp1": {
+            "metric": 6393,
+            "delta": -2.3,
+            "say": "ICP is reviewing 6,393 applications. Some need biometrics first."
+          },
+          "bio1": {
+            "metric": 1534,
+            "delta": 5.4,
+            "say": "ICP asked 1,534 applicants to give biometrics."
+          },
+          "bio2": {
+            "metric": 1401,
+            "delta": 4.5,
+            "say": "1,401 have scheduled a biometrics appointment."
+          },
+          "bio3": {
+            "metric": 1349,
+            "delta": 4.4,
+            "say": "1,349 have completed their biometrics."
+          },
+          "icp2": {
+            "metric": 1286,
+            "delta": 3.5,
+            "say": "ICP has 1,286 applications in final review after biometrics."
+          },
+          "dec": {
+            "metric": 6003,
+            "delta": 4.5,
+            "say": "ICP has decided 6,003 applications, with or without biometrics."
+          },
+          "ok": {
+            "metric": 5211,
+            "delta": 4.5,
+            "say": "5,211 applications have been approved: 4,033 without biometrics and 1,178 after biometrics.",
+            "split": [
+              {
+                "label": "Without biometric",
+                "value": 4033,
+                "tone": "icp"
+              },
+              {
+                "label": "After biometric",
+                "value": 1178,
+                "tone": "bio"
+              }
+            ]
+          },
+          "no": {
+            "metric": 792,
+            "delta": -5.1,
+            "say": "792 applications have been rejected: 554 without biometrics and 238 after biometrics.",
+            "split": [
+              {
+                "label": "Without biometric",
+                "value": 554,
+                "tone": "icp"
+              },
+              {
+                "label": "After biometric",
+                "value": 238,
+                "tone": "bio"
+              }
+            ]
+          }
+        },
+        "variant": "jars",
+        "heading": {
+          "title": "Application Journey",
+          "subtitle": "Every step of an application, with and without biometrics"
+        }
+      },
+      "slot": "main"
+    }
+  ],
+  "spoken": "Every journey starts at home. 312 applications entered processing today.",
+  "summary": {
+    "primary": "8,412 online applications on the journey · 5,211 approved · 792 rejected.",
+    "secondary": "1,534 took the biometric route · 3.8 days end to end on average."
+  }
+}

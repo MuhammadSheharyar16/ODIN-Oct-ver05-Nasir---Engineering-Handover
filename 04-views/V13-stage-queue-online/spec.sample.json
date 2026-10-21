@@ -1,0 +1,93 @@
+{
+  "id": "scene-9",
+  "intent": {
+    "type": "queue",
+    "channel": "online"
+  },
+  "template": "stage",
+  "title": "Where Applications Are Waiting",
+  "subtitle": "Online applications currently waiting at each stage, with age bands",
+  "focusKey": "queue",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "queue",
+        "key": "queue",
+        "items": [
+          {
+            "key": "submission",
+            "label": "Application submission",
+            "icon": "submit",
+            "accent": "#4f9cff",
+            "waiting": 320,
+            "avgWait": 0.4,
+            "buckets": {
+              "lt1": 268,
+              "d13": 40,
+              "gt3": 12
+            }
+          },
+          {
+            "key": "payment",
+            "label": "Payment",
+            "icon": "payment",
+            "accent": "#5aa8ff",
+            "waiting": 378,
+            "avgWait": 0.2,
+            "buckets": {
+              "lt1": 300,
+              "d13": 68,
+              "gt3": 10
+            }
+          },
+          {
+            "key": "vas-review",
+            "label": "VAS internal review",
+            "icon": "review",
+            "accent": "#6db4ff",
+            "waiting": 597,
+            "avgWait": 0.6,
+            "buckets": {
+              "lt1": 418,
+              "d13": 122,
+              "gt3": 57
+            }
+          },
+          {
+            "key": "to-icp",
+            "label": "Submission to ICP",
+            "icon": "upload",
+            "accent": "#7cc0ff",
+            "waiting": 724,
+            "avgWait": 0.4,
+            "buckets": {
+              "lt1": 489,
+              "d13": 212,
+              "gt3": 23
+            }
+          },
+          {
+            "key": "icp",
+            "label": "ICP processing",
+            "icon": "biometric",
+            "accent": "#9b8cff",
+            "waiting": 390,
+            "avgWait": 2.4,
+            "buckets": {
+              "lt1": 160,
+              "d13": 93,
+              "gt3": 137
+            }
+          }
+        ]
+      },
+      "slot": "stage"
+    }
+  ],
+  "spoken": "Submission to ICP has the most applications waiting, 724, with an average wait of 0.4 days. Across all stages, 239 have been waiting more than three days. This shows where applications are waiting; it does not establish why.",
+  "summary": {
+    "primary": "Submission to ICP: 724 waiting now.",
+    "secondary": "239 applications waiting more than 3 days across all stages."
+  }
+}

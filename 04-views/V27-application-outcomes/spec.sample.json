@@ -1,0 +1,61 @@
+{
+  "id": "scene-21",
+  "intent": {
+    "type": "outcomes",
+    "filters": {},
+    "style": "galaxy"
+  },
+  "template": "galaxy",
+  "title": "Application Outcomes",
+  "subtitle": "Current status of every application to date",
+  "focusKey": "donut",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "donut",
+        "key": "donut",
+        "total": 8412,
+        "totalLabel": "Total applications",
+        "basis": "Current status · each application counted once",
+        "variant": "galaxy",
+        "closure": {
+          "value": 74.56015216357585,
+          "basis": "closed ÷ all applications"
+        },
+        "segments": [
+          {
+            "key": "approved",
+            "label": "Approved",
+            "count": 5211,
+            "accent": "#3ed6a0"
+          },
+          {
+            "key": "processing",
+            "label": "In processing",
+            "count": 2140,
+            "accent": "#4f9cff"
+          },
+          {
+            "key": "rejected",
+            "label": "Rejected",
+            "count": 792,
+            "accent": "#ff5d6c"
+          },
+          {
+            "key": "closed",
+            "label": "Closed · other",
+            "count": 269,
+            "accent": "#a67cff"
+          }
+        ]
+      },
+      "slot": "main"
+    }
+  ],
+  "spoken": "Of 8,412 applications, 5,211 have been approved and 792 rejected. 2,140 are still in processing, which puts the closure rate at 74.6%.",
+  "summary": {
+    "primary": "5,211 approved, 792 rejected, 2,140 in processing.",
+    "secondary": "Closure rate 74.6% of 8,412 applications."
+  }
+}

@@ -1,0 +1,120 @@
+/* Applications v2 (application core). Wide: fixed 1920×1080 frame, scaled by --k. */
+.apc { position: absolute; inset: 0; overflow: hidden; }
+.apc__frame { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform: translate(-50%, -50%) scale(var(--k)); color: #fff; }
+
+/* Energy links card → core (Home's EnergyStreams) */
+.apc__energy { position: absolute; inset: 0; pointer-events: none; }
+
+/* Core: deep-blue glass orb, status lights, segmented ring */
+.apc-core { position: absolute; width: 0; height: 0; animation: apc-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+@keyframes apc-in { from { opacity: 0; transform: scale(0.9); } }
+.apc-core__orb { position: absolute; border-radius: 50%;
+  /* Glass: the room shows through, softened (opacity reduced, 21 Oct). */
+  background: radial-gradient(circle at 50% 44%, rgba(5, 15, 48, 0.62) 0%, rgba(8, 26, 82, 0.56) 46%, rgba(15, 49, 146, 0.5) 74%, rgba(42, 99, 240, 0.48) 90%, rgba(143, 198, 255, 0.62) 98%);
+  -webkit-backdrop-filter: blur(9px) saturate(1.3); backdrop-filter: blur(9px) saturate(1.3);
+  box-shadow: 0 0 30px rgba(90, 170, 255, 0.8), 0 0 90px rgba(80, 150, 255, 0.42), 0 0 170px rgba(90, 120, 255, 0.2), inset 0 0 50px rgba(140, 200, 255, 0.55), inset 0 -26px 70px rgba(120, 90, 255, 0.3); }
+.apc-core__orb::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(60% 30% at 50% 8%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 70%); box-shadow: inset 0 0 0 1.5px rgba(190, 230, 255, 0.75); }
+.apc-core .apc-core__orb, .apc-core__lightsbox { left: calc(var(--r) * -1); top: calc(var(--r) * -1); width: calc(var(--r) * 2); height: calc(var(--r) * 2); }
+.apc-core__lightsbox { position: absolute; border-radius: 50%; overflow: hidden; }
+.apc-core__lights { display: block; border-radius: 50%; mix-blend-mode: screen; pointer-events: none; }
+.apc-core__ring { position: absolute; left: calc(var(--ring) / -2); top: calc(var(--ring) / -2); width: var(--ring); height: var(--ring); overflow: visible; pointer-events: none; }
+.apc-ring__bed { fill: none; stroke: rgba(8, 14, 40, 0.4); stroke-width: 22; filter: blur(5px); }
+.apc-ring__track { fill: none; stroke: rgba(255, 255, 255, 0.1); stroke-width: 12; }
+.apc-ring__glow { fill: none; stroke: var(--c); stroke-width: 22; opacity: 0.35; filter: blur(7px); }
+.apc-ring__arc { fill: none; stroke: var(--c); stroke-width: 9; stroke-linecap: round; }
+.apc-ring__hot { fill: none; stroke: #fff; stroke-width: 1.4; opacity: 0.75; }
+.apc-ring__tick { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1; }
+.apc-ring__tick.is-major { stroke-width: 1.6; }
+.apc-core__readout { position: absolute; left: -170px; width: 340px; top: 0; transform: translateY(-50%); }
+
+/* Readout on a dark lens (white ink AA+ over the lights) */
+.apc-readout { position: relative; text-align: center; isolation: isolate; }
+.apc-readout::before { content: ''; position: absolute; left: -8%; right: -8%; top: -16%; bottom: -16%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(3, 8, 30, 0.78), rgba(3, 8, 30, 0.42) 60%, rgba(3, 8, 30, 0)); }
+.apc-readout__k { font-size: 16px; letter-spacing: 0.18em; font-weight: 650; text-transform: uppercase; color: #cfe4ff; }
+.apc-readout__v { display: block; margin-top: 4px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; text-shadow: 0 2px 20px rgba(3, 8, 30, 0.85); }
+.apc-readout__c { margin-top: 10px; font-size: 18px; color: rgba(226, 236, 255, 0.88); }
+.apc-readout__hint { margin-top: 6px; font-size: 13px; color: rgba(205, 222, 255, 0.82); }
+
+/* Glossy hero-glass cards glowing in their colour */
+.apc-card { position: relative; box-sizing: border-box; border-radius: 26px; overflow: hidden; color: #fff;
+  background:
+    radial-gradient(90% 70% at 12% 0%, color-mix(in srgb, var(--c) 40%, transparent), transparent 70%),
+    radial-gradient(70% 60% at 100% 110%, color-mix(in srgb, var(--c) 24%, transparent), transparent 70%),
+    radial-gradient(75% 85% at 38% 52%, rgba(7, 14, 38, 0.6), rgba(10, 18, 46, 0.4) 78%),
+    color-mix(in srgb, var(--c) 14%, rgba(12, 20, 46, 0.4));
+  -webkit-backdrop-filter: blur(12px) saturate(1.35) brightness(0.8); backdrop-filter: blur(12px) saturate(1.35) brightness(0.8);
+  box-shadow: 0 0 2px color-mix(in srgb, var(--c) 80%, transparent), 0 0 18px color-mix(in srgb, var(--c) 45%, transparent), 0 0 50px color-mix(in srgb, var(--c) 18%, transparent),
+    0 18px 42px rgba(6, 12, 30, 0.28), inset 0 0 14px color-mix(in srgb, var(--c) 55%, transparent), inset 0 0 40px color-mix(in srgb, var(--c) 22%, transparent), inset 0 1.5px 0 rgba(255, 255, 255, 0.55);
+  text-shadow: 0 1px 3px rgba(6, 12, 32, 0.5); animation: apc-card-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+.apc-card::after { content: ''; position: absolute; left: 6%; right: 6%; top: 3px; height: 32%; border-radius: 999px 999px 50% 50% / 100% 100% 40% 40%; pointer-events: none; z-index: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04) 50%, transparent); }
+.apc-card > * { position: relative; z-index: 1; }
+@keyframes apc-card-in { from { opacity: 0; transform: translateY(16px); } }
+.apc-badge { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; color: #fff;
+  background: radial-gradient(circle at 36% 28%, color-mix(in srgb, var(--c) 45%, rgba(255, 255, 255, 0.3)), rgba(8, 16, 42, 0.6) 72%); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 60%, #fff), 0 0 14px color-mix(in srgb, var(--c) 45%, transparent); }
+.apc-badge svg { width: 23px; height: 23px; stroke-width: 2; }
+
+/* Rate cards: value + radial gauge */
+.apc__rate { position: absolute; width: 420px; height: 188px; }
+.apc-rate { width: 100%; height: 100%; padding: 24px 26px; display: grid; grid-template-columns: minmax(0, 1fr) 128px; align-items: center; gap: 12px; }
+.apc-rate__lbl { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 650; letter-spacing: 0.07em; text-transform: uppercase; }
+.apc-rate__v { display: block; margin-top: 12px; font-size: 56px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; font-variant-numeric: tabular-nums; }
+.apc-rate__sub { margin-top: 8px; font-size: 15px; color: rgba(226, 236, 255, 0.88); }
+.apc-gauge { width: 128px; height: 128px; }
+.apc-gauge__track { fill: none; stroke: rgba(255, 255, 255, 0.14); stroke-width: 9; }
+.apc-gauge__fill { fill: none; stroke: var(--c); stroke-width: 9; stroke-linecap: round; filter: drop-shadow(0 0 6px var(--c)); transform: rotate(-90deg); transform-origin: 50% 50%; animation: apc-gauge 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both; }
+@keyframes apc-gauge { from { stroke-dasharray: 0 400; } }
+.apc-gauge__v { font: 700 19px Inter, system-ui, sans-serif; fill: #fff; font-variant-numeric: tabular-nums; }
+.apc-gauge__s { font: 500 12.5px Inter, system-ui, sans-serif; fill: rgba(226, 236, 255, 0.88); }
+
+/* Status card: compact rows, colour by meaning, share bars, sums to total */
+.apc-status { padding: 24px 26px 20px; display: flex; flex-direction: column; }
+.apc-status__hd { display: flex; align-items: center; gap: 12px; }
+.apc-status h3 { margin: 0; font-size: 21px; font-weight: 650; }
+.apc-status__s { margin-top: 2px; font-size: 14px; color: rgba(226, 236, 255, 0.88); }
+.apc-status__rows { margin-top: 20px; display: grid; gap: 18px; }
+.apc-row__top { display: flex; align-items: baseline; gap: 10px; }
+.apc-row__dot { flex: none; align-self: center; width: 10px; height: 10px; border-radius: 50%; background: var(--r); box-shadow: 0 0 8px var(--r); }
+.apc-row__nm { flex: 1; min-width: 0; font-size: 17px; font-weight: 550; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.apc-row__v { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.apc-row__p { width: 56px; text-align: right; font-size: 15px; color: rgba(226, 236, 255, 0.88); font-variant-numeric: tabular-nums; }
+.apc-row__bar { margin-top: 8px; height: 8px; border-radius: 5px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
+.apc-row__bar i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, var(--r), color-mix(in srgb, var(--r) 55%, #fff)); box-shadow: 0 0 10px var(--r);
+  transform-origin: left; animation: apc-grow 1.1s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: calc(0.4s + var(--i) * 0.07s); }
+@keyframes apc-grow { from { transform: scaleX(0); } }
+.apc-status__foot { margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; justify-content: space-between; font-size: 14px; color: rgba(226, 236, 255, 0.88); }
+.apc-status__foot b { color: #fff; }
+
+/* Phones / portrait: core on top, rates side by side, status below */
+.apc-stack { position: absolute; inset: 0; container-type: size; display: flex; flex-direction: column; align-items: center; gap: 2.4cqh; color: #fff; }
+.apc-stack__core { position: relative; flex: none; border-radius: 50%; display: grid; place-items: center; }
+.apc-stack__core .apc-core__orb { inset: 0; }
+.apc-stack__core .apc-core__lights { position: absolute; inset: 0; }
+.apc-stack .apc-readout__v { font-size: clamp(28px, 9cqw, 64px); }
+.apc-stack .apc-readout__k { font-size: clamp(10px, 2.6cqw, 15px); }
+.apc-stack .apc-readout__c { font-size: clamp(11px, 3cqw, 16px); margin-top: 4px; }
+.apc-stack .apc-readout__hint { display: none; }
+.apc-stack__rates { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 2cqw; }
+.apc-stack .apc-rate { padding: 10px 12px; grid-template-columns: 1fr; border-radius: 18px; }
+.apc-stack .apc-gauge { display: none; }
+.apc-stack .apc-badge { width: 26px; height: 26px; }
+.apc-stack .apc-badge svg { width: 14px; height: 14px; }
+.apc-stack .apc-rate__lbl { font-size: clamp(9.5px, 2.6cqw, 13px); gap: 7px; }
+.apc-stack .apc-rate__v { margin-top: 6px; font-size: clamp(20px, 6.4cqw, 34px); }
+.apc-stack .apc-rate__sub { margin-top: 4px; font-size: clamp(9.5px, 2.5cqw, 12.5px); }
+.apc-status.is-compact { width: 100%; padding: 12px 14px 10px; border-radius: 18px; }
+.apc-status.is-compact .apc-badge { width: 26px; height: 26px; }
+.apc-status.is-compact .apc-badge svg { width: 14px; height: 14px; }
+.apc-status.is-compact h3 { font-size: 14px; }
+.apc-status.is-compact .apc-status__rows { margin-top: 8px; gap: 6px; }
+.apc-status.is-compact .apc-row__nm { font-size: 12.5px; }
+.apc-status.is-compact .apc-row__v { font-size: 14px; }
+.apc-status.is-compact .apc-row__p { font-size: 11px; width: 40px; }
+.apc-status.is-compact .apc-status__foot { margin-top: 8px; padding-top: 6px; font-size: 11px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .apc-core, .apc-card, .apc-gauge__fill, .apc-row__bar i { animation: none; }
+}
+
+/* Outcome Distribution: the same thin status ring around a larger core (Donut clean mode). */
+.donut__ringwrap { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }

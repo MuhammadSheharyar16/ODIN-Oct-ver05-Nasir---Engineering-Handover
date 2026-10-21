@@ -1,0 +1,101 @@
+/* Glance answer: one KPI inside ODIN's globe + two hero-glass facts. */
+.glance { position: absolute; inset: 0; }
+
+.glance__readout {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: calc(var(--r) * 1.7);
+  color: var(--ink-strong, #f4f8ff);
+  text-shadow: 0 2px 18px rgba(2, 8, 36, 0.9), 0 0 3px rgba(2, 8, 36, 0.75);
+  animation: glance-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.25s;
+}
+.glance__k {
+  font-size: clamp(12px, calc(var(--r) * 0.085), 20px);
+  font-weight: 640;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--c) 30%, #eef4ff);
+  line-height: 1.25;
+}
+.glance__v {
+  margin-top: calc(var(--r) * 0.05);
+  /* Long values (AED 12.4M) scale down to stay inside the globe. */
+  font-size: calc(var(--r) * 0.42 * var(--vs, 1));
+  font-weight: 640;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.glance__v small { font-size: 0.32em; font-weight: 560; letter-spacing: 0; color: rgba(225, 238, 255, 0.92); }
+.glance__c {
+  margin-top: calc(var(--r) * 0.06);
+  font-size: clamp(12px, calc(var(--r) * 0.07), 17px);
+  font-weight: 500;
+  color: rgba(225, 238, 255, 0.92);
+}
+
+.glance__facts { position: absolute; left: 50%; width: 0; height: 0; }
+.glance__fact {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+  padding: 18px 26px;
+  border-radius: 22px;
+  transform: translateY(-50%);
+  color: #f4f8ff;
+  animation: glance-fact 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(0.55s + var(--hg-i, 0) * 0.12s);
+}
+.glance__fact.is-l { right: var(--side); text-align: right; align-items: flex-end; }
+.glance__fact.is-r { left: var(--side); }
+.glance__fact-k { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: rgba(228, 238, 255, 0.92); white-space: nowrap; }
+.glance__fact-v { font-size: 30px; font-weight: 640; letter-spacing: -0.01em; line-height: 1.05; white-space: nowrap; }
+
+/* Narrow: facts sit side by side under the globe. */
+.glance.is-stacked .glance__facts { display: flex; gap: 12px; width: min(100%, 520px); left: 50%; transform: translateX(-50%); height: auto; justify-content: center; }
+.glance.is-stacked .glance__fact { position: relative; transform: none; flex: 1 1 0; min-width: 0; padding: 14px 16px; text-align: left; align-items: flex-start; right: auto; left: auto; }
+.glance.is-stacked .glance__fact-k { white-space: normal; font-size: 13px; }
+.glance.is-stacked .glance__fact-v { font-size: 24px; }
+
+@keyframes glance-in { from { opacity: 0; transform: translate(-50%, -46%) scale(0.94); } }
+@keyframes glance-fact { from { opacity: 0; translate: 0 10px; } }
+@media (prefers-reduced-motion: reduce) { .glance__readout, .glance__fact { animation: none; } }
+
+/* Extra asked metrics: hero-glass cards beside ODIN's globe */
+.glance__energy { position: absolute; inset: 0; pointer-events: none; }
+.glance__card { position: absolute; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 18px 24px; border-radius: 24px; color: #fff;
+  animation: glance-fact 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(0.35s + var(--hg-i, 0) * 0.1s); }
+.glance__card-k { display: flex; align-items: center; gap: 8px; font-size: clamp(12px, 1.1vw, 15px); font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(236, 243, 255, 0.95); line-height: 1.2; }
+.glance__card-k i { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+.glance__card-v { font-size: clamp(26px, 3vw, 46px); font-weight: 650; letter-spacing: -0.02em; line-height: 1.02; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.glance__card-v small { font-size: 0.42em; font-weight: 560; }
+.glance__card-c { font-size: clamp(12px, 0.95vw, 14.5px); color: rgba(222, 233, 252, 0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.glance.is-stacked .glance__card { padding: 12px 14px; gap: 3px; border-radius: 18px; }
+.glance.is-stacked .glance__card-k { font-size: 12px; letter-spacing: 0.04em; }
+.glance.is-stacked .glance__card-v { font-size: 24px; }
+.glance.is-stacked .glance__card-c { font-size: 12px; }
+@media (prefers-reduced-motion: reduce) { .glance__card { animation: none; } }
+/* Tablet-sized stacked layouts: larger cards and facts. */
+  .glance.is-stacked.is-roomy .glance__fact { padding: 18px 22px; }
+  .glance.is-stacked.is-roomy .glance__fact-k { font-size: 14px; }
+  .glance.is-stacked.is-roomy .glance__fact-v { font-size: 32px; }
+  .glance.is-stacked.is-roomy .glance__card { padding: 16px 20px; gap: 5px; border-radius: 22px; }
+  .glance.is-stacked.is-roomy .glance__card-k { font-size: 13.5px; }
+  .glance.is-stacked.is-roomy .glance__card-v { font-size: 34px; }
+  .glance.is-stacked.is-roomy .glance__card-c { font-size: 13.5px; }
+
+
+/* Answer sphere: the Applications v2 orb (deep-blue glass, status lights). */
+.glance__sphere { position: absolute; pointer-events: none; animation: glance-sphere 1s cubic-bezier(0.16, 1, 0.3, 1) both 0.1s; }
+.glance__sphere .glance__orb { position: absolute; inset: 0; }
+.glance__lights { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; }
+.glance__lights canvas { width: 100%; height: 100%; display: block; }
+@keyframes glance-sphere { from { opacity: 0; transform: scale(0.92); } }
+@media (prefers-reduced-motion: reduce) { .glance__sphere { animation: none; } }

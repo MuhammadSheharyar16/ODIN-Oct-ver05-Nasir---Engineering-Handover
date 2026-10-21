@@ -1,0 +1,31 @@
+{
+  "id": "scene-14",
+  "intent": {
+    "type": "channels"
+  },
+  "template": "notice",
+  "title": "Submission channel",
+  "subtitle": "All applications are submitted online",
+  "focusKey": "notice",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "notice",
+        "key": "notice",
+        "title": "Every application is submitted online",
+        "text": "All 8,412 applications were submitted online. Centres are used later for visits such as biometrics, so there is no online-versus-centre submission split to show.",
+        "suggestions": [
+          "Show the centre visit journey",
+          "Show the online visa journey"
+        ]
+      },
+      "slot": "hero"
+    }
+  ],
+  "spoken": "All 8,412 applications were submitted online. Centres are used later for visits such as biometrics, so there's no online-versus-centre split. I can show you the centre visit journey instead.",
+  "summary": {
+    "primary": "All applications are submitted online.",
+    "secondary": "Centres handle later visits such as biometrics."
+  }
+}

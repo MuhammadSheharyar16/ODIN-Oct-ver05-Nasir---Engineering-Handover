@@ -1,0 +1,485 @@
+/* ───────── Presence layer (moves with the 3D globe's depth) ───────── */
+.presence-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* ───────── Globe readout (sized from the globe radius) ───────── */
+.globe-readout {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--ink-strong);
+  text-shadow: 0 2px 16px rgba(2, 8, 36, 0.85), 0 0 3px rgba(2, 8, 36, 0.7);
+  white-space: nowrap;
+}
+
+.globe-readout__value {
+  font-size: calc(var(--r) * 0.4);
+  font-weight: 640;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.globe-readout__label {
+  margin-top: calc(var(--r) * 0.06);
+  font-size: calc(var(--r) * 0.085);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.globe-readout__qualifier {
+  margin-top: calc(var(--r) * 0.045);
+  font-size: calc(var(--r) * 0.066);
+  font-weight: 500;
+  color: rgba(225, 238, 255, 0.9);
+}
+
+.globe-readout__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ───────── KPI capsules ───────── */
+.capsule {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  container-type: size;
+  /* Calmer, less saturated accent for the glass (identity hue kept). */
+  --accent: color-mix(in srgb, var(--accent-raw, #4f9cff) 64%, #c9d6ee);
+}
+
+.capsule__intro {
+  position: absolute;
+  inset: 0;
+}
+
+.capsule__float {
+  position: absolute;
+  inset: 0;
+  animation: capsule-float 9s var(--ease-in-out) infinite alternate;
+  animation-delay: calc(var(--phase) * -1);
+}
+
+@keyframes capsule-float {
+  from { transform: translate3d(0, -1.6cqmin, 0); }
+  to { transform: translate3d(0, 1.6cqmin, 0); }
+}
+
+/* Luminous bloom around the tube, bright enough to read on a daylight sky. */
+.capsule__halo {
+  position: absolute;
+  inset: -2cqmin;
+  border-radius: 999px;
+  border: 3cqmin solid color-mix(in srgb, var(--accent) 70%, white 30%);
+  filter: blur(5cqmin);
+  opacity: 0.55;
+  animation: halo-breathe 6s var(--ease-in-out) infinite alternate;
+  animation-delay: calc(var(--phase) * -1);
+}
+
+@keyframes halo-breathe {
+  from { opacity: 0.42; }
+  to { opacity: 0.62; }
+}
+
+.capsule.is-unavailable .capsule__halo {
+  opacity: 0.5;
+  animation: none;
+}
+
+.capsule__shell {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  /* Clear glass: tint at the edges, the scene readable through the centre. */
+  background:
+    radial-gradient(120% 70% at 50% 6%, color-mix(in srgb, var(--accent) 34%, transparent), transparent 62%),
+    radial-gradient(90% 55% at 50% 100%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 70%),
+    radial-gradient(75% 60% at 50% 50%, rgba(8, 16, 42, 0.46), rgba(10, 18, 46, 0.3) 70%, transparent 100%),
+    color-mix(in srgb, var(--accent) 22%, rgba(12, 20, 46, 0.34));
+  backdrop-filter: blur(6px) saturate(1.4) brightness(0.78);
+  -webkit-backdrop-filter: blur(6px) saturate(1.4) brightness(0.78);
+  /* Light bleeding out of and into the rim. */
+  box-shadow:
+    0 0 2cqmin color-mix(in srgb, var(--accent) 80%, transparent),
+    0 0 7cqmin color-mix(in srgb, var(--accent) 55%, transparent),
+    0 0 26cqmin color-mix(in srgb, var(--accent) 22%, transparent),
+    0 5cqmin 16cqmin rgba(6, 12, 30, 0.25),
+    inset 0 0 4cqmin color-mix(in srgb, var(--accent) 70%, transparent),
+    inset 0 0 14cqmin color-mix(in srgb, var(--accent) 38%, transparent),
+    inset 0 0 30cqmin color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+/* Coloured neon tube. */
+.capsule__shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: max(1.5px, 1.6cqmin);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--accent) 45%, white 55%) 0%,
+    var(--accent) 30%,
+    color-mix(in srgb, var(--accent) 85%, white 15%) 70%,
+    color-mix(in srgb, var(--accent) 55%, white 45%) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: blur(0.25px) drop-shadow(0 0 1cqmin var(--accent));
+}
+
+/* Curved specular highlight across the top of the glass. */
+.capsule__shell::after {
+  content: '';
+  position: absolute;
+  left: 13%;
+  right: 13%;
+  top: 2.6%;
+  height: 16%;
+  border-radius: 50% 50% 40% 40% / 100% 100% 30% 30%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.06) 70%, transparent);
+  filter: blur(0.6px);
+}
+
+/* White-hot core line of the tube + lower rim reflection (glass thickness). */
+.capsule__edge {
+  position: absolute;
+  inset: max(1.2px, 1.3cqmin);
+  border-radius: 999px;
+  border: max(0.75px, 0.45cqmin) solid color-mix(in srgb, var(--accent) 25%, white 75%);
+  filter: blur(0.3px);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.capsule__edge::after {
+  content: '';
+  position: absolute;
+  inset: auto 18% 3% 18%;
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 50%, white 50%), transparent);
+  opacity: 0.55;
+  filter: blur(2px);
+}
+
+.capsule.is-horizontal .capsule__shell::after {
+  left: 9%;
+  right: 9%;
+  top: 4%;
+  height: 26%;
+}
+
+.capsule__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  color: var(--ink-strong);
+  text-shadow: 0 1px 8px rgba(4, 10, 36, 0.7);
+}
+
+.capsule__text {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Vertical capsule */
+.capsule.is-vertical .capsule__content {
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 16cqw 9cqw 12cqw;
+  gap: 4cqw;
+}
+
+.capsule.is-vertical .capsule__text {
+  align-items: center;
+}
+
+.capsule.is-vertical .capsule__icon {
+  width: 25cqw;
+  height: 25cqw;
+  margin-bottom: 4cqw;
+}
+
+.capsule.is-vertical .capsule__label {
+  font-size: 7.4cqw;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.capsule.is-vertical .capsule__value {
+  margin-top: 2.5cqw;
+  font-size: 21cqw;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.capsule.is-vertical .capsule__delta {
+  margin-top: 3cqw;
+  font-size: 8.8cqw;
+}
+
+.capsule.is-vertical .capsule__basis {
+  margin-top: 1.5cqw;
+  font-size: 6.6cqw;
+}
+
+.capsule.is-vertical .capsule__na {
+  margin-top: 5cqw;
+  font-size: 11cqw;
+}
+
+.capsule.is-vertical .capsule__unit {
+  margin-top: 6cqw;
+  font-size: 6.8cqw;
+  font-weight: 560;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+
+.capsule.is-vertical .capsule__ring {
+  width: 58cqw;
+  height: 58cqw;
+  margin-bottom: 3cqw;
+}
+
+/* The rate is the answer: read it at a glance. */
+.capsule.is-vertical .capsule__ring-value {
+  font-size: 17cqw;
+}
+
+/* Horizontal pill (phones) */
+.capsule.is-horizontal .capsule__content {
+  flex-direction: row;
+  padding: 0 9cqh 0 11cqh;
+  gap: 9cqh;
+}
+
+.capsule.is-horizontal .capsule__icon {
+  flex: none;
+  width: 40cqh;
+  height: 40cqh;
+}
+
+.capsule.is-horizontal .capsule__ring {
+  flex: none;
+  width: 62cqh;
+  height: 62cqh;
+}
+
+.capsule.is-horizontal .capsule__ring-value {
+  font-size: 15cqh;
+}
+
+.capsule.is-horizontal .capsule__label {
+  font-size: 10.5cqh;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.capsule.is-horizontal .capsule__value {
+  font-size: 30cqh;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.capsule.is-horizontal .capsule__delta {
+  font-size: 12cqh;
+}
+
+.capsule.is-horizontal .capsule__basis {
+  font-size: 9.5cqh;
+  white-space: nowrap;
+}
+
+.capsule.is-horizontal .capsule__text {
+  min-width: 0;
+}
+
+.capsule.is-horizontal .capsule__na {
+  font-size: 18cqh;
+  margin-top: 2cqh;
+}
+
+/* Shared parts */
+.capsule__icon {
+  color: color-mix(in srgb, var(--accent) 55%, white 45%);
+  filter: drop-shadow(0 0 1cqmin var(--accent)) drop-shadow(0 0 3.5cqmin var(--accent));
+}
+
+.capsule__icon svg {
+  stroke-width: 2.1;
+}
+
+.capsule__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.capsule__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-weight: 640;
+}
+
+.capsule__delta.is-up { color: var(--up); }
+.capsule__delta.is-down { color: var(--down); }
+.capsule__delta.is-flat { color: var(--neutral); }
+
+.capsule__arrow {
+  font-size: 0.78em;
+}
+
+.capsule__basis {
+  font-weight: 460;
+  color: rgba(228, 238, 255, 0.82);
+}
+
+.capsule__na {
+  font-weight: 580;
+  color: var(--ink);
+}
+
+.capsule.is-unavailable .capsule__shell {
+  box-shadow:
+    0 0 2cqmin color-mix(in srgb, var(--accent) 80%, transparent),
+    0 0 8cqmin color-mix(in srgb, var(--accent) 45%, transparent),
+    0 0 20cqmin color-mix(in srgb, var(--accent) 18%, transparent),
+    inset 0 0 4cqmin color-mix(in srgb, var(--accent) 70%, transparent),
+    inset 0 0 12cqmin color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.capsule__ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.capsule__ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.capsule__ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 8;
+}
+
+.capsule__ring-fill {
+  fill: none;
+  stroke: color-mix(in srgb, var(--accent) 55%, #8fe0ff 45%);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: var(--p) 1;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--accent) 85%, transparent));
+}
+
+.capsule__ring-value {
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+/* ───────── Live tick shimmer ───────── */
+.number-roll {
+  position: relative;
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+.number-roll.is-ticking {
+  animation: tick-glow 1100ms var(--ease-out);
+}
+
+@keyframes tick-glow {
+  0% { text-shadow: 0 0 0 rgba(255, 255, 255, 0); }
+  30% { text-shadow: 0 0 0.35em rgba(190, 225, 255, 0.95), 0 0 0.9em rgba(120, 180, 255, 0.6); }
+  100% { text-shadow: inherit; }
+}
+
+/* ───────── Energy streams ───────── */
+.energy {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  mix-blend-mode: screen;
+}
+
+.energy path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.energy__dust {
+  stroke-dasharray: 0.0015 0.028;
+  animation: energy-dust var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+@keyframes energy-dust { from { stroke-dashoffset: 0.0295; } to { stroke-dashoffset: -0.2655; } }
+
+/* Comet: tail [0, .16] and head [.148, .16] share one period so the head leads the tail. */
+.energy__tail, .energy__head {
+  animation: energy-comet var(--dur) cubic-bezier(.55, .05, .35, 1) infinite;
+  animation-delay: var(--delay);
+}
+.energy__tail { stroke-dasharray: 0.16 1.2; }
+.energy__head { stroke-dasharray: 0 0.148 0.012 1.2; }
+@keyframes energy-comet {
+  from { stroke-dashoffset: 1.36; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .capsule__float,
+  .capsule__halo,
+  .energy__dust,
+  .energy__tail,
+  .energy__head,
+  .number-roll.is-ticking {
+    animation: none;
+  }
+}
+
+.home-energy {
+  position: absolute;
+  inset: 0;
+}
+
+/* Status note (e.g. revenue "Validation required"), v2 scope */
+.capsule__note {
+  display: inline-block;
+  margin-top: 2.4cqw;
+  padding: 0.25em 0.8em;
+  border-radius: 999px;
+  font-size: 6cqw;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ffd08a;
+  background: rgba(60, 40, 10, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(255, 196, 92, 0.55);
+  white-space: nowrap;
+}
+.capsule.is-horizontal .capsule__note { font-size: 3.4cqw; margin-top: 1.2cqw; }

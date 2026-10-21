@@ -1,0 +1,116 @@
+{
+  "id": "scene-3",
+  "intent": {
+    "type": "timeMatrix",
+    "channel": "online",
+    "filters": {}
+  },
+  "template": "matrix",
+  "title": "How Long Online Visas Take",
+  "subtitle": "From application to decision, and the time at each step",
+  "focusKey": "tm",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "timeMatrix",
+        "key": "tm",
+        "scopeLabel": "online applications",
+        "avg": 3.8,
+        "avgDelta": -4.2,
+        "median": 3.1,
+        "medianDelta": 4.3,
+        "p90": 6.2,
+        "applications": 8412,
+        "hourly": [
+          19,
+          29,
+          32,
+          26,
+          17,
+          29,
+          28,
+          26,
+          17,
+          20,
+          29,
+          31
+        ],
+        "fastest": {
+          "key": "payment",
+          "label": "Payment",
+          "icon": "payment",
+          "accent": "#5aa8ff",
+          "days": 0.2
+        },
+        "longest": {
+          "key": "icp-final",
+          "label": "ICP Final Review",
+          "icon": "documents",
+          "accent": "#a67cff",
+          "days": 1.4
+        },
+        "stages": [
+          {
+            "key": "subpay",
+            "label": "Submission & Payment",
+            "icon": "submit",
+            "accent": "#4f9cff",
+            "days": 0.6
+          },
+          {
+            "key": "vas-review",
+            "label": "VAS Internal Review",
+            "icon": "review",
+            "accent": "#4f9cff",
+            "days": 0.5
+          },
+          {
+            "key": "icp-pre",
+            "label": "ICP Pre-Biometric",
+            "icon": "checkin",
+            "accent": "#a67cff",
+            "days": 0.8
+          },
+          {
+            "key": "bio",
+            "label": "Applicant Biometric Window",
+            "icon": "biometric",
+            "accent": "#4f9cff",
+            "days": 0.5
+          },
+          {
+            "key": "icp-final",
+            "label": "ICP Final Review",
+            "icon": "documents",
+            "accent": "#a67cff",
+            "days": 1.4
+          }
+        ],
+        "tabs": [
+          {
+            "label": "All Online Visas",
+            "ask": "online visa processing time matrix",
+            "active": true
+          },
+          {
+            "label": "By Country",
+            "ask": "which countries are slowest"
+          },
+          {
+            "label": "By centre",
+            "ask": "which centres are slowest"
+          }
+        ],
+        "sla": null,
+        "previewNote": "Biometric stage split · design preview"
+      },
+      "slot": "stage"
+    }
+  ],
+  "spoken": "Online applications take 3.8 days on average from application to decision; half of them finish within 3.1 days and 9 in 10 within 6.2 days. The slowest step is ICP Final Review, at 1.4 days; the quickest is Payment, at 0.2 days.",
+  "summary": {
+    "primary": "3.8 days on average from application to decision.",
+    "secondary": "Half finish within 3.1 days · 9 in 10 within 6.2 days · slowest step ICP Final Review (1.4 days)."
+  }
+}

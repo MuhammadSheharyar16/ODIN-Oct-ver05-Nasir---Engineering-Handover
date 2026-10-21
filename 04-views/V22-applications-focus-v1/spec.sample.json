@@ -1,0 +1,81 @@
+{
+  "id": "scene-17-answer",
+  "intent": {
+    "type": "answer",
+    "items": [
+      "applications_total"
+    ],
+    "filters": {
+      "country": "IN"
+    }
+  },
+  "template": "glance",
+  "title": "Applications",
+  "subtitle": "The figure you asked for · the full picture is available whenever you wish",
+  "focusKey": "glance",
+  "presence": "dissolved",
+  "components": [
+    {
+      "spec": {
+        "kind": "glance",
+        "key": "glance",
+        "item": "applications_total",
+        "label": "Applications",
+        "value": 1422,
+        "format": "count",
+        "accent": "#4f9cff",
+        "caption": "from India",
+        "facts": [
+          {
+            "label": "In processing",
+            "value": "360"
+          },
+          {
+            "label": "Approval rate",
+            "value": "88.0%"
+          }
+        ],
+        "more": [],
+        "lights": [
+          {
+            "key": "processing",
+            "label": "In processing",
+            "count": 360,
+            "accent": "#4f9cff"
+          },
+          {
+            "key": "approved",
+            "label": "Approved",
+            "count": 894,
+            "accent": "#3ed6a0"
+          },
+          {
+            "key": "rejected",
+            "label": "Rejected",
+            "count": 122,
+            "accent": "#ff5d6c"
+          },
+          {
+            "key": "closed",
+            "label": "Closed · other",
+            "count": 46,
+            "accent": "#a67cff"
+          }
+        ]
+      },
+      "slot": "hero"
+    }
+  ],
+  "spoken": "There are 1,422 applications from India.",
+  "summary": {
+    "primary": "There are 1,422 applications from India.",
+    "secondary": "In processing 360 · Approval rate 88.0%"
+  },
+  "depth": "glance",
+  "beats": [
+    {
+      "target": "globe",
+      "words": 6
+    }
+  ]
+}

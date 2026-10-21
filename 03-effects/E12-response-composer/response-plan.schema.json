@@ -1,0 +1,688 @@
+{
+  "$ref": "#/definitions/ResponsePlan",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Channel": {
+      "enum": [
+        "online",
+        "centre"
+      ],
+      "type": "string"
+    },
+    "CompareEntity": {
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "country",
+            "centre",
+            "visaType",
+            "channel"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "key"
+      ],
+      "type": "object"
+    },
+    "Cue": {
+      "enum": [
+        "show",
+        "breakdown",
+        "compare",
+        "where",
+        "more",
+        "less",
+        "full"
+      ],
+      "type": "string"
+    },
+    "Depth": {
+      "enum": [
+        "glance",
+        "context",
+        "explore"
+      ],
+      "type": "string"
+    },
+    "Filters": {
+      "additionalProperties": false,
+      "properties": {
+        "centre": {
+          "type": "string"
+        },
+        "channel": {
+          "$ref": "#/definitions/Channel"
+        },
+        "country": {
+          "type": "string"
+        },
+        "visaType": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Intent": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "home",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "back",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "channel": {
+              "$ref": "#/definitions/Channel"
+            },
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "style": {
+              "const": "jars",
+              "type": "string"
+            },
+            "type": {
+              "const": "journey",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "channel",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "style": {
+              "const": "galaxy",
+              "type": "string"
+            },
+            "type": {
+              "const": "outcomes",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "type": {
+              "const": "time",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "style": {
+              "const": "core",
+              "type": "string"
+            },
+            "type": {
+              "const": "count",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "dimension": {
+              "enum": [
+                "country",
+                "centre",
+                "visaType"
+              ],
+              "type": "string"
+            },
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "measure": {
+              "enum": [
+                "applications",
+                "approvalRate",
+                "avgDays"
+              ],
+              "type": "string"
+            },
+            "order": {
+              "enum": [
+                "desc",
+                "asc"
+              ],
+              "type": "string"
+            },
+            "type": {
+              "const": "ranking",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "dimension",
+            "measure",
+            "order",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "entities": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  },
+                  "kind": {
+                    "enum": [
+                      "country",
+                      "centre",
+                      "visaType",
+                      "channel"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "key"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "type": {
+              "const": "compare",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "entities",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "breakdown": {
+              "type": "boolean"
+            },
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "preview": {
+              "type": "boolean"
+            },
+            "style": {
+              "enum": [
+                "core",
+                "sides"
+              ],
+              "type": "string"
+            },
+            "type": {
+              "const": "revenue",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "processing",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "channel": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Channel"
+                },
+                {
+                  "const": "all",
+                  "type": "string"
+                }
+              ]
+            },
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "stage": {
+              "type": "string"
+            },
+            "type": {
+              "const": "timeMatrix",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "channel",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "channel": {
+              "$ref": "#/definitions/Channel"
+            },
+            "type": {
+              "const": "queue",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "channel"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "periods",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "channels",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "style": {
+              "const": "skyline",
+              "type": "string"
+            },
+            "type": {
+              "const": "tops",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "filters": {
+              "$ref": "#/definitions/Filters"
+            },
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": {
+              "const": "answer",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "items",
+            "filters"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "geo",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "outcomeDist",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "dim": {
+              "enum": [
+                "purpose",
+                "occupation"
+              ],
+              "type": "string"
+            },
+            "type": {
+              "const": "mix",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "dim"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "journeyMap",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "bq": {
+              "type": "string"
+            },
+            "reason": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "type": {
+              "const": "outOfScope",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "bq",
+            "title",
+            "reason"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "type": {
+              "const": "unsupported",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "text"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Measure": {
+      "enum": [
+        "applications_total",
+        "in_processing",
+        "entered_today",
+        "approved",
+        "rejected",
+        "outcomes",
+        "approval_rate",
+        "closure_rate",
+        "processing_time",
+        "stage_time",
+        "journey",
+        "by_country",
+        "by_nationality",
+        "by_centre",
+        "revenue",
+        "revenue_breakdown",
+        "daily_comparison",
+        "compare"
+      ],
+      "type": "string"
+    },
+    "Query": {
+      "additionalProperties": false,
+      "description": "What the LLM must return for any utterance (see handover: E12 Response composer).",
+      "properties": {
+        "additive": {
+          "description": "\"And …?\" / \"what about …?\" / \"also …\": add to the answer on screen.",
+          "type": "boolean"
+        },
+        "cues": {
+          "items": {
+            "$ref": "#/definitions/Cue"
+          },
+          "type": "array"
+        },
+        "entities": {
+          "items": {
+            "$ref": "#/definitions/CompareEntity"
+          },
+          "type": "array"
+        },
+        "filters": {
+          "$ref": "#/definitions/Filters"
+        },
+        "followUp": {
+          "description": "\"Tell me more\" / \"less detail\" with no new measure: change depth of the last answer.",
+          "enum": [
+            "more",
+            "less",
+            "full",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "measure": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Measure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "measures": {
+          "description": "Every single-number measure named, in order (\"approved and rejected\" → both).",
+          "items": {
+            "$ref": "#/definitions/Measure"
+          },
+          "type": "array"
+        },
+        "passthrough": {
+          "$ref": "#/definitions/Intent",
+          "description": "Questions outside the measure catalogue (out of scope, unsupported, home/back, post-October views)."
+        }
+      },
+      "required": [
+        "measure",
+        "filters",
+        "cues",
+        "followUp"
+      ],
+      "type": "object"
+    },
+    "ResponsePlan": {
+      "additionalProperties": false,
+      "properties": {
+        "depth": {
+          "$ref": "#/definitions/Depth"
+        },
+        "followUps": {
+          "description": "Spoken suggestions ODIN may offer (voice only; not drawn on screen).",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "intent": {
+          "$ref": "#/definitions/Intent",
+          "description": "Intent passed to the answer builders. Glance: the context screen it is read from (same numbers)."
+        },
+        "measure": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Measure"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "query": {
+          "$ref": "#/definitions/Query"
+        },
+        "reason": {
+          "description": "Why this plan (for QA and the handover table).",
+          "type": "string"
+        },
+        "spotlight": {
+          "$ref": "#/definitions/Spotlight"
+        },
+        "view": {
+          "description": "Catalogue screen ID (V-ids in views.ts; V30 is the glance answer).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "query",
+        "measure",
+        "depth",
+        "view",
+        "intent",
+        "followUps",
+        "reason"
+      ],
+      "type": "object"
+    },
+    "Spotlight": {
+      "additionalProperties": false,
+      "properties": {
+        "component": {
+          "type": "string"
+        },
+        "item": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

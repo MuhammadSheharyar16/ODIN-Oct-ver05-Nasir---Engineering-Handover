@@ -1,0 +1,176 @@
+[
+  {
+    "id": "V02",
+    "title": "Applications in Processing",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V04",
+    "title": "Outcome Distribution",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V05",
+    "title": "Processing Time Matrix · online",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V06",
+    "title": "Processing Time Matrix · centre visits",
+    "status": "Red",
+    "errs": []
+  },
+  {
+    "id": "V07",
+    "title": "Time Matrix · focus stage",
+    "status": "Red",
+    "errs": []
+  },
+  {
+    "id": "V08",
+    "title": "VAS Revenue · v1",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V09",
+    "title": "Online Visa Journey · v1",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V10",
+    "title": "Centre Visit Journey",
+    "status": "Amber",
+    "errs": []
+  },
+  {
+    "id": "V11",
+    "title": "Application Journey Map",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V12",
+    "title": "Centre Ranking by Time",
+    "status": "Red",
+    "errs": []
+  },
+  {
+    "id": "V13",
+    "title": "Stage Queue · online",
+    "status": "Red",
+    "errs": []
+  },
+  {
+    "id": "V14",
+    "title": "Stage Queue · centres",
+    "status": "Red",
+    "errs": []
+  },
+  {
+    "id": "V15",
+    "title": "Performance Comparison",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V16",
+    "title": "Top Countries, Nationalities & Centres",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V17",
+    "title": "Top Countries on the Globe",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V18",
+    "title": "Channels Notice",
+    "status": "Amber",
+    "errs": []
+  },
+  {
+    "id": "V19",
+    "title": "Compare Side by Side",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V20",
+    "title": "Travel Purpose Mix",
+    "status": "Red",
+    "errs": []
+  },
+  {
+    "id": "V21",
+    "title": "Applicant Occupation Mix",
+    "status": "Red",
+    "errs": []
+  },
+  {
+    "id": "V22",
+    "title": "Applications (focus) · v1",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V23",
+    "title": "Processing Time (focus)",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V24",
+    "title": "Not Available Yet",
+    "status": "Out",
+    "errs": []
+  },
+  {
+    "id": "V26",
+    "title": "Online Visa Journey · v2",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V27",
+    "title": "Application Outcomes",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V28",
+    "title": "VAS Revenue · v2",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V29",
+    "title": "Applications · v2",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V30",
+    "title": "Answer",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V31",
+    "title": "Top Countries, Nationalities & Centres · v2",
+    "status": "Green",
+    "errs": []
+  },
+  {
+    "id": "V25",
+    "title": "Didn’t Understand",
+    "status": "System",
+    "errs": []
+  }
+]
