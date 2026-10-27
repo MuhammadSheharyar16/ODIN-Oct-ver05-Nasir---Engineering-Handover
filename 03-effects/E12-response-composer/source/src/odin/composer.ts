@@ -213,7 +213,7 @@ export function route(measure: Measure, depth: Depth, f: Filters, entities?: Com
         : { view: 'V29', intent: { type: 'count', filters: f, style: 'core' }, spotlight: { component: 'appcore', item: 'total' } };
     case 'in_processing':
       if (filtered(f)) return { view: 'V29', intent: { type: 'count', filters: f, style: 'core' }, spotlight: { component: 'appcore', item: 'processing' } };
-      return ex ? { view: 'V26', intent: { type: 'journey', channel: 'online', filters: f, style: 'jars' }, spotlight: { component: 'journey' } }
+      return ex ? { view: 'V09', intent: { type: 'journey', channel: 'online', filters: f }, spotlight: { component: 'journey' } }
         : { view: 'V02', intent: { type: 'processing' }, spotlight: { component: 'board', item: 'hero' } };
     case 'entered_today':
       return ex ? { view: 'V15', intent: { type: 'periods' }, spotlight: { component: 'periods', item: 'today' } }
@@ -236,10 +236,10 @@ export function route(measure: Measure, depth: Depth, f: Filters, entities?: Com
       if (filtered(f)) return { view: 'V23', intent: { type: 'time', filters: f }, spotlight: { component: 'avg-time' } };
       return { view: 'V05', intent: { type: 'timeMatrix', channel: 'online', filters: {} }, spotlight: { component: 'tm', item: ex ? 'stages' : 'core' } };
     case 'stage_time':
-      return ex ? { view: 'V26', intent: { type: 'journey', channel: 'online', filters: {}, style: 'jars' }, spotlight: { component: 'journey' } }
+      return ex ? { view: 'V09', intent: { type: 'journey', channel: 'online', filters: {} }, spotlight: { component: 'journey' } }
         : { view: 'V05', intent: { type: 'timeMatrix', channel: 'online', filters: {} }, spotlight: { component: 'tm', item: 'stages' } };
     case 'journey':
-      return { view: 'V26', intent: { type: 'journey', channel: 'online', filters: f, style: 'jars' }, spotlight: { component: 'journey' } };
+      return { view: 'V09', intent: { type: 'journey', channel: 'online', filters: f }, spotlight: { component: 'journey' } };
     case 'by_country':
       return ex ? { view: 'V17', intent: { type: 'geo' }, spotlight: { component: 'geo' } } : { view: 'V16', intent: { type: 'tops' }, spotlight: { component: 'podiums', item: 'res' } };
     case 'by_nationality':
@@ -247,9 +247,9 @@ export function route(measure: Measure, depth: Depth, f: Filters, entities?: Com
     case 'by_centre':
       return { view: 'V16', intent: { type: 'tops' }, spotlight: { component: 'podiums', item: 'cen' } };
     case 'revenue':
-      return { view: 'V28', intent: { type: 'revenue', filters: {}, style: 'core' }, spotlight: { component: 'revenue', item: ex ? 'countries' : 'total' } };
+      return { view: 'V32', intent: { type: 'revenue', filters: {} }, spotlight: { component: 'revenue', item: ex ? 'countries' : 'total' } };
     case 'revenue_breakdown':
-      return { view: 'V28', intent: { type: 'revenue', filters: {}, style: 'core', breakdown: true }, spotlight: { component: 'revenue', item: 'countries' } };
+      return { view: 'V32', intent: { type: 'revenue', filters: {}, breakdown: true }, spotlight: { component: 'revenue', item: 'countries' } };
     case 'daily_comparison':
       return { view: 'V15', intent: { type: 'periods' }, spotlight: { component: 'periods', item: ex ? 'last7' : 'today' } };
   }

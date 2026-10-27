@@ -65,8 +65,8 @@ const frag = /* glsl */ `
     // Soft specular highlight, upper left.
     vec3 h = normalize(vec3(-0.45, 0.6, 0.66));
     col += vec3(1.0) * pow(clamp(dot(n, h), 0.0, 1.0), 40.0) * 0.55 * (1.0 - uBack);
-    // More glass than solid (21 Oct): the room shows through the body; the rim stays bright.
-    float alpha = clamp(mix(0.66, 0.95, fres) * (1.0 - uBack * 0.6) + r * 0.2, 0.0, 1.0);
+    // Glass body (21 Oct), then 30% less see-through (21 Oct): the room shows through softly; the rim stays bright.
+    float alpha = clamp(mix(0.762, 0.965, fres) * (1.0 - uBack * 0.6) + r * 0.2, 0.0, 1.0);
     gl_FragColor = vec4(col, alpha * uOpacity);
   }`;
 

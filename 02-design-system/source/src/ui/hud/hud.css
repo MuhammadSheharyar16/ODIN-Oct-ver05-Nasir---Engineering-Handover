@@ -312,29 +312,6 @@
   to { background-position: 0 0; }
 }
 
-.composer-chips {
-  position: absolute;
-  transform: translate(-50%, -100%);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  pointer-events: auto;
-  animation: chips-in 380ms var(--ease-out) both;
-}
-
-.composer-chips .chip {
-  background: rgba(24, 38, 72, 0.55);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 6px 18px rgba(8, 16, 36, 0.25);
-}
-
-.composer-chips.mode-compact .chip,
-.composer-chips.mode-short .chip {
-  font-size: 12px;
-  padding: 6px 10px;
-}
-
 @keyframes chips-in {
   from { opacity: 0; transform: translate(-50%, calc(-100% + 12px)); }
   to { opacity: 1; transform: translate(-50%, -100%); }

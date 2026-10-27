@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import type { Kpi } from '../../data/types';
 import type { CapsuleSlot } from '../../lib/homeLayout';
-import { formatDelta, formatKpiValue } from '../../lib/format';
+import { formatCount, formatDelta, formatKpiValue } from '../../lib/format';
 import { NumberRoll } from '../NumberRoll';
 
 type Props = {
@@ -72,9 +72,15 @@ export function KpiCapsule({ kpi, slot, accent, icon, phase, ring, unit, morph =
               </>
             ) : (
               <>
-                {(!showRing || gaugeOnly) && (
+                {(!showRing || gaugeOnly) && (kpi.format === 'currency' && kpi.currency ? (
+                  // The amount is the answer: the currency is a small prefix so the figure keeps its full size on one line.
+                  <div className="capsule__value is-currency">
+                    <span className="capsule__cur">{kpi.currency}</span>
+                    <NumberRoll value={kpi.value!} format={formatCount} countUp />
+                  </div>
+                ) : (
                   <NumberRoll className="capsule__value" value={kpi.value!} format={(v) => formatKpiValue(kpi, v)} countUp />
-                )}
+                ))}
                 {delta && (
                   <div className={`capsule__delta is-${trend}`}>
                     <span className="capsule__arrow" aria-hidden>

@@ -20,7 +20,7 @@
 }
 
 /* ── Tile recipe ── */
-.glass, .tile, .tmx-card, .tm-card, .tm__stages, .pod__panel, .jar-stats, .rev__top, .geo-card, .jorb__card {
+.glass, .tile, .tmx-card, .tm-card, .tm__stages, .jar-stats, .geo-card{
   color: var(--card-ink);
   background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--accent, var(--a, #4f9cff)) 26%, transparent), transparent 60%), var(--card-base);
   border: 1px solid color-mix(in srgb, var(--accent, var(--a, #4f9cff)) 50%, rgba(255, 255, 255, 0.45));
@@ -36,7 +36,7 @@
 .tile, .tmx-card { border-radius: 28px; }
 
 /* Compact tile (stage cells, rankings rows, legend pills, plates) */
-.tm__stage, .tmx__stage, .legend2__item, .pod__plate, .ring2__label, .ring2__legend li, .board__stage {
+.tm__stage, .tmx__stage, .legend2__item, .board__stage {
   color: var(--card-ink);
   background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--accent, var(--a, #4f9cff)) 26%, transparent), transparent 60%), var(--card-base);
   border: 1px solid color-mix(in srgb, var(--accent, var(--a, #4f9cff)) 50%, rgba(255, 255, 255, 0.45));
@@ -54,14 +54,13 @@
 .tmx__stage.is-hi { --a: var(--tone-icp); background: radial-gradient(120% 140% at 0% 0%, rgba(155, 123, 255, 0.4), transparent 60%), var(--card-base); }
 
 /* Ink on tiles */
-:is(.glass, .tile, .tmx-card, .tm-card, .tm__stages, .tm__stage, .tmx__stage, .pod__panel, .pod__plate, .jar-stats, .rev__top, .geo-card, .jorb__card, .ring2__label, .ring2__legend li) :is(
-  .metric__caption, .metric__basis, .tile__caption, .tile__basis, .tmx-card__note, .tmx-delta__basis, .tm-card__note, .dtag__basis,
-  .ranking__basis, .bars__basis, .facts__sub, .jorb__days, .rev__top-row span, .geo-card__name, .pod__sub, .ring2__label em, .ring2__legend em, small
+:is(.glass, .tile, .tmx-card, .tm-card, .tm__stages, .tm__stage, .tmx__stage, .jar-stats, .geo-card) :is(
+  .metric__caption, .metric__basis, .tile__caption, .tile__basis, .tmx-card__note, .tmx-delta__basis, .tm-card__note, .dtag__basis, .geo-card__name, small
 ) { color: var(--card-ink-3); }
-:is(.glass, .tile, .tmx-card, .tm-card, .tm__stage, .tmx__stage, .jar-stats, .rev__top, .geo-card, .jorb__card) :is(.dtag.is-good, .metric__delta.is-good, .tile__delta:not(.is-warn):not(.is-flat), .tmx-delta:not(.is-warn)) { color: var(--card-good); }
+:is(.glass, .tile, .tmx-card, .tm-card, .tm__stage, .tmx__stage, .jar-stats, .geo-card) :is(.dtag.is-good, .metric__delta.is-good, .tile__delta:not(.is-warn):not(.is-flat), .tmx-delta:not(.is-warn)) { color: var(--card-good); }
 /* Neutral delta (no judgement, e.g. rejections): white ink */
 :is(.glass, .tile) .tile__delta.is-flat { color: rgba(255, 255, 255, 0.92); }
-:is(.glass, .tile, .tmx-card, .tm-card, .tm__stage, .tmx__stage, .jar-stats, .rev__top, .geo-card, .jorb__card) :is(.dtag.is-warn, .metric__delta.is-warn, .tile__delta.is-warn, .tmx-delta.is-warn) { color: var(--card-warn); }
+:is(.glass, .tile, .tmx-card, .tm-card, .tm__stage, .tmx__stage, .jar-stats, .geo-card) :is(.dtag.is-warn, .metric__delta.is-warn, .tile__delta.is-warn, .tmx-delta.is-warn) { color: var(--card-warn); }
 
 /* Icon badges: one recipe */
 .tile__badge, .tmx-card__badge, .tm-card__icon, .tmx__stage-ic, .tm__stage-icon {
@@ -75,15 +74,9 @@
 .tmx-card { border-width: 1px; }
 
 /* Ring callouts become navy chips with an accent spine */
-.ring2__label { padding: 0.5em 0.85em 0.55em; border-radius: 14px; line-height: 1.25; }
-.ring2__label b { font-size: 1.7em; color: color-mix(in srgb, var(--accent) 35%, #fff); }
-.ring2__label span { font-weight: 650; }
-.ring2__label.is-r { border-left: 3px solid var(--accent); }
-.ring2__label.is-l { border-right: 3px solid var(--accent); }
-.ring2__legend li { padding: 0.35em 0.6em; border-radius: 10px; }
 
 /* Bars and sparks: accent gradient on navy */
-:is(.glass, .tile, .tmx-card, .tm-card, .jar-stats, .rev__top) .mbars > span,
+:is(.glass, .tile, .tmx-card, .tm-card, .jar-stats) .mbars > span,
 :is(.glass, .tile) .spark--bars span {
   background: linear-gradient(180deg, color-mix(in srgb, var(--accent, #4f9cff) 45%, #fff), var(--accent, #4f9cff));
   box-shadow: 0 0 8px color-mix(in srgb, var(--accent, #4f9cff) 70%, transparent);

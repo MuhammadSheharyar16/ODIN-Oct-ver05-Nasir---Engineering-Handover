@@ -51,7 +51,7 @@ export function useProxy(key: string, kind: Proxy3D['kind'], data?: unknown) {
 }
 
 /** A DOM anchor that a 3D pedestal follows (see Plinths3D). */
-export function Plinth({ accent, object = 'none', stack, scale, noBloom, style }: { accent: string; object?: string; stack?: number; scale?: number; noBloom?: boolean; style?: CSSProperties }) {
+export function Plinth({ accent, object = 'none', stack, scale, noBloom, tilt, style }: { accent: string; object?: string; stack?: number; scale?: number; noBloom?: boolean; /** Base view angle (radians); small = front view. */ tilt?: number; style?: CSSProperties }) {
   return (
     <span
       className="plinth-anchor"
@@ -61,6 +61,7 @@ export function Plinth({ accent, object = 'none', stack, scale, noBloom, style }
       {...(stack !== undefined ? { 'data-stack': String(stack) } : {})}
       {...(scale !== undefined ? { 'data-scale': String(scale) } : {})}
       {...(noBloom ? { 'data-nobloom': '' } : {})}
+      {...(tilt !== undefined ? { 'data-tilt': String(tilt) } : {})}
       style={style}
     />
   );

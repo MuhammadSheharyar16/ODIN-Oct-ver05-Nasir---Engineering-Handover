@@ -38,8 +38,10 @@
 @keyframes board-lights-in { from { opacity: 0; } }
 .board__readout.is-glass { z-index: 2; isolation: isolate; }
 .board__readout.is-glass::before { content: ''; position: absolute; left: 50%; top: 50%; width: calc(var(--r) * 1.5); height: calc(var(--r) * 1.05); translate: -50% -50%; z-index: -1; border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(3, 10, 36, 0.62), rgba(3, 10, 36, 0.3) 62%, rgba(3, 10, 36, 0)); pointer-events: none; }
+  background: radial-gradient(closest-side, rgba(3, 10, 36, 0.527), rgba(3, 10, 36, 0.255) 62%, rgba(3, 10, 36, 0.0)); pointer-events: none; }
 
 /* Gauge capsules ("Still open"): same rhythm as the others; the ring is a clean gauge beside the text */
 .board .capsule.is-horizontal .capsule__ring { width: 40cqh; height: 40cqh; }
 @media (prefers-reduced-motion: reduce) { .board__lights { animation: none; } }
+/* Sphere metrics: shadow 15% lighter than the shared globe readout (ver05.1). */
+.globe-readout.board__readout.is-glass { text-shadow: 0 2px 16px rgba(2, 8, 36, 0.723), 0 0 3px rgba(2, 8, 36, 0.595); }

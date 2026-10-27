@@ -1,5 +1,58 @@
 # Changelog
 
+## ODIN Oct ver05.1 Nasir — 26 Oct 2026 (`odin-oct-ver05.1-nasir`)
+
+Engineering handover. Release notes by screen: `RELEASE-NOTES-ver05.1.md`. **The journey maps (V33 Online Visa Journey v3, V34 v4) are held back while client feedback is implemented and come to engineering in ver05.2**; they live on `main`, and this handover is built from branch `handover/ver05.1`. V09 is unchanged from ver05.
+
+Renamed from ver06 (26 Oct, Nasir): the changes are refinements, not a revamp, so this release is **ver05.1** (version 0.5.1). Commits before the rename still say "ver06".
+
+- **V17 Top Countries on the Globe (26 Oct):**
+  - **Digital neon land:** a faint cyan fill with a scan shimmer, a fine twinkling dot grid and a glowing coastline replace the solid white continents.
+  - **Ocean:** translucent deep glass with a faint graticule, so the room shows through.
+  - **Arcs:** blue instead of gold. A cyan core with a white pulse, a blue glow sheath and motes running blue → white into the UAE, with blue origin pulses and a cyan UAE beacon. The dust and particle shell lose their gold too.
+  - **Bases 6–10:** front view (Plinth tilt 0.1), so the base's front wall shows instead of a top-down view.
+  - **Bars removed:** the decorative light bars above cards 6–10 are gone.
+  - **Waving flags:** each card's flag waves slowly in the wind. The flag is cut into 32 strips with a short wave (about 2.5 ripples across the flag, 2.4 s cycle) travelling from the pole side outward; the pole side moves least, and strips lighten and darken as they catch the light. It stops under reduced motion. (`WavingFlag` in Showcase.tsx, `.wflag` in v1.css.)
+  - Engineering builds its own globe for this screen; treat this as the design reference.
+- **Revenue-today capsule (Home) (26 Oct):** "AED" is now a small, softer prefix and the amount keeps its full size. In the tall desktop capsule AED sits on a line above the amount; in the phone pill it stays inline. The amount now fits inside the capsule on one line (previously "AED 628.4K" wrapped onto two lines at full size). Applies to any currency KPI capsule.
+- **Closure-rate capsule (Home) (26 Oct):** the rate now sits fully inside its donut ring. The ring is larger (58 → 66 % of the capsule width) with a slimmer stroke (8 → 6), and the value is sized to the ring's inner circle (desktop 13.5cqw, phone 13cqh). Checked on desktop and phone.
+- **Classic home sphere: silk streams replace the brush-stroke bands (26 Oct).** The 14 travelling bands were large dots of random size, jittered and fixed in place, so they read as brush strokes. They are now **silk streams**:
+  - about 28,000 fine, even particles spread across soft ribbons, denser at the centre and fading at the edges;
+  - the particles really glide along their arcs (positions computed in the shader), slowly;
+  - each ribbon undulates gently, its ends fade in and out, and a few particles sparkle;
+  - the blue and amber colours, the speed, the intro convergence and the reading lens (calmer behind the number) are unchanged.
+  - Code: `buildStreams` (geometry.ts) and `streamShader` (OdinGlobe.tsx). The old `buildBands` is removed. The grid option still mutes the streams.
+- **Home sphere option: grid (26 Oct).** This is a second look for ODIN's home sphere, from Nasir's "home sphere references". It drops the travelling particle bands, which read as brush strokes, and keeps only the thin grid.
+  - The grid's light pulses run about 3× slower, in a cooler blue with fewer warm accents.
+  - The rim is a cleaner, brighter line (refs 1 and 3), with a faint inner sparkle (ref 1) and a slow iridescent sheen across the glass (ref 4).
+  - The sphere spins a little slower, and the network nodes are softer.
+  - The classic sphere stays the default. Switch with `?sphere=grid`, the **O** key, or `setSphereStyle('grid')` from code (`src/lib/sphere.ts`). The change eases over about a second.
+
+Changes after the ver05 handover:
+
+- **Clean-up to the Build 5 approved screens (22 Oct, from Nasir's marked-up handover).** The app now has the **17 approved screens**: V01, V02, V04, V05, V09, V12, V15, V16, V17, V22, V23, V24, V25, V27, V29, V30 and V32. The 11 rejected screens are removed, and so are their code, styles and assets:
+  - **Extra versions:**
+    - V08 Revenue v1 and V28 Revenue v2 → **V32 is the revenue full page** (BQ05, BQ27).
+    - V26 Journey v2 (jars) → V09.
+    - V31 Top Countries v2 (skyline) → V16.
+    - V13 / V14 Stage queue → not-available notice.
+  - **Out of scope:** V18 Channels, V20 Purpose mix and V21 Occupation mix → not-available notice (V24), worded for each question.
+  - **Repetition:** V06 centre matrix and V07 focus-stage matrix → V05. Stage questions highlight their stage on it.
+  - **Also removed:**
+    - the compare and facts panels (compare was retired on 21 Oct), the journey-map orbs and the old podium code;
+    - the jar artwork;
+    - about 40 KB of dead CSS, checked pixel-for-pixel against the previous build on desktop and phone;
+    - the concept pages for rejected designs.
+  - The question list, composer routes, component catalogue, phrasing table, design docs, audit sheet and handover scripts all follow the 17 screens.
+- **Spheres 30% less see-through:** the Applications sphere (answers, V29, V04, Revenue v1), the time-matrix sphere, the gold revenue core and the 3D glass orb (Applications in Processing). Each layer's see-through share is cut by 30%: opacity 1 − 0.7 × (1 − previous). The outcome galaxy is unchanged.
+- **Sphere metrics:** text shadows and the dark lenses behind the numbers are 15% lighter on every sphere (Applications, processing orb, time matrix, revenue core, Outcome Distribution). The galaxy and Home's globe are unchanged.
+- **Today Compared With Earlier:** front-view glass jars in ODIN's style.
+  - A bell dome with curved shoulders, a shoulder highlight and a vertical specular streak.
+  - A chrome collar ring lit in the jar's colour, seated on a front-view base (the 3D pedestal can now take a view angle: `Plinth tilt`, `data-tilt`).
+  - The stats are a glossy glass capsule.
+  - Phone and tablet keep compact jars with the main number.
+  - No bottom border: the collar ring is removed and the glass fades into the base, so the jar feels connected to it. The stats capsule's corner radius is halved.
+
 ## ODIN Oct ver05 Nasir — 20 Oct 2026 (`odin-oct-ver05-nasir`)
 
 Everything agreed in the 20 Oct design review (standup and design discussion, parts 1–3). Checklist: `docs/ver05-todo.md`.

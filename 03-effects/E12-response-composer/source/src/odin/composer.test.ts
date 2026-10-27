@@ -47,7 +47,7 @@ describe('composer: voice follow-ups change depth, keep the subject', () => {
     const b = ask('Tell me more', a);
     expect([b.view, b.depth, b.measure]).toEqual(['V02', 'context', 'in_processing']);
     const b2 = ask('More detail', b);
-    expect([b2.view, b2.depth]).toEqual(['V26', 'explore']);
+    expect([b2.view, b2.depth]).toEqual(['V09', 'explore']);
     const c = ask('More detail', b2);
     expect(c.depth).toBe('explore');
     const d = ask('Less detail', c);

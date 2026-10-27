@@ -58,11 +58,11 @@
 
 /* Labels and captions: ink-2 / ink-3. */
 :is(.jcard__glass, .vj-row, .vj-out)
-  :is(.metric__label, .jcard__label, .tm-card__label, .tm__stage-label, .tm__stages-head > span:first-child, .jorb__label, .geo-card__name, .rev__top-h, .pod__sub, .vj-row__label, .vj-out__label, .ranking__title, .compare__label, .bars__label, .facts__text) {
+  :is(.metric__label, .jcard__label, .tm-card__label, .tm__stage-label, .tm__stages-head > span:first-child, .geo-card__name, .vj-row__label, .vj-out__label, .bars__label) {
   color: var(--ink-2) !important;
 }
 :is(.jcard__glass, .vj-row, .vj-out)
-  :is(.metric__caption, .jcard__basis, .jcard__days, .jcard__sub, .tm-card__note, .tm-card__na, .dtag__basis, .jorb__days, .jar-stats span, .rev__top-row span, .vj-row__days, .vj-out__days, .metric__basis, .ranking__basis, .bars__basis, .facts__sub, .unit, small) {
+  :is(.metric__caption, .jcard__basis, .jcard__days, .jcard__sub, .tm-card__note, .tm-card__na, .dtag__basis, .jar-stats span, .vj-row__days, .vj-out__days, .metric__basis, .unit, small) {
   color: var(--ink-3) !important;
 }
 .jcard.is-na .jcard__count,
@@ -91,24 +91,18 @@
 
 /* Accent appears in icons and stage numbers, darkened for contrast. */
 :is(.jcard__glass, .vj-row, .vj-out)
-  :is(svg, .jcard__n, .metric__icon, .tm-card__icon, .pod__glyph) {
+  :is(svg, .jcard__n, .metric__icon, .tm-card__icon) {
   color: color-mix(in srgb, var(--accent, #4f9cff) 62%, #0f1b2d) !important;
   filter: none;
 }
 
 /* Solid accent chips keep white ink — accent is deepened so white passes AA. */
 .tm__stage-icon,
-.pod__badge,
-.pod__rank,
 .jcard__tag,
 /* (0,2,1)+ so it beats the accent-icon rule for glyphs inside chips. */
 :is(.jcard__glass) :is(.tm__stage-icon,
-.pod__badge,
-.pod__rank,
 .jcard__badge),
 :is(.jcard__glass) :is(.tm__stage-icon,
-.pod__badge,
-.pod__rank,
 .jcard__badge) :is(svg,
 *) {
   color: #fff !important;
@@ -205,17 +199,8 @@
  *    globe readouts): white ink with a soft dark halo for ≥ 4.5:1 on the sky. ── */
 .scene__title h1,
 .scene__title p,
-.ring2__label,
-.ring2__center,
-.ring2__basis,
-.ring2__legend li,
-.geo__head,
-.rev__head,
 .tm__readout,
-.ch-core__text,
-.rev__core-text,
-.jar__crown,
-.jorbs__rej {
+.jar__crown{
   text-shadow: 0 1px 2px rgba(6, 14, 36, 0.85), 0 0 10px rgba(6, 14, 36, 0.55), 0 0 26px rgba(6, 14, 36, 0.35);
 }
 .scene__title p { color: #fff; text-shadow: 0 1px 2px rgba(6, 14, 36, 0.95), 0 0 8px rgba(6, 14, 36, 0.7), 0 0 22px rgba(6, 14, 36, 0.45); }
@@ -233,19 +218,16 @@
 }
 
 /* Deltas over the 3D globe: dark pill so semantic colour keeps ≥ 4.5:1. */
-.tm__readout .dtag,
-.rev__core-text .dtag,
-.ch-core__text .dtag {
+.tm__readout .dtag{
   padding: 0.2em 0.7em;
   border-radius: 999px;
   background: rgba(6, 14, 36, 0.62);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
   text-shadow: none;
 }
-.tm__readout .dtag.is-good, .rev__core-text .dtag.is-good, .ch-core__text .dtag.is-good { color: #5ef0b4; }
-.tm__readout .dtag.is-warn, .rev__core-text .dtag.is-warn, .ch-core__text .dtag.is-warn { color: #ffa395; }
-.tm__readout .dtag__basis, .rev__core-text .dtag__basis { color: rgba(235, 242, 255, 0.86); }
-
+.tm__readout .dtag.is-good{ color: #5ef0b4; }
+.tm__readout .dtag.is-warn{ color: #ffa395; }
+.tm__readout .dtag__basis{ color: rgba(235, 242, 255, 0.86); }
 
 /* Long KPI labels wrap to two lines rather than truncating. */
 .glass .metric__label {
@@ -258,13 +240,11 @@
 
 /* Readouts that sit on ODIN's globe: a soft dark lens behind the text keeps
    ≥ 7:1 whatever the globe/spectrum is doing underneath. */
-.rev__core-text,
-.ch-core__text,
+
 .tm__readout {
   isolation: isolate;
 }
-.rev__core-text::before,
-.ch-core__text::before,
+
 .tm__readout::before {
   content: '';
   position: absolute;
@@ -275,9 +255,6 @@
   pointer-events: none;
 }
 /* Revenue v1: a deeper lens (the readout sits on the globe's busiest area). */
-.rev__core-text::before { inset: -22% -20%; background: radial-gradient(closest-side, rgba(6, 14, 36, 0.74), rgba(6, 14, 36, 0.42) 60%, transparent 100%); }
-.rev__core-text { position: relative; }
-.ch-core__text { position: relative; }
 
 /* ── Phone refinements (readability first) ── */
 .vj-row__nums.is-na b,
@@ -285,7 +262,7 @@
 .vj-row__nums.is-na b { font-size: 13px !important; font-weight: 650; color: var(--ink-2) !important; white-space: nowrap; }
 .vj-out:has(.vj-out__days) b { white-space: nowrap; }
 .journey.is-vertical .vj-out b { font-size: clamp(14px, 5.2cqw, 30px); }
-.rev.is-narrow .pending-tag { position: relative; top: auto; bottom: auto; left: auto; right: auto; transform: none; max-width: 100%; white-space: normal; text-align: center; font-size: 11.5px; padding: 4px 11px; }
+
 .scene.mode-compact .tm.is-narrow .tm__lbl { display: none; }
 .scene.mode-compact .tm.is-narrow .tm__big { font-size: clamp(20px, 5.4cqh, 40px); }
 .scene.mode-compact .tm.is-narrow .tm__big small { display: block; font-size: 0.5em; }

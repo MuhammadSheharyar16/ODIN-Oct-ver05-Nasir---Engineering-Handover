@@ -77,47 +77,14 @@ write its adapter from our data (fields in odin-handover/04-views/V05-processing
 add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V05.
 ```
 
-### V06 · Processing Time Matrix · centre visits
+### V09 · Application Journey
 
 ```
 Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V06 "Processing Time Matrix · centre visits" into this app.
-Effects it needs: E00, E01, E02, E03, E05, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V06-processing-time-matrix-centre-visits/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V06.
-```
-
-### V07 · Time Matrix · focus stage
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V07 "Time Matrix · focus stage" into this app.
-Effects it needs: E00, E01, E02, E03, E05, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V07-time-matrix-focus-stage/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V07.
-```
-
-### V08 · VAS Revenue · v1
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V08 "VAS Revenue · v1" into this app.
+port V09 "Application Journey" into this app.
 Effects it needs: E00, E01, E02, E03, E04, E06, E07, E08, E09, E11 (skip any already integrated).
 Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V08-vas-revenue-v1/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V08.
-```
-
-### V09 · Application Journey · v1
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V09 "Application Journey · v1" into this app.
-Effects it needs: E00, E01, E02, E03, E04, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V09-application-journey-v1/spec.sample.json),
+write its adapter from our data (fields in odin-handover/04-views/V09-application-journey/spec.sample.json),
 add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V09.
 ```
 
@@ -130,28 +97,6 @@ Effects it needs: E00, E01, E02, E03, E06, E07, E08, E09, E11 (skip any already 
 Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
 write its adapter from our data (fields in odin-handover/04-views/V12-centre-ranking-by-time/spec.sample.json),
 add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V12.
-```
-
-### V13 · Stage Queue · online
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V13 "Stage Queue · online" into this app.
-Effects it needs: E00, E01, E02, E03, E04, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V13-stage-queue-online/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V13.
-```
-
-### V14 · Stage Queue · centres
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V14 "Stage Queue · centres" into this app.
-Effects it needs: E00, E01, E02, E03, E04, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V14-stage-queue-centres/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V14.
 ```
 
 ### V15 · Performance Comparison
@@ -187,39 +132,6 @@ write its adapter from our data (fields in odin-handover/04-views/V17-top-countr
 add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V17.
 ```
 
-### V18 · Channels Notice
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V18 "Channels Notice" into this app.
-Effects it needs: E00, E01, E02, E03, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V18-channels-notice/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V18.
-```
-
-### V20 · Travel Purpose Mix
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V20 "Travel Purpose Mix" into this app.
-Effects it needs: E00, E01, E02, E03, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V20-travel-purpose-mix/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V20.
-```
-
-### V21 · Applicant Occupation Mix
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V21 "Applicant Occupation Mix" into this app.
-Effects it needs: E00, E01, E02, E03, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V21-applicant-occupation-mix/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V21.
-```
-
 ### V22 · Applications (focus) · v1
 
 ```
@@ -253,17 +165,6 @@ write its adapter from our data (fields in odin-handover/04-views/V24-not-availa
 add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V24.
 ```
 
-### V26 · Application Journey · v2
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V26 "Application Journey · v2" into this app.
-Effects it needs: E00, E01, E02, E03, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V26-application-journey-v2/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V26.
-```
-
 ### V27 · Application Outcomes
 
 ```
@@ -273,17 +174,6 @@ Effects it needs: E00, E01, E02, E03, E06, E07, E08, E09, E11 (skip any already 
 Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
 write its adapter from our data (fields in odin-handover/04-views/V27-application-outcomes/spec.sample.json),
 add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V27.
-```
-
-### V28 · VAS Revenue · v2
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V28 "VAS Revenue · v2" into this app.
-Effects it needs: E00, E01, E02, E03, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V28-vas-revenue-v2/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V28.
 ```
 
 ### V29 · Applications · v2
@@ -308,25 +198,14 @@ write its adapter from our data (fields in odin-handover/04-views/V30-answer/spe
 add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V30.
 ```
 
-### V31 · Top Countries, Nationalities & Centres · v2
+### V32 · VAS Revenue
 
 ```
 Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V31 "Top Countries, Nationalities & Centres · v2" into this app.
+port V32 "VAS Revenue" into this app.
 Effects it needs: E00, E01, E02, E03, E06, E07, E08, E09, E11 (skip any already integrated).
 Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V31-top-countries-nationalities-and-centres-v2/spec.sample.json),
-add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V31.
-```
-
-### V32 · VAS Revenue · v3
-
-```
-Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
-port V32 "VAS Revenue · v3" into this app.
-Effects it needs: E00, E01, E02, E03, E06, E07, E08, E09, E11 (skip any already integrated).
-Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
-write its adapter from our data (fields in odin-handover/04-views/V32-vas-revenue-v3/spec.sample.json),
+write its adapter from our data (fields in odin-handover/04-views/V32-vas-revenue/spec.sample.json),
 add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V32.
 ```
 

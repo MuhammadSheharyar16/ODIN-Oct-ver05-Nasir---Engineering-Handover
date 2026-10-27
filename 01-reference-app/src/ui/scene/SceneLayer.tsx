@@ -4,17 +4,17 @@ import { composeScene } from '../../odin/compose';
 import type { ComponentSpec, SceneAnswer } from '../../odin/types';
 import type { Box } from '../../lib/homeLayout';
 import { OdinSpotProvider, useOdinLayout } from '../bridge';
-import { BarsPanel, ComparePanel, FactsPanel, LegendPanel, MetricCard, NoticePanel, RankingPanel } from './components/Panels';
+import { BarsPanel, LegendPanel, MetricCard, NoticePanel, RankingPanel } from './components/Panels';
 import { Journey } from './components/Journey';
 import { DonutView } from './components/Donut';
 import { TimeMatrix } from './components/TimeMatrix';
 import { Board } from './components/Board';
-import { Channels, Periods, Queue, Revenue } from './components/Jars';
+import { Periods } from './components/Jars';
 import { RevenueCore } from './components/RevenueCore';
 import { AppCore } from './components/AppCore';
 import { Glance } from './components/Glance';
 import { FloorBeam } from './FloorBeam';
-import { Geo, JourneyOrbs, Ring } from './components/Showcase';
+import { Geo } from './components/Showcase';
 import { Tops } from './components/Tops';
 import './scene.css';
 import './v1.css';
@@ -30,33 +30,23 @@ function Component({ spec, box }: { spec: ComponentSpec; box: Box }) {
     case 'metric':
       return <MetricCard spec={spec} />;
     case 'journey':
-      return spec.variant === 'orbs' ? <JourneyOrbs spec={spec} box={box} /> : <Journey spec={spec} box={box} />;
+      return <Journey spec={spec} box={box} />;
     case 'timeMatrix':
       return <TimeMatrix spec={spec} box={box} />;
-    case 'channels':
-      return <Channels spec={spec} box={box} />;
     case 'periods':
       return <Periods spec={spec} box={box} />;
-    case 'queue':
-      return <Queue spec={spec} box={box} />;
     case 'revenue':
-      return spec.breakdowns ? <RevenueCore spec={spec} box={box} /> : <Revenue spec={spec} box={box} />;
+      return <RevenueCore spec={spec} box={box} />;
     case 'podiums':
       return <Tops spec={spec} box={box} />;
     case 'geo':
       return <Geo spec={spec} box={box} />;
-    case 'ring':
-      return <Ring spec={spec} box={box} />;
     case 'donut':
       return <DonutView spec={spec} box={box} />;
     case 'ranking':
       return <RankingPanel spec={spec} />;
-    case 'compare':
-      return <ComparePanel spec={spec} />;
     case 'bars':
       return <BarsPanel spec={spec} />;
-    case 'facts':
-      return <FactsPanel spec={spec} />;
     case 'notice':
       return <NoticePanel spec={spec} />;
     case 'appcore':
@@ -67,7 +57,7 @@ function Component({ spec, box }: { spec: ComponentSpec; box: Box }) {
 }
 
 const accentOf = (spec: ComponentSpec) =>
-  'accent' in spec ? spec.accent : spec.kind === 'donut' ? spec.segments[0]?.accent : spec.kind === 'compare' ? spec.sides[0].accent : '#7fb6ff';
+  'accent' in spec ? spec.accent : spec.kind === 'donut' ? spec.segments[0]?.accent : '#7fb6ff';
 
 function spotRule(id: string, spot: string) {
   const root = `.scene[data-scene="${CSS.escape(id)}"]`;

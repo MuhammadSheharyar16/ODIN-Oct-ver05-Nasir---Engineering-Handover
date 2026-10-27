@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { toggleBackdropBlur } from './lib/backdrop';
+import { toggleSphereStyle } from './lib/sphere';
 import { useCaption } from './state/caption';
 import { useExperience } from './odin/experience';
 import { Stage } from './scene/Stage';
@@ -52,6 +53,7 @@ export default function App() {
     if (!new URLSearchParams(location.search).has('still')) startHomeFeedSimulator();
     // Dev affordances until the experience machine lands (Phase 3):
     // F = depth-of-field backdrop (exterior lens blur), G = full backdrop blur (interior + exterior, the previous style),
+    // O = home sphere style (classic network sphere ↔ grid option, v5.1),
     // S = ODIN speaking preview (simulated audio),
     // W = move the speaking spectrum to the next object (shape-wrap review).
     let wrapIndex = 0;
@@ -60,6 +62,7 @@ export default function App() {
       const k = e.key.toLowerCase();
       if (k === 'f') toggleBackdropBlur('dof');
       if (k === 'g') toggleBackdropBlur('full');
+      if (k === 'o') toggleSphereStyle();
       if (k === 'w') {
         const { globe, capsules } = useLayout.getState().home;
         wrapIndex = (wrapIndex + 1) % 5;

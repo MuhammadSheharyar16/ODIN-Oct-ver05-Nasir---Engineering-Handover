@@ -6,7 +6,7 @@
 |---|---|
 | Type | Screen |
 | Opens with | “How long do applications remain with individual reviewers?” |
-| Business questions | BQ06, BQ12, BQ23, BQ24, BQ25, BQ28, BQ29, BQ30, BQ31 |
+| Business questions | BQ06, BQ12, BQ13, BQ19, BQ20, BQ21, BQ23, BQ24, BQ25, BQ28, BQ29, BQ30, BQ31 |
 | Feature | — |
 | Scope status | **Out** · Out of scope: honest “not available” notice. |
 | Template | `notice` |

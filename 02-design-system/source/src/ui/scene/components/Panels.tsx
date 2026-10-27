@@ -1,6 +1,6 @@
 import { Count } from './shared';
 import type { CSSProperties } from 'react';
-import type { BarsSpec, CompareSpec, FactsSpec, LegendSpec, MetricSpec, NoticeSpec, RankingSpec, ValueFormat } from '../../../odin/types';
+import type { BarsSpec, LegendSpec, MetricSpec, NoticeSpec, RankingSpec, ValueFormat } from '../../../odin/types';
 import { formatCount, formatValue } from '../../../lib/format';
 import { ChevronRight } from 'lucide-react';
 import { SceneIcon } from '../SceneIcon';
@@ -112,49 +112,6 @@ export function RankingPanel({ spec }: { spec: RankingSpec }) {
   );
 }
 
-/**
- * Compare: a duel, not two tables. Both names on top; each measure is one glass
- * row with the two values either side and a split bar between them (share of
- * the pair). The better value glows (lower is better for days).
- */
-export function ComparePanel({ spec }: { spec: CompareSpec }) {
-  const [a, b] = spec.sides;
-  const who = (s: typeof a, right?: boolean) => (
-    <div className={`cmp__who${right ? ' is-right' : ''}`} style={accent(s.accent)}>
-      {s.code && <span className="ranking__code">{s.code}</span>}
-      <span className="cmp__name">{s.label}</span>
-    </div>
-  );
-  return (
-    <div className="cmp" data-surface style={{ '--a': a.accent, '--b': b.accent } as CSSProperties}>
-      <header className="cmp__heads">
-        {who(a)}
-        <span className="cmp__vs">VS</span>
-        {who(b, true)}
-      </header>
-      <ul className="cmp__rows">
-        {a.rows.map((r, i) => {
-          const l = r.value, rv = b.rows[i]?.value ?? 0;
-          const lowerWins = r.format === 'days';
-          const aWins = l !== rv && (lowerWins ? l < rv : l > rv);
-          const bWins = l !== rv && !aWins;
-          const share = l + rv > 0 ? l / (l + rv) : 0.5;
-          return (
-            <li key={r.label} className="cmp__row hglass" style={{ '--l': share, '--i': i, '--hg-i': i % 4, '--accent': '#8fb4ff' } as CSSProperties} data-spot-key={r.label}>
-              <HeroGlassFx />
-              <span className={`cmp__v${aWins ? ' is-win' : ''}`} style={accent(a.accent)}><Value v={l} format={r.format} /></span>
-              <span className="cmp__mid">
-                <span className="cmp__label">{r.label}</span>
-                <span className="cmp__bar" aria-hidden><i /></span>
-              </span>
-              <span className={`cmp__v is-right${bWins ? ' is-win' : ''}`} style={accent(b.accent)}><Value v={rv} format={b.rows[i]?.format ?? r.format} /></span>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-  );
-}
 
 export function BarsPanel({ spec }: { spec: BarsSpec }) {
   const max = Math.max(...spec.items.map((i) => i.value), 0.0001);
@@ -182,44 +139,6 @@ export function BarsPanel({ spec }: { spec: BarsSpec }) {
   );
 }
 
-export function FactsPanel({ spec }: { spec: FactsSpec }) {
-  return (
-    <div className="glass facts" data-surface>
-      <header className="panel__head">
-        <SceneIcon name="info" className="panel__icon" />
-        <div className="panel__title">{spec.title}</div>
-      </header>
-      <ul className="facts__list">
-        {spec.items.map((it) => (
-          <li key={it.text} style={accent(it.accent)}>
-            <span className="facts__icon">
-              <SceneIcon name={it.icon} />
-            </span>
-            <span>
-              <span className="facts__text">{it.text}</span>
-              {it.sub && <span className="facts__sub">{it.sub}</span>}
-            </span>
-          </li>
-        ))}
-      </ul>
-      {spec.ring && (
-        <div className="facts__ring">
-          <div className="ring" style={{ '--p': spec.ring.value / 100 } as CSSProperties}>
-            <svg viewBox="0 0 100 100" aria-hidden>
-              <circle className="ring__track" cx="50" cy="50" r="42" />
-              <circle className="ring__fill" cx="50" cy="50" r="42" pathLength="1" />
-            </svg>
-            <span className="ring__value">{spec.ring.value.toFixed(1)}%</span>
-          </div>
-          <div>
-            <div className="facts__ring-label">{spec.ring.label}</div>
-            <div className="facts__sub">{spec.ring.basis}</div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export function NoticePanel({ spec }: { spec: NoticeSpec }) {
   const ask = useOdinAsk();

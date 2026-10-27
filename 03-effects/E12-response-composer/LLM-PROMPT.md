@@ -187,13 +187,13 @@ From the phrasing table; the full set is `phrasings.json`.
 {"measure":"stage_time","filters":{},"cues":[],"followUp":null,"measures":[],"additive":false}
 ```
 
-**“Show the online visa journey”** → V26 · context
+**“Show the online visa journey”** → V09 · context
 
 ```json
 {"measure":"journey","filters":{},"cues":["show"],"followUp":null,"measures":[],"additive":false}
 ```
 
-**“Show me the funnel”** → V26 · context
+**“Show me the funnel”** → V09 · context
 
 ```json
 {"measure":"journey","filters":{},"cues":["show"],"followUp":null,"measures":[],"additive":false}
@@ -217,7 +217,7 @@ From the phrasing table; the full set is `phrasings.json`.
 {"measure":"revenue","filters":{},"cues":[],"followUp":null,"measures":["revenue"],"additive":false}
 ```
 
-**“Revenue by country”** → V28 · explore
+**“Revenue by country”** → V32 · explore
 
 ```json
 {"measure":"revenue_breakdown","filters":{},"cues":["breakdown"],"followUp":null,"measures":[],"additive":false}

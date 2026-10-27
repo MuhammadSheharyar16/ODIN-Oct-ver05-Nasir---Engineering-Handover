@@ -98,10 +98,6 @@
             "filters": {
               "$ref": "#/definitions/Filters"
             },
-            "style": {
-              "const": "jars",
-              "type": "string"
-            },
             "type": {
               "const": "journey",
               "type": "string"
@@ -271,13 +267,6 @@
             "preview": {
               "type": "boolean"
             },
-            "style": {
-              "enum": [
-                "core",
-                "sides"
-              ],
-              "type": "string"
-            },
             "type": {
               "const": "revenue",
               "type": "string"
@@ -380,10 +369,6 @@
         {
           "additionalProperties": false,
           "properties": {
-            "style": {
-              "const": "skyline",
-              "type": "string"
-            },
             "type": {
               "const": "tops",
               "type": "string"

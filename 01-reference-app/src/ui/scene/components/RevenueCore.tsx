@@ -9,26 +9,15 @@ import { Count } from './shared';
 import './revcore.css';
 
 /**
- * VAS Revenue v2: a gold revenue core (dark glass orb, swirling gold dust,
- * gradient ring; "Validation required" only when flagged), fed by energy links
- * from four glossy breakdown panels. Each panel is a full breakdown of the
- * same total (top items + the rest), so it sums to the total.
- * Wide: fixed 1920×1080 frame scaled to fit. Other devices: stacked layout.
+ * VAS Revenue (V32 · BQ05, BQ27): a gold revenue core (glass orb, swirling gold dust,
+ * gradient ring) on its floor beam, fed by energy links from two breakdown panels on
+ * each side. Each panel is a full breakdown of the same total (top items + the rest),
+ * so it sums to the total. Wide: fixed 1920×1080 frame scaled to fit. Other devices: stacked layout.
  */
 const ICON: Record<string, ReactNode> = { countries: <Globe2 />, centres: <Building2 />, services: <Receipt />, nationalities: <UserRound /> };
-type Geo = { core: { x: number; y: number; r: number }; panels: { x: number; y: number; w: number; h: number }[]; sides?: boolean };
-/** v2: the core above a row of four panels. */
-const V2: Geo = {
-  core: { x: 960, y: 368, r: 196 },
-  panels: [
-    { x: 120, y: 604, w: 405, h: 248 },
-    { x: 545, y: 604, w: 405, h: 248 },
-    { x: 970, y: 604, w: 405, h: 248 },
-    { x: 1395, y: 604, w: 405, h: 248 },
-  ],
-};
-/** v3: the core in the centre on its floor beam; country and centre on the left, service and nationality on the right. */
-const V3: Geo = {
+type Geo = { core: { x: number; y: number; r: number }; panels: { x: number; y: number; w: number; h: number }[] };
+/** The core in the centre on its floor beam; country and centre on the left, service and nationality on the right. */
+const G: Geo = {
   core: { x: 960, y: 452, r: 200 },
   panels: [
     { x: 104, y: 214, w: 452, h: 292 },
@@ -36,7 +25,6 @@ const V3: Geo = {
     { x: 1364, y: 214, w: 452, h: 292 },
     { x: 1364, y: 532, w: 452, h: 292 },
   ],
-  sides: true,
 };
 /** Ring and readout scale with the core (designed at r = 158). */
 const ringOf = (r: number) => 372 * (r / 158);
@@ -138,15 +126,11 @@ export function RevenueCore({ spec, box }: { spec: RevenueSpec; box: Box }) {
     );
   }
   const k = Math.min(width / 1920, height / 1080);
-  const G = spec.layout === 'sides' ? V3 : V2;
   const CORE = G.core, RING = ringOf(CORE.r), PANELS = G.panels;
-  // Where each energy link leaves its panel: the top edge (v2) or the inner side edge (v3).
-  const anchor = (p: Geo['panels'][number]) =>
-    G.sides
-      ? { x: p.x < CORE.x ? p.x + p.w - 14 : p.x + 14, y: p.y + p.h / 2, w: 28, h: p.h * 0.5, orientation: 'vertical' as const }
-      : { x: p.x + p.w / 2, y: p.y + 18, w: p.w * 0.42, h: 36, orientation: 'horizontal' as const };
+  // Each energy link leaves its panel from the inner side edge.
+  const anchor = (p: Geo['panels'][number]) => ({ x: p.x < CORE.x ? p.x + p.w - 14 : p.x + 14, y: p.y + p.h / 2, w: 28, h: p.h * 0.5, orientation: 'vertical' as const });
   return (
-    <div className={`rvc${G.sides ? ' is-sides' : ''}`} style={{ '--k': k } as CSSProperties}>
+    <div className="rvc is-sides" style={{ '--k': k } as CSSProperties}>
       <div className="rvc__frame">
         {/* Same energy links as Home: braided strands, drifting dust and eased comets into the core. */}
         <div className="rvc__energy">
@@ -157,7 +141,7 @@ export function RevenueCore({ spec, box }: { spec: RevenueSpec; box: Box }) {
           />
         </div>
         <div className="rvc-core" style={{ left: CORE.x, top: CORE.y, '--r': `${CORE.r}px`, '--ring': `${RING}px` } as CSSProperties}>
-          <div className="rvc-core__orb" data-aura="" data-surface data-beam="#f5b342,#ffd27a" data-beam-level={G.sides ? '0.8' : '0.45'} />
+          <div className="rvc-core__orb" data-aura="" data-surface data-beam="#f5b342,#ffd27a" data-beam-level="0.8" />
           <GoldDust r={CORE.r} />
           <svg className="rvc-core__ring" viewBox="0 0 372 372" aria-hidden>
             <defs>

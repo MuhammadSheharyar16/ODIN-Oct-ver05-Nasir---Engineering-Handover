@@ -1,13 +1,14 @@
 import { useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { buildBands, buildDust, buildLattice, mulberry32 } from './geometry';
+import { buildDust, buildLattice, buildStreams, mulberry32 } from './geometry';
 import { PRESENCE_DEPTH, screenLengthToWorld, screenToWorld } from '../../lib/layout';
 import { useLayout } from '../../state/layout';
 import { odinAudio } from '../../audio/odinAudio';
 import { intro } from '../../lib/intro';
 import { damp, prefersReducedMotion } from '../../lib/motion';
 import { presence } from '../../odin/experience';
+import { sphere } from '../../lib/sphere';
 
 /**
  * ODIN presence: a luminous network sphere (approved 2.1 direction).
@@ -52,9 +53,11 @@ const coreShader = {
     uniform float uTime;
     uniform float uEnergy;
     uniform float uForm;
+    uniform float uGrid;
     varying vec3 vN;
     varying vec3 vV;
     varying vec3 vP;
+    float hash3(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }
     void main() {
       float facing = max(dot(vN, vV), 0.0);
       float fres = pow(max(1.0 - facing, 0.0), 2.2);
@@ -71,6 +74,16 @@ const coreShader = {
       float spec = pow(max(max(dot(reflect(-L, vN), vV), 0.0), 0.0), 38.0);
       float sheen = pow(max(max(dot(vN, L), 0.0), 0.0), 3.0) * 0.12;
       col += vec3(1.0, 0.97, 0.92) * (spec * 0.55 + sheen);
+      // Grid style (refs 1, 3, 4): a crisper bright rim, faint inner sparkle, slow iridescent sheen.
+      float rimLine = pow(max(1.0 - facing, 0.0), 6.0);
+      col += mix(vec3(0.45, 0.72, 1.0), vec3(0.9, 0.95, 1.0), rimLine) * rimLine * 1.4 * uGrid;
+      vec3 cell = floor(vP * 26.0);
+      float star = step(0.985, hash3(cell)) * (0.5 + 0.5 * sin(uTime * (0.6 + hash3(cell + 3.1) * 1.2) + hash3(cell + 7.7) * 30.0));
+      col += vec3(0.55, 0.78, 1.0) * star * 0.55 * uGrid * (1.0 - fres);
+      float band = dot(vN, normalize(vec3(sin(uTime * 0.09), 0.55, cos(uTime * 0.09))));
+      float sweep = exp(-pow((band - 0.35) * 5.0, 2.0)) * smoothstep(0.1, 0.7, fres);
+      vec3 irid = 0.5 + 0.5 * cos(6.2831 * (band * 0.9 + vec3(0.0, 0.33, 0.67)) + uTime * 0.05);
+      col += irid * sweep * 0.32 * uGrid;
       // Translucent body: the room shows faintly through the centre, denser at the rim.
       float alpha = mix(0.74, 0.98, smoothstep(0.0, 0.85, fres)) + spec * 0.2;
       gl_FragColor = vec4(col, min(alpha, 1.0) * smoothstep(0.35, 0.95, uForm));
@@ -102,6 +115,7 @@ const latticeShader = {
     uniform float uTime;
     uniform float uEnergy;
     uniform float uForm;
+    uniform float uGrid;
     varying float vT;
     varying float vPhase;
     varying float vWarm;
@@ -109,12 +123,15 @@ const latticeShader = {
     varying float vLens;
     void main() {
       float front = smoothstep(-0.25, 0.35, vFacing);
-      float head = fract(uTime * (0.18 + vPhase * 0.12) + vPhase);
+      float speed = mix(1.0, 0.3, uGrid);
+      float head = fract(uTime * (0.18 + vPhase * 0.12) * speed + vPhase);
       float pulse = exp(-(((head - vT) * 9.0) * ((head - vT) * 9.0)));
-      vec3 blue = vec3(0.16, 0.48, 1.0);
+      vec3 blue = mix(vec3(0.16, 0.48, 1.0), vec3(0.42, 0.68, 1.0), uGrid);
       vec3 warm = vec3(1.0, 0.42, 0.10);
-      vec3 col = mix(blue, warm, vWarm);
-      float a = (0.12 + 1.15 * pulse * (0.7 + 0.6 * uEnergy)) * mix(0.16, 1.0, front) * (1.0 - 0.82 * vLens);
+      vec3 col = mix(blue, warm, vWarm * (1.0 - 0.75 * uGrid));
+      float base = mix(0.12, 0.2, uGrid);
+      float amp = mix(1.15, 0.75, uGrid);
+      float a = (base + amp * pulse * (0.7 + 0.6 * uEnergy)) * mix(0.16, 1.0, front) * (1.0 - 0.82 * vLens);
       a *= smoothstep(0.55, 1.0, uForm);
       gl_FragColor = vec4(col * a, 1.0);
     }
@@ -167,6 +184,7 @@ const pointsShader = {
   fragment: /* glsl */ `
     uniform float uBackFade;
     uniform float uForm;
+    uniform float uMute;
     varying float vWarm;
     varying float vGlow;
     varying float vFacing;
@@ -182,7 +200,69 @@ const pointsShader = {
       vec3 col = mix(cool, warm, vWarm) * (0.5 + 0.85 * vGlow);
       col += vec3(1.0, 0.92, 0.85) * smoothstep(0.14, 0.0, d) * 0.18 * vGlow;
       float appear = smoothstep(0.0, 0.25, uForm);
-      gl_FragColor = vec4(col * a * front * (1.0 - 0.8 * vLens) * appear, 1.0);
+      gl_FragColor = vec4(col * a * front * (1.0 - 0.8 * vLens) * appear * (1.0 - uMute), 1.0);
+    }
+  `,
+};
+
+/** Silk streams: particles glide along soft ribbons that undulate slowly (no brush strokes). */
+const streamShader = {
+  vertex: /* glsl */ `
+    uniform float uTime;
+    uniform float uScale;
+    uniform float uEnergy;
+    uniform float uForm;
+    attribute vec3 aE1;
+    attribute vec3 aE2;
+    attribute vec4 aPrm;
+    attribute vec4 aPrm2;
+    varying float vWarm;
+    varying float vA;
+    varying float vFacing;
+    varying float vLens;
+    ${READING_LENS}
+    void main() {
+      vec3 n = position;
+      float u = fract(aPrm.z + uTime * aPrm.w);
+      float ang = aPrm.x + u * aPrm.y;
+      // Gentle silk undulation across the ribbon.
+      float off = aPrm2.x + 0.045 * sin(ang * 3.0 + uTime * 0.35 + aPrm2.z) * sin(u * 3.14159);
+      vec3 p = normalize(cos(ang) * aE1 + sin(ang) * aE2 + n * off) * (1.014 + 0.006 * sin(ang * 5.0 + uTime * 0.3));
+      // Intro: converge from a wide vortex.
+      float seed = aPrm2.w;
+      float f = clamp(uForm * 1.3 - seed * 0.3, 0.0, 1.0);
+      f = 1.0 - pow(max(1.0 - f, 0.0), 3.0);
+      vec3 scattered = normalize(p + vec3(seed - 0.5, fract(seed * 7.0) - 0.5, fract(seed * 13.0) - 0.5) * 0.7) * (2.4 + seed * 3.0);
+      p = mix(scattered, p, f);
+      vec4 mv = modelViewMatrix * vec4(p, 1.0);
+      vec3 c = (modelViewMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+      vFacing = mix(1.0, dot(normalize(mv.xyz - c), normalize(-mv.xyz)), f);
+      vLens = readingLens(mv.xyz, c) * f;
+      // Ends fade smoothly; the core of the ribbon is denser than its edges; a few particles sparkle.
+      float ends = sin(u * 3.14159);
+      float edge = exp(-pow(aPrm2.x / 0.07, 2.0));
+      float sparkle = step(0.965, seed) * (0.6 + 0.4 * sin(uTime * 2.0 + seed * 60.0));
+      vA = ends * (0.45 + 0.75 * edge) * (1.0 + 1.6 * sparkle) * (0.85 + 0.4 * uEnergy);
+      vWarm = aPrm2.y;
+      gl_PointSize = uScale * (0.55 + 0.35 * edge + 0.9 * sparkle);
+      gl_Position = projectionMatrix * mv;
+    }
+  `,
+  fragment: /* glsl */ `
+    uniform float uForm;
+    uniform float uMute;
+    varying float vWarm;
+    varying float vA;
+    varying float vFacing;
+    varying float vLens;
+    void main() {
+      float d = length(gl_PointCoord - 0.5);
+      float a = smoothstep(0.5, 0.0, d);
+      float front = mix(0.1, 1.0, smoothstep(-0.3, 0.3, vFacing));
+      vec3 cool = vec3(0.3, 0.62, 1.0);
+      vec3 warm = vec3(1.0, 0.58, 0.22);
+      vec3 col = mix(cool, warm, vWarm) * (0.55 + 0.6 * vA) + vec3(1.0, 0.95, 0.9) * smoothstep(0.18, 0.0, d) * 0.25 * vA;
+      gl_FragColor = vec4(col * a * vA * front * (1.0 - 0.8 * vLens) * smoothstep(0.0, 0.25, uForm) * (1.0 - uMute), 1.0);
     }
   `,
 };
@@ -280,7 +360,7 @@ export function OdinGlobe() {
   const raysOn = useRef(1);
 
   const lattice = useMemo(() => buildLattice(280, 3, 7), []);
-  const bands = useMemo(() => buildBands(14, 700, 11), []);
+  const bands = useMemo(() => buildStreams(14, 2000, 11), []);
   const dust = useMemo(() => buildDust(1300, 1.0, 1.14, 3), []);
   const nodes = useMemo(() => {
     const g = new THREE.BufferGeometry();
@@ -329,10 +409,11 @@ export function OdinGlobe() {
       uEnergy: { value: 0 },
       uForm: { value: 0 },
       uBackFade: { value: backFade },
+      uMute: { value: 0 },
     });
     return {
-      core: { uTime: { value: 0 }, uEnergy: { value: 0 }, uForm: { value: 0 } },
-      lattice: { uTime: { value: 0 }, uEnergy: { value: 0 }, uForm: { value: 0 } },
+      core: { uTime: { value: 0 }, uEnergy: { value: 0 }, uForm: { value: 0 }, uGrid: { value: 0 } },
+      lattice: { uTime: { value: 0 }, uEnergy: { value: 0 }, uForm: { value: 0 }, uGrid: { value: 0 } },
       bands: pts(0.12),
       dust: pts(0.2),
       nodes: pts(0.2),
@@ -350,6 +431,9 @@ export function OdinGlobe() {
     materials.current[key] = m;
   };
   const time = useRef(0);
+  /** 0 = classic sphere, 1 = grid style (eased). */
+  const grid = useRef(sphere.style === 'grid' ? 1 : 0);
+  const bandsMesh = useRef<THREE.Points>(null);
   const rayLine = useRef<THREE.LineSegments>(null);
   const rayTips = useRef<THREE.Points>(null);
 
@@ -359,6 +443,8 @@ export function OdinGlobe() {
     const t = time.current;
     energy.current = damp(energy.current, odinAudio.level, 10, dt);
     const e = energy.current;
+    grid.current = damp(grid.current, sphere.style === 'grid' ? 1 : 0, 2.2, dt);
+    const gs = grid.current;
 
     // Presence: follow Home layout, or the scene target set by the director.
     const tgt = presence.followHome ? { x: layout.globe.x, y: layout.globe.y, r: layout.globe.r, form: 1 } : presence.target;
@@ -391,8 +477,10 @@ export function OdinGlobe() {
       if (un.uTime) un.uTime.value = t;
       if (un.uEnergy) un.uEnergy.value = e;
       if (un.uForm) un.uForm.value = form;
-      if (un.uScale) un.uScale.value = pointScale * (key === 'dust' ? 1.6 : key === 'tips' ? 3.0 : key === 'nodes' ? 2.6 : 3.9);
+      if (un.uScale) un.uScale.value = pointScale * (key === 'dust' ? 1.6 : key === 'tips' ? 3.0 : key === 'nodes' ? 2.6 : key === 'bands' ? 3.7 : 3.9);
       if (un.uRipple) un.uRipple.value = key === 'floor' ? e * intro.beam : 0;
+      if (un.uGrid) un.uGrid.value = gs;
+      if (un.uMute) un.uMute.value = key === 'bands' ? gs : key === 'nodes' ? gs * 0.35 : 0;
     }
     const halo = materials.current.halo?.uniforms;
     if (halo) halo.uIntensity.value = (0.2 + e * 0.25) * form;
@@ -408,7 +496,8 @@ export function OdinGlobe() {
     const raysU = materials.current.rays?.uniforms;
     raysOn.current = damp(raysOn.current, presence.followHome ? 1 : 0, 3, dt);
     if (raysU) raysU.uIntensity.value = intro.energy * c.form * raysOn.current;
-    if (spin.current) spin.current.rotation.y += step * (0.05 + (1 - form) * 0.6);
+    if (spin.current) spin.current.rotation.y += step * (0.05 - 0.022 * gs + (1 - form) * 0.6);
+    if (bandsMesh.current) bandsMesh.current.visible = gs < 0.995;
 
     // Ray heights: calm shimmer at idle; ODIN's own output level lifts them.
     const line = rayLine.current?.geometry.getAttribute('position') as THREE.BufferAttribute | undefined;
@@ -458,8 +547,8 @@ export function OdinGlobe() {
             <lineSegments geometry={lattice.geometry} renderOrder={5}>
               <shaderMaterial ref={bind('lattice')} vertexShader={latticeShader.vertex} fragmentShader={latticeShader.fragment} uniforms={u.lattice} {...additive} />
             </lineSegments>
-            <points geometry={bands} renderOrder={6}>
-              <shaderMaterial ref={bind('bands')} vertexShader={pointsShader.vertex} fragmentShader={pointsShader.fragment} uniforms={u.bands} {...additive} />
+            <points ref={bandsMesh} geometry={bands} renderOrder={6}>
+              <shaderMaterial ref={bind('bands')} vertexShader={streamShader.vertex} fragmentShader={streamShader.fragment} uniforms={u.bands} {...additive} />
             </points>
             <points geometry={nodes} renderOrder={6}>
               <shaderMaterial ref={bind('nodes')} vertexShader={pointsShader.vertex} fragmentShader={pointsShader.fragment} uniforms={u.nodes} {...additive} />

@@ -37,17 +37,17 @@ const pkg = JSON.parse(fs.readFileSync(path.join(REPO, 'package.json'), 'utf8'))
 // ── Screen files by component kind ──
 const C = 'src/ui/scene/components/';
 const KIND_FILES = {
-  metric: [C + 'Panels.tsx'], legend: [C + 'Panels.tsx'], ranking: [C + 'Panels.tsx'], compare: [C + 'Panels.tsx'], bars: [C + 'Panels.tsx'], facts: [C + 'Panels.tsx'], notice: [C + 'Panels.tsx'],
+  metric: [C + 'Panels.tsx'], legend: [C + 'Panels.tsx'], ranking: [C + 'Panels.tsx'], bars: [C + 'Panels.tsx'], notice: [C + 'Panels.tsx'],
   board: [C + 'Board.tsx', C + 'board.css', 'src/ui/home/KpiCapsule.tsx', 'src/ui/home/EnergyStreams.tsx'],
   journey: [C + 'Journey.tsx', C + 'journeyGeometry.ts'],
   timeMatrix: [C + 'TimeMatrix.tsx', C + 'TimeMatrixWide.tsx', C + 'PlexusOrb.tsx', C + 'matrix.css', 'src/ui/home/EnergyStreams.tsx', 'src/ui/scene/HeroGlass.tsx', 'src/ui/scene/hero-glass.css'],
   appcore: [C + 'AppCore.tsx', C + 'appcore.css'],
   glance: [C + 'Glance.tsx', C + 'glance.css', 'src/lib/glance.ts', 'src/ui/scene/HeroGlass.tsx', 'src/ui/scene/hero-glass.css'],
-  channels: [C + 'Jars.tsx'], periods: [C + 'Jars.tsx'], queue: [C + 'Jars.tsx'], revenue: [C + 'Jars.tsx'],
-  podiums: [C + 'Tops.tsx', C + 'tops.css', 'src/ui/scene/SceneIcon.tsx'], geo: [C + 'Showcase.tsx'], ring: [C + 'Showcase.tsx'],
+  periods: [C + 'Jars.tsx'], revenue: [C + 'RevenueCore.tsx', C + 'revcore.css'],
+  podiums: [C + 'Tops.tsx', C + 'tops.css', 'src/ui/scene/SceneIcon.tsx'], geo: [C + 'Showcase.tsx'],
   donut: [C + 'Donut.tsx', C + 'donutGeometry.ts'],
 };
-const KIND_3D = { donut: 'donut', board: 'orb', journey: 'pedestal', channels: 'plinths', periods: 'plinths', queue: 'plinths', revenue: 'plinths', geo: 'earth + plinths' };
+const KIND_3D = { donut: 'donut', board: 'orb', journey: 'pedestal', periods: 'plinths', geo: 'earth + plinths' };
 const SHARED = [C + 'shared.tsx', 'src/ui/scene/SceneIcon.tsx', 'src/ui/bridge.tsx', 'src/lib/format.ts', 'src/lib/homeLayout.ts'];
 const HOME_FILES = ['src/ui/home/HomeComposition.tsx', 'src/ui/home/KpiCapsule.tsx', 'src/ui/home/EnergyStreams.tsx', 'src/ui/home/home.css', 'src/ui/NumberRoll.tsx', 'src/ui/icons.tsx', 'src/lib/layout.ts'];
 const SYSTEM_FILES = {
@@ -65,16 +65,13 @@ function screenInfo(v) {
   const kinds = [...new Set(comps.map((c) => c.spec.kind))];
   let files = kinds.flatMap((k) => KIND_FILES[k] ?? []);
   const journey = comps.find((c) => c.spec.kind === 'journey')?.spec;
-  if (journey?.variant === 'orbs') files = files.filter((f) => !f.includes('Journey.tsx') && !f.includes('journeyGeometry')).concat(C + 'Showcase.tsx');
   if (spec?.template === 'floor') files.push(C + 'JourneyFloor.tsx', C + 'floorJourney.ts', C + 'floor.css');
-  if (spec?.template === 'jars') files.push(C + 'JourneyJars.tsx', C + 'jars.css', C + 'jarIcons.tsx', 'public/journey');
   if (spec?.template === 'galaxy') files.push(C + 'OutcomeGalaxy.tsx', C + 'galaxy.css', 'src/ui/scene/HeroGlass.tsx', 'src/ui/scene/hero-glass.css');
-  if (spec?.template === 'galaxy' || spec?.template === 'outcomes') files.push(C + 'OutcomeBoard.tsx', C + 'outboard.css', C + 'donutGeometry.ts', C + 'AppCore.tsx', C + 'appcore.css');
-  if (spec?.template === 'revenue') files.push(C + 'RevenueCore.tsx', C + 'revcore.css');
+  if (spec?.template === 'galaxy') files.push(C + 'OutcomeBoard.tsx', C + 'outboard.css', C + 'donutGeometry.ts', C + 'AppCore.tsx', C + 'appcore.css');
   if (comps.some((c) => c.spec.card === 'hero')) files.push('src/ui/scene/HeroGlass.tsx', 'src/ui/scene/hero-glass.css');
   if (v.id === 'V01') files = HOME_FILES;
   if (v.kind === 'system') files = SYSTEM_FILES[v.id] ?? [];
-  const objects3d = [...new Set(kinds.map((k) => (k === 'journey' && journey?.variant === 'orbs' ? 'plinths' : k === 'journey' && spec?.template === 'floor' ? null : KIND_3D[k])).filter(Boolean))];
+  const objects3d = [...new Set(kinds.map((k) => (k === 'journey' && spec?.template === 'floor' ? null : KIND_3D[k])).filter(Boolean))];
   let effects = [...v.effects];
   if (effects.some((e) => ['E02', 'E03', 'E04', 'E06', 'E07'].includes(e))) effects.unshift('E00');
   effects = [...new Set(effects)].sort();
@@ -83,8 +80,8 @@ function screenInfo(v) {
 }
 
 // ── Question → screen mapping ──
-// Focus-stage matrices (any channel) share one screen, V07.
-const sig = (i) => (i ? [i.type, i.stage ? '' : i.channel ?? '', i.stage ? 'stage' : '', i.type === 'mix' ? i.dim : '', i.type === 'compare' ? 'cmp' : ''].join('|') : '');
+// One time-matrix screen (V05): stage questions highlight a stage on it.
+const sig = (i) => (i ? [i.type, i.type === 'timeMatrix' ? '' : i.channel ?? ''].join('|') : '');
 const viewBySig = new Map();
 for (const v of views) {
   const q = questions.find((q) => q.q === v.question);
@@ -92,7 +89,8 @@ for (const v of views) {
 }
 const qRows = questions.map((q) => {
   const i = intents[q.id];
-  const vid = i?.type === 'outOfScope' ? 'V24' : viewBySig.get(sig(i)) ?? '';
+  // Not in Build 5 (queue, channels, mix) and out-of-scope questions answer with the notice; answer states with V30.
+  const vid = ['outOfScope', 'queue', 'channels', 'mix'].includes(i?.type) ? 'V24' : i?.type === 'answer' ? 'V30' : viewBySig.get(sig(i)) ?? '';
   const v = views.find((x) => x.id === vid);
   const spec = vid ? samples[vid] : null;
   return { bq: q.id, category: q.category, question: q.q, status: q.status, feature: q.feature, screen: vid, screenTitle: v?.title ?? '', components: spec ? [...new Set(spec.components.map((c) => c.spec.kind))].join(' + ') : '', spoken: spec?.spoken ?? '' };
@@ -273,14 +271,16 @@ for (const mv of manifest.views) {
 // ── 07 assets ──
 copy(path.join(REPO, 'public/env'), '07-assets/env');
 copy(path.join(REPO, 'public/sfx'), '07-assets/sfx');
-copy(path.join(REPO, 'public/journey'), '07-assets/journey');
-write('07-assets/README.md', '# Assets\n\n- `env/` — ODIN interior and exterior plates at 1600 / 2560 / 3840 px (WebP) plus pre-blurred copies used for the focus state (E06).\n- `sfx/` — intro pulse and the two morph sounds (E09).\n- `journey/` — glass jar artwork for the online journey v2 (V26), from Figma ODIN-October node 18:34.\n- Font — Inter Variable, loaded from `@fontsource-variable/inter` (OFL licence).\n');
+write('07-assets/README.md', '# Assets\n\n- `env/` — ODIN interior and exterior plates at 1600 / 2560 / 3840 px (WebP) plus pre-blurred copies used for the focus state (E06).\n- `sfx/` — intro pulse and the two morph sounds (E09).\n- Font — Inter Variable, loaded from `@fontsource-variable/inter` (OFL licence).\n');
 
 // ── Root docs ──
 copy(path.join(STATIC, 'STACK.md'), 'STACK.md');
 copy(path.join(STATIC, 'INTEGRATION-GUIDE.md'), 'INTEGRATION-GUIDE.md');
 const changelog = fs.readFileSync(path.join(REPO, 'CHANGELOG.md'), 'utf8');
 write('CHANGELOG.md', changelog);
+// Release notes for this version (what changed since the last handover, by screen).
+const notes = fs.readdirSync(REPO).filter((n) => /^RELEASE-NOTES-.*\.md$/.test(n));
+for (const n of notes) copy(path.join(REPO, n), n);
 write('00-START-HERE.md', startMd());
 write('00-START-HERE.html', startHtml());
 console.log(`assembled ${KIT}`);
@@ -290,6 +290,7 @@ function startMd() {
   return [
     `# ${KIT_NAME}`, '', `Version ${VERSION} · generated ${new Date().toISOString().slice(0, 10)} · ODIN reference app ${pkg.version}`, '',
     'Everything an engineering team needs to take ODIN screens and effects into its own app, one at a time, without replacing its core.', '',
+    ...notes.map((n) => `0. What changed in this version: \`${n}\`.`),
     '1. Open `00-START-HERE.html` for the visual catalogue.',
     '2. Read `INTEGRATION-GUIDE.md` (leads) and `STACK.md` (versions, already matched to your stack).',
     '3. Give your Claude `06-port-kit/CLAUDE.md` and a request from `06-port-kit/PORT-PROMPTS.md`.', '',
@@ -340,6 +341,7 @@ footer{margin-top:56px;color:var(--ink3);font-size:13px}code{background:rgba(255
 </style></head><body><main>
 <h1>${esc(KIT_NAME)}</h1>
 <p class="lead">Every ODIN screen and effect, numbered so engineering can take one at a time into its own app without replacing its core. Version ${esc(VERSION)} · reference app ${esc(pkg.version)} · stack matched to engineering (React 19.2, three 0.180, Vite 7, TS 5.8).</p>
+${notes.map((n) => `<p class="lead">What changed in this version: <code>${esc(n)}</code></p>`).join('')}
 <div class="steps">
 <div class="step"><b>1 · Read</b><p><code>INTEGRATION-GUIDE.md</code> and <code>STACK.md</code></p></div>
 <div class="step"><b>2 · Pick</b><p>A screen below (${SCREENS}) or an effect (${FX})</p></div>

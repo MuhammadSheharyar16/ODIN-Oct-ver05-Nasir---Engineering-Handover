@@ -251,14 +251,14 @@
 }
 
 .capsule.is-vertical .capsule__ring {
-  width: 58cqw;
-  height: 58cqw;
+  width: 66cqw;
+  height: 66cqw;
   margin-bottom: 3cqw;
 }
 
-/* The rate is the answer: read it at a glance. */
+/* The rate is the answer: read it at a glance, fully inside the ring (inner Ø ≈ 52cqw). */
 .capsule.is-vertical .capsule__ring-value {
-  font-size: 17cqw;
+  font-size: 13.5cqw;
 }
 
 /* Horizontal pill (phones) */
@@ -281,7 +281,7 @@
 }
 
 .capsule.is-horizontal .capsule__ring-value {
-  font-size: 15cqh;
+  font-size: 13cqh;
 }
 
 .capsule.is-horizontal .capsule__label {
@@ -384,21 +384,50 @@
 .capsule__ring-track {
   fill: none;
   stroke: rgba(255, 255, 255, 0.18);
-  stroke-width: 8;
+  stroke-width: 6;
 }
 
 .capsule__ring-fill {
   fill: none;
   stroke: color-mix(in srgb, var(--accent) 55%, #8fe0ff 45%);
-  stroke-width: 8;
+  stroke-width: 6;
   stroke-linecap: round;
   stroke-dasharray: var(--p) 1;
   filter: drop-shadow(0 0 3px color-mix(in srgb, var(--accent) 85%, transparent));
 }
 
+.capsule__value.is-currency {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.18em;
+  white-space: nowrap;
+}
+
+/* Tall capsule: the currency sits above the amount, so the figure keeps its full size. */
+.capsule.is-vertical .capsule__value.is-currency {
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.capsule.is-vertical .capsule__cur {
+  font-size: 0.36em;
+  margin-bottom: 0.1em;
+}
+
+.capsule__cur {
+  font-size: 0.42em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+
 .capsule__ring-value {
+  position: relative;
   font-weight: 650;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
 }
 
 /* ───────── Live tick shimmer ───────── */

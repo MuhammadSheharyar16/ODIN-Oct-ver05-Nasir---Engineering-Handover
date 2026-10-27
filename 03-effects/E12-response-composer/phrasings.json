@@ -206,7 +206,7 @@
         "additive": false
       },
       "expected": {
-        "view": "V26",
+        "view": "V09",
         "depth": "explore",
         "item": null
       }
@@ -1019,7 +1019,7 @@
         "additive": false
       },
       "expected": {
-        "view": "V26",
+        "view": "V09",
         "depth": "explore",
         "item": null
       }
@@ -1037,7 +1037,7 @@
         "additive": false
       },
       "expected": {
-        "view": "V26",
+        "view": "V09",
         "depth": "context",
         "item": null
       }
@@ -1053,7 +1053,7 @@
         "additive": false
       },
       "expected": {
-        "view": "V26",
+        "view": "V09",
         "depth": "context",
         "item": null
       }
@@ -1073,7 +1073,7 @@
         "additive": false
       },
       "expected": {
-        "view": "V26",
+        "view": "V09",
         "depth": "explore",
         "item": null
       }
@@ -1091,7 +1091,7 @@
         "additive": false
       },
       "expected": {
-        "view": "V26",
+        "view": "V09",
         "depth": "context",
         "item": null
       }
@@ -1297,7 +1297,7 @@
         "additive": false
       },
       "expected": {
-        "view": "V28",
+        "view": "V32",
         "depth": "explore",
         "item": "countries"
       }
@@ -1315,7 +1315,7 @@
         "additive": false
       },
       "expected": {
-        "view": "V28",
+        "view": "V32",
         "depth": "explore",
         "item": "countries"
       }
@@ -1331,7 +1331,7 @@
         "additive": false
       },
       "expected": {
-        "view": "V28",
+        "view": "V32",
         "depth": "context",
         "item": "countries"
       }
@@ -1648,7 +1648,7 @@
         },
         {
           "question": "More detail",
-          "view": "V26",
+          "view": "V09",
           "depth": "explore",
           "items": null
         },

@@ -93,7 +93,7 @@ All transforms use \`transformPerspective: 1300\`. Reduced motion: 80 ms think, 
 
 **Speaking aura.** Driven only by ODIN's *output* audio (never the user's mic). Two forms that morph into each other (rate 4/s):
 - **wrap** — concentric vibrating rings, radial spikes and a waveform around one object's silhouette (rounded-box SDF: circle, capsule or card; the corner radius comes from the target's CSS \`border-radius\`).
-- **floor** — a perspective ring on the floor around a whole composition (journeys, rows of jars) with a voice curtain rising behind it. Used when ODIN speaks about everything on screen at once.
+- **floor** — a perspective ring on the floor around a whole composition (the journey, the row of period jars) with a voice curtain rising behind it. Used when ODIN speaks about everything on screen at once.
 Fades in/out with speech (rate 4/s); level smoothing 14/s.
 
 **Fallback.** Static globe image/video loop in the Home centre; aura as a CSS glow ring (\`box-shadow\`) pulsing on the focus card while speaking.
@@ -110,8 +110,8 @@ Fades in/out with speech (rate 4/s); level smoothing 14/s.
 | kind | Object | Used by |
 |---|---|---|
 | donut | 3D outcomes donut (segments extrude, clean mode for V04) | V04 |
-| pedestal | Journey pedestals with crystal icons | V10 |
-| plinths | Glass plinths/jars (periods, queue, revenue, podiums) | V08, V13–V16 |
+| pedestal | Journey pedestals with crystal icons | V09 (tablet / phone) |
+| plinths | Glass plinths under the period jars and the globe's top-10 cards | V15, V17 |
 | earth | 3D Earth with country arcs (d3-geo + world-atlas) | V17 |
 | orb | Glass sphere for "in processing" | V02 |
 
@@ -245,7 +245,7 @@ Default ease power3.out. Intro sound at start (E09). Reduced motion: skipped.
 
 **Layout modes** (\`computeHomeLayout\`): \`wide\` (landscape desktop/TV, 1920 × 1080 reference frame), \`portrait\` (1080 × 1920 frame), \`compact\` (phones, ~430 px frame), \`short\` (landscape phones). Frames scale to the real viewport.
 
-**Templates**: glance, focus, stage, journey, floor, jars, galaxy, revenue, appcore, matrix, board, outcomes, ringCards, notice. \`floor\`, \`jars\`, \`galaxy\`, \`revenue\`, \`appcore\`, \`board\` and \`matrix\` are full-viewport compositions on wide screens (fixed 1920 × 1080 frame scaled by \`--k\`).
+**Templates**: glance, focus, stage, band, floor, galaxy, revenue, appcore, matrix, board, ringCards, notice. \`floor\`, \`galaxy\`, \`revenue\`, \`appcore\`, \`board\` and \`matrix\` are full-viewport compositions on wide screens (fixed 1920 × 1080 frame scaled by \`--k\`).
 
 **Screen contract.** A screen is \`SceneAnswer\` (see 05-data-contracts): title, subtitle, template, components (each a typed spec placed in a slot), focusKey, presence, spoken text and summary. The composer wraps each component in \`[data-morph=<spec.key>]\`, so spec keys are the morph keys.
 `,

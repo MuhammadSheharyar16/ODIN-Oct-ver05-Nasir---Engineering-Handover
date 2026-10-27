@@ -94,8 +94,7 @@ export function parse(raw: string, last?: Intent): Intent {
 
   if (has(t, /\b(journey|stages?|pipeline|funnel|flow|where (are|is) (the )?(online |centre |center )?applications)\b/)) {
     const channel = f.channel ?? (last?.type === 'journey' ? last.channel : 'online');
-    const jars = channel === 'online' && has(t, /\b(v2|version 2|version two|jars?)\b/);
-    return { type: 'journey', channel, filters: clean({ country: f.country, centre: f.centre, visaType: f.visaType }), ...(jars ? { style: 'jars' as const } : {}) };
+    return { type: 'journey', channel, filters: clean({ country: f.country, centre: f.centre, visaType: f.visaType }) };
   }
 
   // Rankings: top / most / slowest / under- or well-performing.

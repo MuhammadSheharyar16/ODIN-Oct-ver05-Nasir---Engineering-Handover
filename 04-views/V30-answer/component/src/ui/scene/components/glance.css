@@ -10,7 +10,7 @@
   text-align: center;
   max-width: calc(var(--r) * 1.7);
   color: var(--ink-strong, #f4f8ff);
-  text-shadow: 0 2px 18px rgba(2, 8, 36, 0.9), 0 0 3px rgba(2, 8, 36, 0.75);
+  text-shadow: 0 2px 18px rgba(2, 8, 36, 0.765), 0 0 3px rgba(2, 8, 36, 0.637);
   animation: glance-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both 0.25s;
 }
 .glance__k {

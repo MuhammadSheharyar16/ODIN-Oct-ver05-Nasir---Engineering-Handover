@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, type CSSProperties, type ReactNode, type RefObject } from 'react';
+import { useLayoutEffect, useRef, type CSSProperties, type RefObject } from 'react';
 import type { PodiumColumn, PodiumsSpec } from '../../../odin/types';
 import type { Box } from '../../../lib/homeLayout';
 import { formatCount } from '../../../lib/format';
@@ -23,7 +23,7 @@ const modeOf = (box: Box): Mode => (box.w / box.h < 1.2 ? 'stack' : box.h < 320 
 const pct = (n: number, total?: number) => (total ? `${((n / total) * 100).toFixed(1)}%` : '');
 
 export function Tops({ spec, box }: { spec: PodiumsSpec; box: Box }) {
-  return spec.variant === 'skyline' ? <Skyline spec={spec} box={box} /> : <Leaderboards spec={spec} box={box} />;
+  return <Leaderboards spec={spec} box={box} />;
 }
 
 // ───────────────────────── v1 · Leaderboards ─────────────────────────
@@ -123,135 +123,6 @@ function Leaderboards({ spec, box }: { spec: PodiumsSpec; box: Box }) {
           </div>
         );
       })}
-    </div>
-  );
-}
-
-// ───────────────────────── v2 · Skyline ─────────────────────────
-const rgbOf = (h: string) => { const n = parseInt(h.slice(1), 16); return `${n >> 16},${(n >> 8) & 255},${n & 255}`; };
-
-/** Light motes rising slowly inside each pillar (or flowing along each lane), clipped to the glass. */
-function useMotes(root: RefObject<HTMLDivElement | null>, canvas: RefObject<HTMLCanvasElement | null>, accent: string, dir: 'up' | 'right') {
-  const reduced = useMemo(() => prefersReducedMotion(), []);
-  useEffect(() => {
-    const host = root.current, cv = canvas.current, g = cv?.getContext('2d');
-    if (!host || !cv || !g) return;
-    const spr = document.createElement('canvas'); spr.width = spr.height = 20;
-    const sx = spr.getContext('2d')!; const gr = sx.createRadialGradient(10, 10, 0, 10, 10, 10); const c = rgbOf(accent);
-    gr.addColorStop(0, '#fff'); gr.addColorStop(0.22, `rgba(${c},1)`); gr.addColorStop(0.55, `rgba(${c},.25)`); gr.addColorStop(1, 'rgba(0,0,0,0)');
-    sx.fillStyle = gr; sx.fillRect(0, 0, 20, 20);
-    type Mote = { u: number; t: number; v: number; s: number; a: number; ph: number };
-    let rects: { x: number; y: number; w: number; h: number; r: number; lead: boolean; m: Mote[] }[] = [];
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
-    const measure = () => {
-      const R = host.getBoundingClientRect();
-      const k = R.width / (host.offsetWidth || 1) || 1;
-      cv.width = Math.round(host.offsetWidth * dpr); cv.height = Math.round(host.offsetHeight * dpr);
-      cv.style.width = `${host.offsetWidth}px`; cv.style.height = `${host.offsetHeight}px`;
-      rects = Array.from(host.querySelectorAll<HTMLElement>('[data-pillar]'), (el, i) => {
-        const b = el.getBoundingClientRect();
-        const lead = el.dataset.pillar === 'lead';
-        const w = b.width / k, h = b.height / k;
-        const n = Math.round((dir === 'up' ? h * w : h * w) / (lead ? 260 : 420)) + (lead ? 10 : 4);
-        const old = rects[i]?.m;
-        const m = old?.length === n ? old : Array.from({ length: n }, () => ({ u: Math.random(), t: Math.random(), v: 0.035 + Math.random() * 0.06, s: 0.7 + Math.random() * 1.6, a: 0.45 + Math.random() * 0.55, ph: Math.random() * 6.28 }));
-        return { x: (b.left - R.left) / k, y: (b.top - R.top) / k, w, h, r: parseFloat(getComputedStyle(el).borderTopLeftRadius) || 8, lead, m };
-      });
-    };
-    measure();
-    const ro = new ResizeObserver(measure); ro.observe(host);
-    const t0 = [400, 1400].map((ms) => window.setTimeout(measure, ms));
-    let raf = 0, last = performance.now();
-    const draw = (now: number) => {
-      const dt = Math.min(0.05, (now - last) / 1000); last = now;
-      g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, cv.width, cv.height);
-      g.globalCompositeOperation = 'lighter';
-      for (const p of rects) {
-        g.save(); g.beginPath(); g.roundRect(p.x + 2, p.y + 2, p.w - 4, p.h - 4, Math.max(0, p.r - 2)); g.clip();
-        for (const m of p.m) {
-          if (!reduced) { m.t += m.v * dt * (p.lead ? 1.25 : 1); if (m.t > 1) { m.t -= 1; m.u = Math.random(); } }
-          const sway = Math.sin(now / 1400 + m.ph) * 0.03;
-          const fade = Math.min(1, m.t * 6, (1 - m.t) * 4);
-          const x = dir === 'up' ? p.x + (0.12 + (m.u + sway) * 0.76) * p.w : p.x + m.t * p.w;
-          const y = dir === 'up' ? p.y + p.h - m.t * p.h : p.y + (0.2 + (m.u + sway) * 0.6) * p.h;
-          const s = m.s * (p.lead ? 1.35 : 1) * 2.2;
-          g.globalAlpha = fade * m.a * (p.lead ? 1 : 0.75);
-          g.drawImage(spr, x - s, y - s, s * 2, s * 2);
-        }
-        g.restore();
-      }
-      g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
-      raf = requestAnimationFrame(draw);
-    };
-    raf = requestAnimationFrame(draw);
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); t0.forEach(clearTimeout); };
-  }, [root, canvas, accent, dir, reduced]);
-}
-
-function Group({ col, mode, legend, asked, children }: { col: PodiumColumn; mode: Mode; legend?: boolean; asked?: boolean; children?: ReactNode }) {
-  const bars = useRef<HTMLDivElement>(null);
-  const cv = useRef<HTMLCanvasElement>(null);
-  const lanes = mode === 'row' || mode === 'stack-lanes';
-  useMotes(bars, cv, col.accent, lanes ? 'right' : 'up');
-  const max = col.items[0]?.value || 1;
-  return (
-    <section className={`sk-grp${lanes ? ' is-lanes' : ''}${asked ? ' is-asked' : ''}`} data-spot-key={col.key} data-flip={col.key} style={{ '--c': col.accent, '--spot': col.accent } as CSSProperties}
-      aria-label={`${col.title}: ${col.items.map((it) => `${it.label} ${formatCount(it.value)}`).join(', ')}`}>
-      <header className="sk-grp__hd">
-        <span className="tl-badge" aria-hidden><SceneIcon name={col.icon} /></span>
-        <span className="sk-grp__t"><b>{col.title}</b><small>{col.sub}</small></span>
-      </header>
-      {lanes ? (
-        <div className="sk-lanes" ref={bars}>
-          <canvas ref={cv} className="sk-motes" aria-hidden />
-          {col.items.map((it, i) => (
-            <div key={it.label} className={`sk-lane${i ? '' : ' is-lead'}`} style={{ '--i': i } as CSSProperties}>
-              <span className="sk-lane__nm"><em>{i + 1}</em>{it.label}</span>
-              <span className="sk-lane__track"><i data-pillar={i ? 'n' : 'lead'} style={{ '--w': `${(it.value / max) * 100}%` } as CSSProperties} /></span>
-              <b className="sk-lane__v"><Count v={it.value} fmt={formatCount} delay={600 + i * 70} /></b>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <>
-          <div className="sk-bars" ref={bars}>
-            <span className="sk-floor" aria-hidden />
-            {col.items.map((it, i) => (
-              <div key={it.label} className={`sk-col${i ? '' : ' is-lead'}`} style={{ '--i': i, '--h': `${28 + (it.value / max) * 72}%` } as CSSProperties}>
-                <b className="sk-val"><Count v={it.value} fmt={formatCount} delay={700 + i * 80} /></b>
-                <div className="sk-pillar" data-pillar={i ? 'n' : 'lead'}>
-                  {!i && <span className="sk-beam" aria-hidden />}
-                  <span className="sk-rk">{i + 1}</span>
-                </div>
-              </div>
-            ))}
-            <canvas ref={cv} className="sk-motes" aria-hidden />
-          </div>
-          {legend ? (
-            // Pillars too narrow for names: a numbered legend matching the rank on each pillar.
-            <div className="sk-legend">{col.items.map((it, i) => <span key={it.label}><em>{i + 1}</em>{it.label}</span>)}</div>
-          ) : (
-            <div className="sk-names">{col.items.map((it) => <span key={it.label} title={it.label}>{it.label}</span>)}</div>
-          )}
-        </>
-      )}
-      {children}
-    </section>
-  );
-}
-
-function Skyline({ spec, box }: { spec: PodiumsSpec; box: Box }) {
-  const base = modeOf(box);
-  // Pillars everywhere except phones (lanes). When a pillar is too narrow for its name, names move to a legend.
-  const mode: Mode = base === 'stack' && box.w < 560 ? 'stack-lanes' : base;
-  const cell = mode === 'wide' ? (box.w * 0.92 / 3 - 40) / 5 : box.w / 5 - 12;
-  const legend = cell < 92;
-  const host = useRef<HTMLDivElement>(null);
-  const { order, asked } = spotOrder(spec.columns, useOdinSpot());
-  useFlip(host, order.map((c) => c.key).join() + mode, asked?.key);
-  return (
-    <div ref={host} className={`sk is-${mode}${legend ? ' has-legend' : ''}${asked ? ' is-spot' : ''}`} data-surface>
-      {order.map((col) => <Group key={col.key} col={col} mode={mode} legend={legend} asked={col === asked} />)}
     </div>
   );
 }

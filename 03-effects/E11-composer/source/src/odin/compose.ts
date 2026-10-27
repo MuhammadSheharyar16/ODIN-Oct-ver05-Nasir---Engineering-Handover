@@ -18,12 +18,6 @@ export type SceneLayout = {
 type SlotMap = Record<string, [number, number, number, number]>;
 
 const T: Record<SceneAnswer['template'], Record<HomeLayout['mode'], { title: [number, number, number, number] | null; slots: SlotMap }>> = {
-  journey: {
-    wide: { title: [960, 84, 1100, 90], slots: { tl: [290, 232, 480, 130], tr: [1630, 232, 480, 130], main: [960, 575, 1860, 480] } },
-    portrait: { title: [540, 150, 960, 100], slots: { tl: [285, 270, 470, 120], tr: [795, 270, 470, 120], main: [540, 790, 1000, 880] } },
-    compact: { title: [215, 112, 400, 56], slots: { tl: [115, 170, 196, 64], tr: [315, 170, 196, 64], main: [215, 450, 412, 480] } },
-    short: { title: [466, 40, 520, 34], slots: { main: [466, 196, 910, 240] } },
-  },
   // Time matrix: full-screen composition on wide; other devices reuse the stage slot.
   matrix: {
     wide: { title: [960, 84, 1100, 90], slots: { stage: [960, 540, 1920, 1080] } },
@@ -41,13 +35,6 @@ const T: Record<SceneAnswer['template'], Record<HomeLayout['mode'], { title: [nu
   // Online journey on the floor: full-screen on wide displays; phones/portrait fall back to the journey layout.
   floor: {
     wide: { title: [960, 76, 1100, 84], slots: { main: [960, 540, 1920, 1080] } },
-    portrait: { title: [540, 150, 960, 100], slots: { tl: [285, 270, 470, 120], tr: [795, 270, 470, 120], main: [540, 790, 1000, 880] } },
-    compact: { title: [215, 112, 400, 56], slots: { tl: [115, 170, 196, 64], tr: [315, 170, 196, 64], main: [215, 450, 412, 480] } },
-    short: { title: [466, 40, 520, 34], slots: { main: [466, 196, 910, 240] } },
-  },
-  // Online journey v2 (glass jar board): full-screen on wide, the board carries its own heading.
-  jars: {
-    wide: { title: null, slots: { main: [960, 540, 1920, 1080] } },
     portrait: { title: [540, 150, 960, 100], slots: { tl: [285, 270, 470, 120], tr: [795, 270, 470, 120], main: [540, 790, 1000, 880] } },
     compact: { title: [215, 112, 400, 56], slots: { tl: [115, 170, 196, 64], tr: [315, 170, 196, 64], main: [215, 450, 412, 480] } },
     short: { title: [466, 40, 520, 34], slots: { main: [466, 196, 910, 240] } },
@@ -73,12 +60,6 @@ const T: Record<SceneAnswer['template'], Record<HomeLayout['mode'], { title: [nu
     compact: { title: [215, 112, 400, 56], slots: { stage: [215, 445, 418, 500] } },
     short: { title: [466, 40, 520, 34], slots: { stage: [466, 200, 910, 250] } },
   },
-  outcomes: {
-    wide: { title: [960, 84, 1100, 90], slots: { main: [960, 540, 1920, 1080] } },
-    portrait: { title: [540, 150, 960, 100], slots: { main: [540, 770, 1000, 1080] } },
-    compact: { title: [215, 112, 400, 56], slots: { main: [215, 448, 400, 518] } },
-    short: { title: [466, 40, 520, 34], slots: { main: [466, 186, 900, 236] } },
-  },
   focus: {
     wide: {
       title: [960, 84, 1100, 90],
@@ -100,13 +81,6 @@ const T: Record<SceneAnswer['template'], Record<HomeLayout['mode'], { title: [nu
     portrait: { title: [540, 150, 960, 100], slots: { main: [540, 745, 1000, 990] } },
     compact: { title: [215, 112, 400, 56], slots: { main: [215, 448, 400, 518] } },
     short: { title: [466, 40, 520, 34], slots: { main: [466, 186, 900, 236] } },
-  },
-  // Stage with the title lifted and a taller stage (VAS Revenue v1: bigger core).
-  stageTall: {
-    wide: { title: [960, 58, 1100, 80], slots: { stage: [960, 500, 1840, 760] } },
-    portrait: { title: [540, 150, 960, 100], slots: { stage: [540, 760, 1020, 1000] } },
-    compact: { title: [215, 112, 400, 56], slots: { stage: [215, 445, 418, 500] } },
-    short: { title: [466, 40, 520, 34], slots: { stage: [466, 200, 910, 250] } },
   },
   stage: {
     wide: { title: [960, 84, 1100, 90], slots: { stage: [960, 512, 1840, 690] } },
@@ -140,7 +114,7 @@ export function composeScene(answer: SceneAnswer, home: HomeLayout): SceneLayout
   const { mode, box } = frameMapper(home.width, home.height);
   const t = T[answer.template][mode];
   const slots: Record<string, Box> = {};
-  const floorWide = (answer.template === 'floor' || answer.template === 'jars' || answer.template === 'galaxy' || answer.template === 'outcomes' || answer.template === 'revenue' || answer.template === 'appcore' || answer.template === 'board' || answer.template === 'matrix') && mode === 'wide';
+  const floorWide = (answer.template === 'floor' || answer.template === 'galaxy' || answer.template === 'revenue' || answer.template === 'appcore' || answer.template === 'board' || answer.template === 'matrix') && mode === 'wide';
   // Portrait/compact focus scenes with a "right" panel move it into the support row.
   for (const p of answer.components) {
     let def = t.slots[p.slot];

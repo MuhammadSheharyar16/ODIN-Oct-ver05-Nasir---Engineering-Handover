@@ -10,11 +10,12 @@ import { PRESENCE_DEPTH, screenLengthToWorld, screenToWorld } from '../../lib/la
 import { prefersReducedMotion } from '../../lib/motion';
 
 /**
- * Data Earth: dotted glowing continents on a deep glass ocean with day-side
- * light and an ocean glint, an atmosphere halo, orbit rings and a slow ring of
- * light dust, light spikes rising from each ranked country, and arcs into the
- * UAE: a glow sheath, a gold core with a travelling pulse, light motes streaming
- * in (gold → white-hot), a pulse ring at each origin and a ripple at the UAE.
+ * Data Earth (v5.1): digital neon continents (faint cyan fill, fine dot grid, glowing
+ * coastline) on a translucent deep-glass ocean with a faint graticule, an atmosphere
+ * halo, orbit rings and a slow ring of light dust, light spikes rising from each ranked
+ * country, and blue light arcs converging on the UAE: a glow sheath, a cyan core with a
+ * travelling pulse, light motes streaming in (blue → white), a pulse ring at each
+ * origin and a ripple at the UAE.
  * Follows a DOM proxy (kind 'earth') whose data lists {lat, lon, value, accent}.
  */
 
@@ -45,18 +46,24 @@ function landTexture() {
   const ctx = out.getContext('2d')!;
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, W, H);
-  // Soft land fill (red channel), crisp dots (green channel).
-  ctx.globalAlpha = 0.55;
-  ctx.drawImage(mask, 0, 0);
-  ctx.globalAlpha = 1;
-  ctx.filter = 'blur(6px)';
-  ctx.globalCompositeOperation = 'lighter';
-  ctx.globalAlpha = 0.35;
-  ctx.drawImage(mask, 0, 0);
-  ctx.filter = 'none';
-  ctx.globalAlpha = 1;
+  // Digital neon land: R = soft land fill, G = fine dot grid, B = glowing coastline.
+  const tint = (c: string, src: HTMLCanvasElement, alpha = 1, blur = 0) => {
+    const t = document.createElement('canvas'); t.width = W; t.height = H;
+    const tc = t.getContext('2d')!;
+    if (blur) tc.filter = `blur(${blur}px)`;
+    tc.drawImage(src, 0, 0); tc.filter = 'none';
+    tc.globalCompositeOperation = 'source-in'; tc.fillStyle = c; tc.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = alpha; ctx.drawImage(t, 0, 0); ctx.globalAlpha = 1;
+  };
+  tint('#ff0000', mask, 0.55);
+  // Coastline: the mask minus a slightly shrunk copy, plus a soft glow.
+  const edge = document.createElement('canvas'); edge.width = W; edge.height = H;
+  const ec = edge.getContext('2d')!;
+  ec.drawImage(mask, 0, 0); ec.globalCompositeOperation = 'destination-out'; ec.filter = 'blur(2.2px)'; ec.drawImage(mask, 0, 0); ec.filter = 'none';
+  tint('#0000ff', edge, 1);
+  tint('#0000ff', edge, 0.55, 4);
   ctx.globalCompositeOperation = 'source-over';
-  const step = 7;
+  const step = 6;
   for (let y = step / 2; y < H; y += step) {
     // Compensate dot spacing toward the poles.
     const lat = (0.5 - y / H) * Math.PI;
@@ -64,10 +71,12 @@ function landTexture() {
     for (let x = (y / step) % 2 ? sx / 2 : 0; x < W; x += sx) {
       const i = ((y | 0) * W + (x | 0)) * 4;
       if (data[i] > 128) {
+        ctx.globalCompositeOperation = 'lighter';
         ctx.fillStyle = '#00ff00';
         ctx.beginPath();
-        ctx.arc(x, y, 1.9, 0, Math.PI * 2);
+        ctx.arc(x, y, 1.15, 0, Math.PI * 2);
         ctx.fill();
+        ctx.globalCompositeOperation = 'source-over';
       }
     }
   }
@@ -87,21 +96,29 @@ const earthFrag = /* glsl */ `
     vec4 L = texture2D(uLand, vUv);
     float facing = max(dot(normalize(vN), normalize(vV)), 0.0);
     float fres = pow(max(1.0 - facing, 0.0), 2.4);
-    vec3 ocean = mix(vec3(0.02, 0.06, 0.20), vec3(0.06, 0.18, 0.46), pow(max(facing, 0.0), 1.5));
-    vec3 landCol = vec3(0.30, 0.56, 0.95) * L.r * 0.9;
-    float tw = 0.75 + 0.25 * sin(uTime * 2.0 + vUv.x * 400.0 + vUv.y * 300.0);
-    vec3 dots = mix(vec3(0.85, 0.92, 1.0), vec3(1.0, 0.82, 0.55), step(0.7, fract(vUv.x * 37.0 + vUv.y * 53.0))) * L.g * tw * 1.1;
-    vec3 col = ocean + landCol + dots;
-    // Day-side light from the upper left (view space) and a soft glint on the ocean.
+    // Deep translucent glass ocean with a faint digital graticule.
+    vec3 ocean = mix(vec3(0.01, 0.03, 0.12), vec3(0.03, 0.09, 0.26), pow(max(facing, 0.0), 1.5));
+    vec2 g = abs(fract(vec2(vUv.x * 36.0, vUv.y * 18.0)) - 0.5);
+    float grat = (1.0 - smoothstep(0.0, 0.035, min(g.x, g.y))) * 0.10;
+    // Neon land: a faint cyan fill, fine twinkling dots and a glowing coastline (not solid).
+    float scan = 0.85 + 0.15 * sin(vUv.y * 900.0 - uTime * 1.5);
+    float tw = 0.7 + 0.3 * sin(uTime * 1.6 + vUv.x * 420.0 + vUv.y * 310.0);
+    vec3 neon = vec3(0.28, 0.85, 1.0);
+    vec3 col = ocean + vec3(0.25, 0.6, 1.0) * grat * (1.0 - L.r);
+    col += neon * L.r * 0.5 * scan;
+    col += mix(neon, vec3(0.9, 0.98, 1.0), 0.35) * L.g * tw * 1.25;
+    col += mix(neon, vec3(0.75, 0.95, 1.0), 0.4) * L.b * 2.2;
+    // Soft light from the upper left and a glint on the glass.
     vec3 Ld = normalize(vec3(-0.55, 0.45, 0.75));
     vec3 N = normalize(vN), V = normalize(vV);
     float lam = max(dot(N, Ld), 0.0);
-    col *= mix(0.55, 1.18, lam);
+    col *= mix(0.75, 1.1, lam);
     float spec = pow(max(dot(reflect(-Ld, N), V), 0.0), 28.0);
-    col += vec3(0.75, 0.88, 1.0) * spec * 0.42 * (1.0 - L.r);
+    col += vec3(0.75, 0.88, 1.0) * spec * 0.35;
     // Atmosphere rim.
     col += vec3(0.45, 0.7, 1.0) * fres * 1.3;
-    float alpha = mix(0.94, 1.0, fres) * uOpacity;
+    // Translucent: the room shows faintly through the ocean; land and rim stay bright.
+    float alpha = clamp(mix(0.72, 1.0, fres) + L.b * 0.3 + L.g * 0.2, 0.0, 1.0) * uOpacity;
     gl_FragColor = vec4(col, alpha);
   }`;
 
@@ -154,7 +171,7 @@ const arcFrag = `
     float a = clamp(base * 2.2 + pulse, 0.0, 1.0) * uOpacity * draw;
     // Glow sheath (additive, wide, faint) or the solid core.
     if (uGlow > 0.5) { gl_FragColor = vec4(uColor * (base * 0.55 + pulse * 0.9) * uOpacity * draw, 1.0); return; }
-    gl_FragColor = vec4(mix(uColor, vec3(1.0, 0.97, 0.88), pulse * 0.8), a);
+    gl_FragColor = vec4(mix(uColor, vec3(0.88, 0.97, 1.0), pulse * 0.8), a);
   }`;
 
 function arcCurve(lat: number, lon: number) {
@@ -214,7 +231,7 @@ function EarthObject({ id }: { id: string }) {
         .filter((p) => Math.abs(p.lat - UAE.lat) + Math.abs(p.lon - UAE.lon) > 4)
         .map((p, i) => {
           const curve = arcCurve(p.lat, p.lon);
-          const col = new THREE.Color(i < 5 ? '#ff9d2e' : '#ffc070');
+          const col = new THREE.Color(i < 5 ? '#3fb4ff' : '#7cc8ff');
           return {
             lat: p.lat, lon: p.lon, top: i < 5,
             geo: new THREE.TubeGeometry(curve, 64, i < 5 ? 0.012 : 0.008, 8, false),
@@ -253,7 +270,7 @@ function EarthObject({ id }: { id: string }) {
     for (let i = 0; i < n; i++) {
       const r = 1.16 + Math.pow(Math.random(), 1.6) * 0.62, a = Math.random() * Math.PI * 2;
       pos[i * 3] = Math.cos(a) * r; pos[i * 3 + 1] = (Math.random() - 0.5) * 0.05 * r; pos[i * 3 + 2] = Math.sin(a) * r;
-      c.set(Math.random() < 0.18 ? '#ffd9a0' : '#a8d4ff'); col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
+      c.set(Math.random() < 0.18 ? '#e6f7ff' : '#a8d4ff'); col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
       al[i] = 0.45 + Math.random() * 0.55; sz[i] = 0.4 + Math.random() * 0.8;
     }
     const g = new THREE.BufferGeometry();
@@ -269,7 +286,7 @@ function EarthObject({ id }: { id: string }) {
   // the surface, turning on its own axis and twinkling; the Earth hides the far side.
   const shell = useMemo(() => {
     const n = 2400;
-    const pal = ['#9fd0ff', '#9fd0ff', '#ffd28a', '#3ed6a0', '#a67cff', '#ffffff'];
+    const pal = ['#9fd0ff', '#9fd0ff', '#6fe0ff', '#4f9cff', '#a67cff', '#ffffff'];
     const pos = new Float32Array(n * 3), col = new Float32Array(n * 3), al = new Float32Array(n), sz = new Float32Array(n);
     const c = new THREE.Color();
     for (let i = 0; i < n; i++) {
@@ -297,14 +314,14 @@ function EarthObject({ id }: { id: string }) {
       return { pos: n.clone().multiplyScalar(1.004), q: new THREE.Quaternion().setFromUnitVectors(Z, n), u: { uColor: { value: new THREE.Color(color) }, uA: { value: 0 } }, big };
     };
     return [
-      ...arcs.map((a) => mk(a.lat, a.lon, '#ffb860', false)),
-      mk(UAE.lat, UAE.lon, '#ffc96a', true),
-      mk(UAE.lat, UAE.lon, '#ff9d2e', true),
+      ...arcs.map((a) => mk(a.lat, a.lon, '#6cc4ff', false)),
+      mk(UAE.lat, UAE.lon, '#bfe8ff', true),
+      mk(UAE.lat, UAE.lon, '#3fb4ff', true),
     ];
   }, [arcs]);
   const ringRefs = useRef<(THREE.Mesh | null)[]>([]);
   const ringGeo = useMemo(() => new THREE.RingGeometry(0.82, 1, 48), []);
-  const beaconU = useMemo(() => ({ uColor: { value: new THREE.Color('#ffe6b0') }, uA: { value: 0 } }), []);
+  const beaconU = useMemo(() => ({ uColor: { value: new THREE.Color('#bfe8ff') }, uA: { value: 0 } }), []);
   const arcMats = useRef<(THREE.ShaderMaterial | null)[]>([]);
   const spikeMat = useMemo(() => new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }), []);
   const ringMat = useMemo(() => new THREE.MeshBasicMaterial({ color: '#a8d4ff', transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false }), []);
@@ -356,7 +373,7 @@ function EarthObject({ id }: { id: string }) {
         const a = lut[k], b = lut[Math.min(lut.length - 1, k + 1)];
         P[i * 3] = a.x + (b.x - a.x) * w; P[i * 3 + 1] = a.y + (b.y - a.y) * w; P[i * 3 + 2] = a.z + (b.z - a.z) * w;
         const hot = Math.pow(tt, 3);
-        C[i * 3] = 1; C[i * 3 + 1] = 0.62 + 0.36 * hot; C[i * 3 + 2] = 0.22 + 0.7 * hot;
+        C[i * 3] = 0.3 + 0.65 * hot; C[i * 3 + 1] = 0.72 + 0.26 * hot; C[i * 3 + 2] = 1;
         // Thin out as they converge on the UAE so the arcs stay readable.
         A[i] = Math.min(1, tt * 8, (1 - tt) * 5) * op * (arcs[m.arc].top ? 0.85 : 0.6) * (1 - hot * 0.45);
         S[i] = m.sz * (0.9 + hot * 0.4);
@@ -449,7 +466,7 @@ function EarthObject({ id }: { id: string }) {
         {/* UAE: destination beacon with a halo */}
         <mesh position={latLonToVec(UAE.lat, UAE.lon, 1.012)} renderOrder={8}>
           <sphereGeometry args={[0.022, 16, 16]} />
-          <meshBasicMaterial color="#fff6dd" toneMapped={false} />
+          <meshBasicMaterial color="#e6f7ff" toneMapped={false} />
         </mesh>
         <mesh position={latLonToVec(UAE.lat, UAE.lon, 1.014)} quaternion={rings[rings.length - 1].q} scale={0.045} geometry={ringGeo} renderOrder={8}>
           <shaderMaterial ref={bind(beaconU)} vertexShader={ringVert} fragmentShader={ringFrag} uniforms={beaconU} side={THREE.DoubleSide} {...additive} />

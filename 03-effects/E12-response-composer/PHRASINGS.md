@@ -14,7 +14,7 @@
 | In processing, briefly | in_processing | less | V30 | glance | — |
 | Give me the full picture of applications in processing | in_processing | full | V02 | context | board · `hero` |
 | Show me everything on applications in processing | in_processing | full, show | V02 | context | board · `hero` |
-| Where are the applications in processing? | in_processing | where | V26 | explore | journey |
+| Where are the applications in processing? | in_processing | where | V09 | explore | journey |
 | How many applications from India are in processing? | in_processing | — | V30 | glance | — |
 | How many applications are being processed in Mumbai? | in_processing | — | V30 | glance | — |
 | How many new applications came in today? | entered_today | — | V30 | glance | — |
@@ -57,11 +57,11 @@
 | How long do tourist visas take? | processing_time | — | V30 | glance | — |
 | Which stage takes the longest? | stage_time | — | V05 | context | tm · `stages` |
 | How long is each stage? | stage_time | — | V05 | context | tm · `stages` |
-| Stage times in detail | stage_time | more | V26 | explore | journey |
-| Show the online visa journey | journey | show | V26 | context | journey |
-| Walk me through the pipeline | journey | — | V26 | context | journey |
-| Where are the online applications? | in_processing | where | V26 | explore | journey |
-| Show me the funnel | journey | show | V26 | context | journey |
+| Stage times in detail | stage_time | more | V09 | explore | journey |
+| Show the online visa journey | journey | show | V09 | context | journey |
+| Walk me through the pipeline | journey | — | V09 | context | journey |
+| Where are the online applications? | in_processing | where | V09 | explore | journey |
+| Show me the funnel | journey | show | V09 | context | journey |
 | Which countries generate the most applications? | by_country | — | V16 | context | podiums · `res` |
 | Where do applicants come from? | by_country | where | V16 | context | podiums · `res` |
 | Top countries | by_country | — | V16 | context | podiums · `res` |
@@ -73,9 +73,9 @@
 | What is our revenue? | revenue | — | V30 | glance | — |
 | How much money have we made? | revenue | — | V30 | glance | — |
 | Just the revenue number | revenue | less | V30 | glance | — |
-| Revenue by country | revenue_breakdown | breakdown | V28 | explore | revenue · `countries` |
-| Break down revenue | revenue_breakdown | breakdown | V28 | explore | revenue · `countries` |
-| Which countries bring in the most revenue? | revenue_breakdown | — | V28 | context | revenue · `countries` |
+| Revenue by country | revenue_breakdown | breakdown | V32 | explore | revenue · `countries` |
+| Break down revenue | revenue_breakdown | breakdown | V32 | explore | revenue · `countries` |
+| Which countries bring in the most revenue? | revenue_breakdown | — | V32 | context | revenue · `countries` |
 | How does today's performance compare with yesterday? | daily_comparison | compare | V15 | context | periods · `today` |
 | How are we trending this week? | daily_comparison | — | V15 | context | periods · `today` |
 | Last 7 days performance | daily_comparison | — | V15 | context | periods · `today` |
@@ -117,7 +117,7 @@ Each line is asked after the previous answer (no chips on screen; follow-ups are
 
 1. “How many applications are in processing?” → V30 · glance · in_processing
 2. “Tell me more” → V02 · context
-3. “More detail” → V26 · explore
+3. “More detail” → V09 · explore
 4. “Less detail” → V02 · context
 5. “Just the number” → V30 · glance · in_processing
 

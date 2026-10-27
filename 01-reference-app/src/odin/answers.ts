@@ -1,6 +1,6 @@
 import type { ComponentSpec, Intent, Placed, SceneAnswer } from './types';
 import {
-  CENTRES, COUNTRIES, JOURNEYS, OCCUPATIONS, PURPOSES, VISA_TYPES, findCentre, findCountry, findVisa, journeyCounts, periods,
+  CENTRES, COUNTRIES, JOURNEYS, VISA_TYPES, findCentre, findCountry, findVisa, journeyCounts, periods,
   queueAging, revenuePreview, revenueBreakdowns, onlineJourneyMap, slice, timeStats, topCentres, topNationalities, topResidence, totals,
   type Channel, type Filters,
 } from './vas';
@@ -51,7 +51,6 @@ const place = (spec: ComponentSpec, slot: string): Placed => ({ spec, slot });
 // ───────────────────────────── Journey ─────────────────────────────
 function journey(channel: Channel, f: Filters, intent: Intent): SceneAnswer {
   if (channel === 'centre') return retired(intent, 'centreJourney');
-  if (intent.type === 'journey' && intent.style === 'jars') return journeyJars(f, intent);
   const j = journeyCounts(channel, f);
   const def = JOURNEYS[channel];
   // Applications currently waiting at each stage = reached this stage − reached next.
@@ -133,27 +132,10 @@ function journey(channel: Channel, f: Filters, intent: Intent): SceneAnswer {
   });
 }
 
-/**
- * Online visa journey v2: the same journey data on a glass board of jars (wide).
- * An application icon travels jar to jar; the arriving jar glows and ODIN narrates it.
- * The floor journey (v1) stays available as its own question.
- */
-function journeyJars(f: Filters, intent: Intent): SceneAnswer {
-  const base = journey('online', f, { type: 'journey', channel: 'online', filters: f });
-  const comp = base.components.find((c) => c.spec.kind === 'journey');
-  if (comp && comp.spec.kind === 'journey') {
-    comp.spec.variant = 'jars';
-    comp.spec.heading = { title: 'Application Journey', subtitle: 'Every step of an application, with and without biometrics' };
-  }
-  return { ...base, intent, template: 'jars', env: undefined, title: 'Application Journey', subtitle: `End-to-end application path with biometric and non-biometric decision routes${titleSuffix({ ...f, channel: undefined })}` };
-}
-
-/** F07b (v2): centre visits — appointments through biometrics; unconfirmed stages shown as Not available. */
 
 // ───────────────────────────── Outcomes ─────────────────────────────
 function outcomes(f: Filters, intent: Intent): SceneAnswer {
-  // 20 Oct review: the galaxy is the outcomes screen (the 3D donut version was retired).
-  const v2 = true;
+  // The galaxy is the outcomes screen (V27).
   const s = slice(f);
   const who = describe(f);
   const spoken =
@@ -161,13 +143,13 @@ function outcomes(f: Filters, intent: Intent): SceneAnswer {
     `${formatCount(s.inProcessing)} are still in processing, which puts the closure rate at ${pct(s.closureRate)}.`;
   return scene({
     intent,
-    template: v2 ? 'galaxy' : 'outcomes',
+    template: 'galaxy',
     title: 'Application Outcomes',
     subtitle: `Current status of every application${who ? ` ${who}` : ' to date'}`,
     focusKey: 'donut',
-    // The application core (v1) or the galaxy (v2) is the centre, so ODIN's globe stays out of it.
+    // The galaxy is the centre, so ODIN's globe stays out of it.
     presence: 'dissolved',
-    // One composition: the 3D donut around the application core, with its cards (v1) or the galaxy (v2, wide).
+    // One composition: the galaxy with its outcome cards (tablet / phone use the card board).
     components: [
       place(
         {
@@ -176,7 +158,7 @@ function outcomes(f: Filters, intent: Intent): SceneAnswer {
           total: s.applications,
           totalLabel: 'Total applications',
           basis: 'Current status · each application counted once',
-          variant: v2 ? 'galaxy' : 'cards',
+          variant: 'galaxy',
           closure: { value: s.closureRate, basis: 'closed ÷ all applications' },
           segments: [
             { key: 'approved', label: 'Approved', count: s.approved, accent: C.green },
@@ -385,36 +367,15 @@ export const SUGGESTIONS = [
   'What is our revenue?',
 ];
 
+/** VAS revenue: one screen (V32 · BQ05, BQ27). The v1 pillars (V08) and the v2 core-over-row layout (V28) were extra versions. */
 function revenue(intent: Extract<Intent, { type: 'revenue' }>): SceneAnswer {
-  if (intent.style === 'core' || intent.style === 'sides') return revenueCore(intent);
-  // v2 scope: F13a/F13b Green, P1 — validation required. Values are mock until the
-  // revenue definition (tax, refunds, currency) is approved by AEGI Finance.
-  const r = revenuePreview();
-  const top = r.dims[0];
-  return scene({
-    intent,
-    template: 'stageTall',
-    title: 'VAS Revenue',
-    subtitle: 'Total and breakdown by country, centre, service and nationality',
-    focusKey: 'revenue',
-    presence: 'dissolved',
-    components: [
-      place({ kind: 'revenue', key: 'revenue', preview: true, validation: false, amount: r.amount, delta: r.delta, dims: r.dims }, 'stage'),
-    ],
-    spoken:
-      `VAS revenue stands at ${fmtAED(r.amount)}, ${r.delta >= 0 ? 'up' : 'down'} ${Math.abs(r.delta).toFixed(1)} percent on the previous period. ` +
-      `${top.label} account for the largest share, ${(top.share * 100).toFixed(0)} percent.`,
-    summary: {
-      primary: `VAS revenue ${fmtAED(r.amount)} · ${r.delta >= 0 ? '+' : '−'}${Math.abs(r.delta).toFixed(1)}% vs previous period.`,
-      secondary: `${top.label} account for the largest share (${(top.share * 100).toFixed(0)}%).`,
-    },
-  });
+  return revenueCore(intent);
 }
 
 /**
- * VAS Revenue v2: gold revenue core with validation built in, fed by neon
- * streams from four full breakdowns of the same total (country and centre in
- * scope; service and nationality as labelled post-October previews).
+ * VAS Revenue (V32): the gold revenue core in the centre, fed by Home's energy links from
+ * two breakdown panels on each side (country and centre in scope; service and nationality
+ * as labelled post-October previews). Every panel sums to the total.
  */
 function revenueCore(intent: Extract<Intent, { type: 'revenue' }>): SceneAnswer {
   const r = revenuePreview();
@@ -428,7 +389,7 @@ function revenueCore(intent: Extract<Intent, { type: 'revenue' }>): SceneAnswer 
     subtitle: 'Total and breakdown by country, centre, service and nationality',
     focusKey: 'revenue',
     presence: useLayout.getState().home.mode === 'wide' ? 'dissolved' : 'core',
-    components: [place({ kind: 'revenue', key: 'revenue', preview: true, validation: false, amount: r.amount, delta: r.delta, dims: r.dims, breakdowns: v.breakdowns, ...(intent.style === 'sides' ? { layout: 'sides' as const } : {}) }, 'stage')],
+    components: [place({ kind: 'revenue', key: 'revenue', preview: true, validation: false, amount: r.amount, delta: r.delta, dims: r.dims, breakdowns: v.breakdowns }, 'stage')],
     spoken:
       `VAS revenue stands at ${fmtAED(r.amount)}, ${r.delta >= 0 ? 'up' : 'down'} ${Math.abs(r.delta).toFixed(1)} percent on the previous period. ` +
       `${country.rows[0].name} is the largest country at ${fmtShort(country.rows[0].value)}, and ${centre.rows[0].name} the largest centre at ${fmtShort(centre.rows[0].value)}.`,
@@ -507,49 +468,39 @@ function processing(intent: Intent): SceneAnswer {
   });
 }
 
-// ───────────────────────────── Time matrix (BQ04, BQ07–BQ10) ─────────────────────────────
+// ───────────────────────────── Time matrix (V05 · BQ04, BQ07; BQ08–BQ10 highlight a stage) ─────────────────────────────
 
 function timeMatrix(intent: Extract<Intent, { type: 'timeMatrix' }>): SceneAnswer {
-  const ch = intent.channel;
-  const st = timeStats(ch, intent.filters);
-  const label = ch === 'centre' ? 'Centre visit' : ch === 'online' ? 'Online' : 'All';
+  // One time-matrix screen (V05, online). Stage questions highlight their stage on it; there is no separate centre matrix.
+  const st = timeStats('online', intent.filters);
   const who = describe(intent.filters);
-  // Online: the five reporting stages of the approved matrix design. Biometric-branch
-  // splits of ICP time are a design preview (F25 red) until ICP events are mapped.
-  if (ch !== 'centre') {
-    const d = Object.fromEntries(st.stages.map((x) => [x.key, x.days]));
-    const r1 = (n: number) => +n.toFixed(1);
-    const icp = d['icp'] ?? 2.2;
-    st.stages = [
-      { key: 'subpay', label: 'Submission & Payment', icon: 'submit', accent: C.blue, days: r1((d['submission'] ?? 0.4) + (d['payment'] ?? 0.2)) },
-      { key: 'vas-review', label: 'VAS Internal Review', icon: 'review', accent: C.blue, days: r1((d['vas-review'] ?? 0.6) * 0.85) },
-      { key: 'icp-pre', label: 'ICP Pre-Biometric', icon: 'checkin', accent: C.violet, days: r1((d['to-icp'] ?? 0.4) + icp * 0.18) },
-      { key: 'bio', label: 'Applicant Biometric Window', icon: 'biometric', accent: C.blue, days: r1(icp * 0.23) },
-      { key: 'icp-final', label: 'ICP Final Review', icon: 'documents', accent: C.violet, days: r1(icp * 0.64) },
-    ];
-    st.longest = st.stages.reduce((b, x) => (x.days > b.days ? x : b), st.stages[0]);
-  }
+  // The five reporting stages of the approved matrix design. Biometric-branch splits of ICP
+  // time are a design preview (F25 red) until ICP events are mapped.
+  const d = Object.fromEntries(st.stages.map((x) => [x.key, x.days]));
+  const r1 = (n: number) => +n.toFixed(1);
+  const icp = d['icp'] ?? 2.2;
+  st.stages = [
+    { key: 'subpay', label: 'Submission & Payment', icon: 'submit', accent: C.blue, days: r1((d['submission'] ?? 0.4) + (d['payment'] ?? 0.2)) },
+    { key: 'vas-review', label: 'VAS Internal Review', icon: 'review', accent: C.blue, days: r1((d['vas-review'] ?? 0.6) * 0.85) },
+    { key: 'icp-pre', label: 'ICP Pre-Biometric', icon: 'checkin', accent: C.violet, days: r1((d['to-icp'] ?? 0.4) + icp * 0.18) },
+    { key: 'bio', label: 'Applicant Biometric Window', icon: 'biometric', accent: C.blue, days: r1(icp * 0.23) },
+    { key: 'icp-final', label: 'ICP Final Review', icon: 'documents', accent: C.violet, days: r1(icp * 0.64) },
+  ];
+  st.longest = st.stages.reduce((b, x) => (x.days > b.days ? x : b), st.stages[0]);
   const stageKey: Record<string, string> = { 'to-icp': 'icp-pre', icp: 'icp-final', biometrics: 'bio' };
-  const focus = intent.stage ? st.stages.find((x) => x.key === (ch !== 'centre' ? stageKey[intent.stage!] ?? intent.stage : intent.stage)) : undefined;
-  const tabs = ch === 'centre'
-    ? [
-      { label: 'All online visas', ask: 'online visa processing time matrix' },
-      { label: 'Centre visits', ask: 'centre processing time matrix', active: true },
-      { label: 'By country', ask: 'which countries are slowest' },
-      { label: 'By centre', ask: 'which centres are slowest' },
-    ]
-    : [
-      { label: 'All Online Visas', ask: 'online visa processing time matrix', active: !intent.filters.country },
-      { label: 'By Country', ask: 'which countries are slowest' },
-      { label: 'By centre', ask: 'which centres are slowest' },
-    ];
+  const focus = intent.stage ? st.stages.find((x) => x.key === (stageKey[intent.stage!] ?? intent.stage)) : undefined;
+  const tabs = [
+    { label: 'All Online Visas', ask: 'online visa processing time matrix', active: !intent.filters.country },
+    { label: 'By Country', ask: 'which countries are slowest' },
+    { label: 'By centre', ask: 'which centres are slowest' },
+  ];
   const stageSentence = focus
     ? `${focus.label} averages ${days(focus.days)}, out of ${days(st.avg)} end to end.`
     : `The slowest step is ${st.longest.label}, at ${days(st.longest.days)}; the quickest is ${st.fastest.label}, at ${days(st.fastest.days)}.`;
   return scene({
     intent,
     template: 'matrix',
-    title: ch === 'centre' ? 'How Long Centre Visits Take' : 'How Long Online Visas Take',
+    title: 'How Long Online Visas Take',
     subtitle: `From application to decision, and the time at each step${who ? ` · ${who}` : ''}`,
     focusKey: 'tm',
     // Wide: the matrix draws its own data sphere, so ODIN's globe dissolves; compact keeps the globe in its core.
@@ -557,17 +508,17 @@ function timeMatrix(intent: Extract<Intent, { type: 'timeMatrix' }>): SceneAnswe
     components: [
       place(
         {
-          kind: 'timeMatrix', key: 'tm', scopeLabel: who || (ch === 'centre' ? 'centre visits' : 'online applications'),
+          kind: 'timeMatrix', key: 'tm', scopeLabel: who || 'online applications',
           avg: st.avg, avgDelta: st.avgDelta, median: st.median, medianDelta: st.medianDelta, p90: st.p90, applications: st.applications,
           hourly: st.hourly, fastest: st.fastest, longest: st.longest, stages: st.stages, focusStage: focus?.key, tabs,
           // SLA threshold not yet agreed (scope): shown as Not available.
           sla: null,
-          previewNote: ch !== 'centre' ? 'Biometric stage split · design preview' : undefined,
+          previewNote: 'Biometric stage split · design preview',
         },
         'stage',
       ),
     ],
-    spoken: `${label === 'All' ? 'Visa' : label} applications${who ? ` ${who}` : ''} take ${days(st.avg)} on average from application to decision; half of them finish within ${days(st.median)} and 9 in 10 within ${days(st.p90)}. ${stageSentence}`,
+    spoken: `Online applications${who ? ` ${who}` : ''} take ${days(st.avg)} on average from application to decision; half of them finish within ${days(st.median)} and 9 in 10 within ${days(st.p90)}. ${stageSentence}`,
     summary: {
       primary: focus ? `${focus.label}: ${days(focus.days)} on average.` : `${days(st.avg)} on average from application to decision.`,
       secondary: `Half finish within ${days(st.median)} · 9 in 10 within ${days(st.p90)} · slowest step ${st.longest.label} (${days(st.longest.days)}).`,
@@ -575,23 +526,6 @@ function timeMatrix(intent: Extract<Intent, { type: 'timeMatrix' }>): SceneAnswe
   });
 }
 
-// ───────────────────────────── Queue / aging (BQ13) ─────────────────────────────
-function queue(intent: Extract<Intent, { type: 'queue' }>): SceneAnswer {
-  const items = queueAging(intent.channel);
-  const top = [...items].sort((a, b) => b.waiting - a.waiting)[0];
-  const old = items.reduce((a, q) => a + q.buckets.gt3, 0);
-  return scene({
-    intent,
-    template: 'stage',
-    title: 'Where Applications Are Waiting',
-    subtitle: `${intent.channel === 'centre' ? 'Centre' : 'Online'} applications currently waiting at each stage, with age bands`,
-    focusKey: 'queue',
-    presence: 'dissolved',
-    components: [place({ kind: 'queue', key: 'queue', items }, 'stage')],
-    spoken: `${top.label} has the most applications waiting, ${formatCount(top.waiting)}, with an average wait of ${days(top.avgWait)}. Across all stages, ${formatCount(old)} have been waiting more than three days. This shows where applications are waiting; it does not establish why.`,
-    summary: { primary: `${top.label}: ${formatCount(top.waiting)} waiting now.`, secondary: `${formatCount(old)} applications waiting more than 3 days across all stages.` },
-  });
-}
 
 // ───────────────────────────── Period comparison (BQ14–BQ17) ─────────────────────────────
 function periodsScene(intent: Intent): SceneAnswer {
@@ -611,35 +545,6 @@ function periodsScene(intent: Intent): SceneAnswer {
 }
 
 // ───────────────────────────── Submission channels (BQ21) ─────────────────────────────
-/**
- * BQ21 / F09 (v2): DXC confirmed every application is submitted online; centres are
- * only used later (biometrics). There is no online-versus-centre submission split.
- */
-function channels(intent: Intent): SceneAnswer {
-  const t = totals();
-  return scene({
-    intent,
-    template: 'notice',
-    title: 'Submission channel',
-    subtitle: 'All applications are submitted online',
-    focusKey: 'notice',
-    presence: 'dissolved',
-    components: [
-      place(
-        {
-          kind: 'notice',
-          key: 'notice',
-          title: 'Every application is submitted online',
-          text: `All ${formatCount(t.total)} applications were submitted online. Centres are used later for visits such as biometrics, so there is no online-versus-centre submission split to show.`,
-          suggestions: ['Show the centre visit journey', 'Show the online visa journey'],
-        },
-        'hero',
-      ),
-    ],
-    spoken: `All ${formatCount(t.total)} applications were submitted online. Centres are used later for visits such as biometrics, so there's no online-versus-centre split. I can show you the centre visit journey instead.`,
-    summary: { primary: 'All applications are submitted online.', secondary: 'Centres handle later visits such as biometrics.' },
-  });
-}
 
 // ───────────────────────────── Triple ranking (BQ18, BQ22) ─────────────────────────────
 function tops(intent: Intent): SceneAnswer {
@@ -654,15 +559,14 @@ function tops(intent: Intent): SceneAnswer {
     subtitle: 'Where applications come from · residence, nationality and attributed centre, to date',
     focusKey: 'podiums',
     presence: 'dissolved',
-    // v1: tilt the camera down a little so the leaderboards stand on the floor with their reflections.
-    ...(intent.type === 'tops' && intent.style === 'skyline' ? {} : { env: 'low' as const }),
+    // Tilt the camera down a little so the leaderboards stand on the floor with their reflections.
+    env: 'low' as const,
     components: [
       place(
         {
           kind: 'podiums',
           key: 'podiums',
           total: totals().total,
-          ...(intent.type === 'tops' && intent.style === 'skyline' ? { variant: 'skyline' as const } : {}),
           columns: [
             { key: 'res', title: 'Top countries', sub: 'by applications · residence', icon: 'globe', accent: '#f5ac45', share: true, items: res.map((r) => ({ label: r.name, code: r.code, value: r.value })) },
             { key: 'nat', title: 'Top nationalities', sub: 'by applications', icon: 'people', accent: '#8b6cff', share: true, items: nat.map((n) => ({ label: NAT[n.code] ?? n.name, value: n.value })) },
@@ -733,25 +637,18 @@ function outcomeDist(intent: Intent): SceneAnswer {
   });
 }
 
-// ───────────────────────────── Purpose / occupation mix (BQ19–BQ20) ─────────────────────────────
-function mix(intent: Extract<Intent, { type: 'mix' }>): SceneAnswer {
-  const { total } = totals();
-  const list = intent.dim === 'purpose' ? PURPOSES : OCCUPATIONS;
-  const segs = list.map((p) => ({ key: p.key, label: p.label, count: Math.round(total * p.share), accent: p.accent }));
-  const top = segs[0];
-  const title = intent.dim === 'purpose' ? 'Travel Purpose Mix' : 'Applicant Occupation Mix';
-  return scene({
-    intent,
-    template: 'stage',
-    title,
-    subtitle: `${intent.dim === 'purpose' ? 'Recorded visa purpose' : 'Recorded applicant occupation'} · post-October feature, shown for design review (mock)`,
-    focusKey: 'ring',
-    presence: 'dissolved',
-    components: [place({ kind: 'ring', key: 'ring', total, totalLabel: 'Applications', basis: 'Recorded values only · unknowns kept separate', segments: segs }, 'stage')],
-    spoken: `${top.label} accounts for the largest share, ${formatCount(top.count)} applications. This uses recorded ${intent.dim === 'purpose' ? 'visa purpose' : 'occupation'} values and is planned after October.`,
-    summary: { primary: `${top.label}: ${formatCount(top.count)} applications (largest share).`, secondary: `Recorded ${intent.dim} values · post-October (F${intent.dim === 'purpose' ? '27' : '28'}).` },
-  });
-}
+
+/**
+ * Screens not in the Build 5 approved set (22 Oct) answer with the not-available notice (V24):
+ * stage queue (F12b), submission channel (F09: all online) and purpose / occupation mix (F27/F28).
+ */
+const NOT_IN_BUILD: Record<'queue' | 'channels' | 'purpose' | 'occupation', { bq: string; title: string; reason: string }> = {
+  queue: { bq: 'BQ13', title: 'Where applications are waiting', reason: 'Stage waiting times (bottlenecks) are planned after October.' },
+  channels: { bq: 'BQ21', title: 'Submission channel', reason: 'Every application is submitted online; centres handle later visits such as biometrics, so there is no online-versus-centre split.' },
+  purpose: { bq: 'BQ19', title: 'Travel purpose', reason: 'Recorded visa purpose is planned after October.' },
+  occupation: { bq: 'BQ20', title: 'Applicant types', reason: 'Recorded applicant occupation is planned after October.' },
+};
+const notInBuild = (k: keyof typeof NOT_IN_BUILD) => outOfScope({ type: 'outOfScope', ...NOT_IN_BUILD[k] });
 
 function outOfScope(intent: Extract<Intent, { type: 'outOfScope' }>): SceneAnswer {
   return scene({
@@ -808,18 +705,18 @@ export function answer(intent: Intent): SceneAnswer | null {
     case 'journey':
       return journey(intent.channel, intent.filters, intent);
     case 'outcomes':
-      if (intent.filters.channel === 'centre') return channels(intent);
+      if (intent.filters.channel === 'centre') return notInBuild('channels');
       return outcomes(onlineOnly(intent.filters), intent);
     case 'time':
-      if (intent.filters.channel === 'centre') return channels(intent);
+      if (intent.filters.channel === 'centre') return notInBuild('channels');
       return time(onlineOnly(intent.filters), intent);
     case 'count':
-      if (intent.filters.channel === 'centre') return channels(intent);
+      if (intent.filters.channel === 'centre') return notInBuild('channels');
       return count(onlineOnly(intent.filters), intent);
     case 'ranking':
       return ranking(intent);
     case 'compare':
-      if (intent.entities.some((e) => e.kind === 'channel')) return channels(intent);
+      if (intent.entities.some((e) => e.kind === 'channel')) return notInBuild('channels');
       return retired(intent, 'compare');
     case 'revenue':
       return revenue(intent);
@@ -828,11 +725,11 @@ export function answer(intent: Intent): SceneAnswer | null {
     case 'timeMatrix':
       return timeMatrix(intent);
     case 'queue':
-      return queue(intent);
+      return notInBuild('queue');
     case 'periods':
       return periodsScene(intent);
     case 'channels':
-      return channels(intent);
+      return notInBuild('channels');
     case 'tops':
       return tops(intent);
     case 'geo':
@@ -840,7 +737,7 @@ export function answer(intent: Intent): SceneAnswer | null {
     case 'outcomeDist':
       return outcomeDist(intent);
     case 'mix':
-      return mix(intent);
+      return notInBuild(intent.dim === 'purpose' ? 'purpose' : 'occupation');
     case 'journeyMap':
       return retired(intent, 'journeyMap');
     case 'outOfScope':

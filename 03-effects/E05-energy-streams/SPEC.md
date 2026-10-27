@@ -14,4 +14,4 @@ Opacity: glow (0.16 + energy·0.35)·base; dust 0.5·k; comets k, where k = ambi
 
 **Reduced motion.** Dust, tail and head animations stop; strands stay static.
 
-**Used by**: V01 Executive Home · V02 Applications in Processing · V05 Processing Time Matrix · online · V06 Processing Time Matrix · centre visits · V07 Time Matrix · focus stage
+**Used by**: V01 Executive Home · V02 Applications in Processing · V05 Processing Time Matrix · online

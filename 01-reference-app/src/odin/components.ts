@@ -30,15 +30,15 @@ export const COMPONENTS: ComponentEntry[] = [
   { id: 'C06', name: 'Approval rate', measure: 'approval_rate', shows: 'Approved as a share of decided applications', on: ['V30', 'V29'], queries: 2, query: 'approved ÷ (approved + rejected)' },
   { id: 'C07', name: 'Closure rate', measure: 'closure_rate', shows: 'Closed applications as a share of all applications', on: ['V30', 'V01', 'V04', 'V29'], queries: 2, query: 'closed ÷ count(applications)' },
   { id: 'C08', name: 'Processing time', measure: 'processing_time', shows: 'Average days from submission to decision', on: ['V30', 'V05', 'V23'], queries: 1, query: 'avg(decided_at − submitted_at) over decided applications' },
-  { id: 'C09', name: 'VAS revenue', measure: 'revenue', shows: 'Total VAS revenue to date (AED)', on: ['V30', 'V01', 'V08', 'V28'], queries: 1, query: 'sum(VAS fees)' },
+  { id: 'C09', name: 'VAS revenue', measure: 'revenue', shows: 'Total VAS revenue to date (AED)', on: ['V30', 'V01', 'V32'], queries: 1, query: 'sum(VAS fees)' },
   // ── Full-page components ──
   { id: 'C10', name: 'Status ring', shows: 'Approved, rejected, closed (other) and in processing as one ring', on: ['V04', 'V29'], queries: 1, query: 'count(applications) group by status' },
   { id: 'C11', name: 'Outcome galaxy', shows: 'Outcomes as spiral arms sized by share, with four glass cards', on: ['V27'], queries: 1, query: 'count(applications) group by status' },
   { id: 'C12', name: 'Processing board', shows: 'In processing, entered today, closed today and where they wait', on: ['V02'], queries: 3, query: 'open count · entered today · closed today · open group by stage' },
-  { id: 'C13', name: 'Time matrix', shows: 'End-to-end time, six duration cards and the stage strip', on: ['V05', 'V06', 'V07'], queries: 2, query: 'duration percentiles · avg duration group by stage' },
-  { id: 'C14', name: 'Journey', shows: 'Each stage of the online journey with its count', on: ['V09', 'V26'], queries: 1, query: 'count(applications) group by current stage' },
-  { id: 'C15', name: 'Leaderboard', shows: 'Top five with the leader’s share (countries, nationalities or centres)', on: ['V16', 'V31', 'V17'], queries: 1, query: 'count(applications) group by dimension, top 5' },
-  { id: 'C16', name: 'Revenue breakdown', shows: 'Revenue by country, centre, service and nationality', on: ['V08', 'V28'], queries: 2, query: 'sum(VAS fees) group by country · by centre' },
+  { id: 'C13', name: 'Time matrix', shows: 'End-to-end time, six duration cards and the stage strip', on: ['V05'], queries: 2, query: 'duration percentiles · avg duration group by stage' },
+  { id: 'C14', name: 'Journey', shows: 'Each stage of the online journey with its count', on: ['V09'], queries: 1, query: 'count(applications) group by current stage' },
+  { id: 'C15', name: 'Leaderboard', shows: 'Top five with the leader’s share (countries, nationalities or centres)', on: ['V16', 'V17'], queries: 1, query: 'count(applications) group by dimension, top 5' },
+  { id: 'C16', name: 'Revenue breakdown', shows: 'Revenue by country, centre, service and nationality', on: ['V32'], queries: 2, query: 'sum(VAS fees) group by country · by centre' },
   { id: 'C17', name: 'Period comparison', shows: 'Today, yesterday, last 7 days, previous 7 days, month to date', on: ['V15'], queries: 1, query: 'count(applications) group by period bucket' },
 ];
 

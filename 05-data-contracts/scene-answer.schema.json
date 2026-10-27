@@ -323,159 +323,6 @@
       ],
       "type": "string"
     },
-    "ChannelsSpec": {
-      "additionalProperties": false,
-      "properties": {
-        "centre": {
-          "additionalProperties": false,
-          "properties": {
-            "bars": {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            "count": {
-              "type": "number"
-            },
-            "delta": {
-              "type": "number"
-            },
-            "share": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "count",
-            "share",
-            "delta",
-            "bars"
-          ],
-          "type": "object"
-        },
-        "key": {
-          "type": "string"
-        },
-        "kind": {
-          "const": "channels",
-          "type": "string"
-        },
-        "online": {
-          "additionalProperties": false,
-          "properties": {
-            "bars": {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            "count": {
-              "type": "number"
-            },
-            "delta": {
-              "type": "number"
-            },
-            "share": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "count",
-            "share",
-            "delta",
-            "bars"
-          ],
-          "type": "object"
-        },
-        "status": {
-          "enum": [
-            "valid",
-            "amber"
-          ],
-          "type": "string"
-        },
-        "total": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "kind",
-        "key",
-        "total",
-        "online",
-        "centre",
-        "status"
-      ],
-      "type": "object"
-    },
-    "CompareSpec": {
-      "additionalProperties": false,
-      "properties": {
-        "key": {
-          "type": "string"
-        },
-        "kind": {
-          "const": "compare",
-          "type": "string"
-        },
-        "sides": {
-          "items": {
-            "additionalProperties": false,
-            "properties": {
-              "accent": {
-                "type": "string"
-              },
-              "code": {
-                "type": "string"
-              },
-              "key": {
-                "type": "string"
-              },
-              "label": {
-                "type": "string"
-              },
-              "rows": {
-                "items": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "format": {
-                      "$ref": "#/definitions/ValueFormat"
-                    },
-                    "label": {
-                      "type": "string"
-                    },
-                    "value": {
-                      "type": "number"
-                    }
-                  },
-                  "required": [
-                    "label",
-                    "value",
-                    "format"
-                  ],
-                  "type": "object"
-                },
-                "type": "array"
-              }
-            },
-            "required": [
-              "key",
-              "label",
-              "accent",
-              "rows"
-            ],
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "kind",
-        "key",
-        "sides"
-      ],
-      "type": "object"
-    },
     "ComponentSpec": {
       "anyOf": [
         {
@@ -497,22 +344,13 @@
           "$ref": "#/definitions/RankingSpec"
         },
         {
-          "$ref": "#/definitions/CompareSpec"
-        },
-        {
           "$ref": "#/definitions/BarsSpec"
-        },
-        {
-          "$ref": "#/definitions/FactsSpec"
         },
         {
           "$ref": "#/definitions/NoticeSpec"
         },
         {
           "$ref": "#/definitions/TimeMatrixSpec"
-        },
-        {
-          "$ref": "#/definitions/ChannelsSpec"
         },
         {
           "$ref": "#/definitions/PodiumsSpec"
@@ -525,12 +363,6 @@
         },
         {
           "$ref": "#/definitions/PeriodsSpec"
-        },
-        {
-          "$ref": "#/definitions/QueueSpec"
-        },
-        {
-          "$ref": "#/definitions/RingSpec"
         },
         {
           "$ref": "#/definitions/AppCoreSpec"
@@ -677,74 +509,6 @@
         "totalLabel",
         "segments",
         "basis"
-      ],
-      "type": "object"
-    },
-    "FactsSpec": {
-      "additionalProperties": false,
-      "properties": {
-        "items": {
-          "items": {
-            "additionalProperties": false,
-            "properties": {
-              "accent": {
-                "type": "string"
-              },
-              "icon": {
-                "$ref": "#/definitions/IconName"
-              },
-              "sub": {
-                "type": "string"
-              },
-              "text": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "icon",
-              "text",
-              "accent"
-            ],
-            "type": "object"
-          },
-          "type": "array"
-        },
-        "key": {
-          "type": "string"
-        },
-        "kind": {
-          "const": "facts",
-          "type": "string"
-        },
-        "ring": {
-          "additionalProperties": false,
-          "properties": {
-            "basis": {
-              "type": "string"
-            },
-            "label": {
-              "type": "string"
-            },
-            "value": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "label",
-            "value",
-            "basis"
-          ],
-          "type": "object"
-        },
-        "title": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "kind",
-        "key",
-        "title",
-        "items"
       ],
       "type": "object"
     },
@@ -1166,10 +930,6 @@
             "filters": {
               "$ref": "#/definitions/Filters"
             },
-            "style": {
-              "const": "jars",
-              "type": "string"
-            },
             "type": {
               "const": "journey",
               "type": "string"
@@ -1339,13 +1099,6 @@
             "preview": {
               "type": "boolean"
             },
-            "style": {
-              "enum": [
-                "core",
-                "sides"
-              ],
-              "type": "string"
-            },
             "type": {
               "const": "revenue",
               "type": "string"
@@ -1448,10 +1201,6 @@
         {
           "additionalProperties": false,
           "properties": {
-            "style": {
-              "const": "skyline",
-              "type": "string"
-            },
             "type": {
               "const": "tops",
               "type": "string"
@@ -1739,15 +1488,6 @@
             "type": "object"
           },
           "type": "array"
-        },
-        "variant": {
-          "description": "'pedestals' (3.1 primary), 'orbs' (3.2 journey map) or 'jars' (online journey v2, wide).",
-          "enum": [
-            "pedestals",
-            "orbs",
-            "jars"
-          ],
-          "type": "string"
         }
       },
       "required": [
@@ -2088,7 +1828,7 @@
     },
     "PodiumsSpec": {
       "additionalProperties": false,
-      "description": "v1 leaderboards (default) · v2 'skyline': glass pillars with rising particles. `total` = all applications (for shares).",
+      "description": "Leaderboards (V16). `total` = all applications (for shares).",
       "properties": {
         "columns": {
           "items": {
@@ -2105,10 +1845,6 @@
         },
         "total": {
           "type": "number"
-        },
-        "variant": {
-          "const": "skyline",
-          "type": "string"
         }
       },
       "required": [
@@ -2126,80 +1862,6 @@
         "dissolved"
       ],
       "type": "string"
-    },
-    "QueueSpec": {
-      "additionalProperties": false,
-      "properties": {
-        "items": {
-          "items": {
-            "additionalProperties": false,
-            "properties": {
-              "accent": {
-                "type": "string"
-              },
-              "avgWait": {
-                "type": "number"
-              },
-              "buckets": {
-                "additionalProperties": false,
-                "properties": {
-                  "d13": {
-                    "type": "number"
-                  },
-                  "gt3": {
-                    "type": "number"
-                  },
-                  "lt1": {
-                    "type": "number"
-                  }
-                },
-                "required": [
-                  "lt1",
-                  "d13",
-                  "gt3"
-                ],
-                "type": "object"
-              },
-              "icon": {
-                "$ref": "#/definitions/StageIcon"
-              },
-              "key": {
-                "type": "string"
-              },
-              "label": {
-                "type": "string"
-              },
-              "waiting": {
-                "type": "number"
-              }
-            },
-            "required": [
-              "key",
-              "label",
-              "icon",
-              "accent",
-              "waiting",
-              "avgWait",
-              "buckets"
-            ],
-            "type": "object"
-          },
-          "type": "array"
-        },
-        "key": {
-          "type": "string"
-        },
-        "kind": {
-          "const": "queue",
-          "type": "string"
-        }
-      },
-      "required": [
-        "kind",
-        "key",
-        "items"
-      ],
-      "type": "object"
     },
     "RankingSpec": {
       "additionalProperties": false,
@@ -2431,11 +2093,6 @@
           "const": "revenue",
           "type": "string"
         },
-        "layout": {
-          "const": "sides",
-          "description": "v3: the core in the centre, two breakdown panels on each side.",
-          "type": "string"
-        },
         "preview": {
           "type": "boolean"
         },
@@ -2451,63 +2108,6 @@
         "amount",
         "delta",
         "dims"
-      ],
-      "type": "object"
-    },
-    "RingSpec": {
-      "additionalProperties": false,
-      "properties": {
-        "basis": {
-          "type": "string"
-        },
-        "key": {
-          "type": "string"
-        },
-        "kind": {
-          "const": "ring",
-          "type": "string"
-        },
-        "segments": {
-          "items": {
-            "additionalProperties": false,
-            "properties": {
-              "accent": {
-                "type": "string"
-              },
-              "count": {
-                "type": "number"
-              },
-              "key": {
-                "type": "string"
-              },
-              "label": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "key",
-              "label",
-              "count",
-              "accent"
-            ],
-            "type": "object"
-          },
-          "type": "array"
-        },
-        "total": {
-          "type": "number"
-        },
-        "totalLabel": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "kind",
-        "key",
-        "total",
-        "totalLabel",
-        "segments",
-        "basis"
       ],
       "type": "object"
     },
@@ -2642,17 +2242,13 @@
     "Template": {
       "enum": [
         "glance",
-        "stageTall",
         "band",
-        "journey",
         "floor",
-        "jars",
         "galaxy",
         "revenue",
         "appcore",
         "board",
         "matrix",
-        "outcomes",
         "focus",
         "notice",
         "stage",

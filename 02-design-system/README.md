@@ -32,7 +32,7 @@ One hue per object, used for its rim, glow, chart and particles. Never colour al
 |---|---|---|---|
 | **A · Capsule** ![](card-A-capsule.jpg) | ODIN's live pulse | Home (V01), Applications in Processing (V02) | `home.css` `.capsule*` + `KpiCapsule.tsx`: clear tinted glass stadium, thin neon tube rim, curved sheen, soft halo; accent mixed 36% toward `#c9d6ee` |
 | **B · Tile** ![](card-B-tile.jpg) | Analysis and support detail | Every other answer card | `cards.css`: navy glass `linear-gradient(rgba(40,62,118,.5), rgba(14,26,62,.64))`, blur 20px, 1px accent edge, icon badge, chevron follow-up |
-| **C · Hero glass** ![](card-C-hero-glass.jpg) | Headline cards that carry a chart | Outcome Distribution (V04), Time Matrix (V05–V07), Journey Map (V11), Centre journey (V10) | `hero-glass.css` + `HeroGlass.tsx`: capsule glass in card shape, rim glint travelling every 11 s, dark optical centre for AA ink, luminous line/bar chart with "now" lit |
+| **C · Hero glass** ![](card-C-hero-glass.jpg) | Headline cards that carry a chart | Outcome Distribution (V04), Time Matrix (V05), answer cards (V30), leaderboards (V16), period jars (V15) | `hero-glass.css` + `HeroGlass.tsx`: capsule glass in card shape, rim glint travelling every 11 s, dark optical centre for AA ink, luminous line/bar chart with "now" lit |
 
 Rules: a page's headline cards use **C**, supporting cards **B**, live-pulse boards **A**. Charts never contradict the card's delta. The online visa journey (V09) keeps its own light-glass cards.
 

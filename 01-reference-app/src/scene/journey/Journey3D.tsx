@@ -115,7 +115,7 @@ const sparkShader = {
     void main(){ float d = length(gl_PointCoord - 0.5); float a = smoothstep(0.5, 0.0, d); gl_FragColor = vec4((vC + 0.4) * a * a * vA * uOpacity, 1.0); }`,
 };
 
-export type Station = { kind: ObjectKind | 'none'; accent: string; x: number; y: number; r: number; i: number; compact?: boolean; stack?: number; objectScale?: number; noBloom?: boolean };
+export type Station = { kind: ObjectKind | 'none'; accent: string; x: number; y: number; r: number; i: number; compact?: boolean; stack?: number; objectScale?: number; noBloom?: boolean; /** View angle of the base (radians). Default TILT looks down on the floor; small = front view (glass jars). */ tilt?: number };
 
 const ICON_TO_OBJECT: Record<string, ObjectKind> = {
   submit: 'submit', payment: 'payment', review: 'review', upload: 'upload', biometric: 'biometric',
@@ -207,7 +207,7 @@ export function Pedestal({ st, reveal, time }: { st: Station; reveal: React.Muta
         <planeGeometry />
         <shaderMaterial ref={reflMat} vertexShader={haloShader.vertex} fragmentShader={reflFrag} uniforms={reflU} {...additive} />
       </mesh>
-      <group rotation={[TILT, 0, 0]}>
+      <group rotation={[st.tilt ?? TILT, 0, 0]}>
         {/* Contact shadow where the pedestal meets the floor */}
         <mesh position={[0, -0.355, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[2.7, 2.7, 1]} renderOrder={1.3}>
           <planeGeometry />

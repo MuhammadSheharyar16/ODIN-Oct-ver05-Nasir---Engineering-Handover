@@ -11,8 +11,8 @@
 | kind | Object | Used by |
 |---|---|---|
 | donut | 3D outcomes donut (segments extrude, clean mode for V04) | V04 |
-| pedestal | Journey pedestals with crystal icons | V10 |
-| plinths | Glass plinths/jars (periods, queue, revenue, podiums) | V08, V13–V16 |
+| pedestal | Journey pedestals with crystal icons | V09 (tablet / phone) |
+| plinths | Glass plinths under the period jars and the globe's top-10 cards | V15, V17 |
 | earth | 3D Earth with country arcs (d3-geo + world-atlas) | V17 |
 | orb | Glass sphere for "in processing" | V02 |
 
@@ -20,4 +20,4 @@ Material colour rule: write uniforms through the live material ref; non-additive
 
 **Fallback.** Labels and values are HTML and render without WebGL; the empty placeholder can show a static image of the object instead (crop it from the screen captures).
 
-**Used by**: V02 Applications in Processing · V04 Outcome Distribution · V08 VAS Revenue · v1 · V09 Application Journey · v1 · V13 Stage Queue · online · V14 Stage Queue · centres · V15 Performance Comparison · V17 Top Countries on the Globe
+**Used by**: V02 Applications in Processing · V04 Outcome Distribution · V09 Application Journey · V15 Performance Comparison · V17 Top Countries on the Globe

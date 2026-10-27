@@ -70,47 +70,38 @@ export function buildLattice(nodeCount: number, neighbours: number, seed: number
 }
 
 /**
- * Energy bands: tilted partial great circles sampled densely as points,
- * so they read as thick luminous strands that swirl around the core.
+ * Silk streams (replaces the brush-like bands): fine, even particles spread across
+ * soft ribbons that glide slowly along great-circle arcs. Positions are computed in the
+ * shader from each stream's frame (aE1/aE2) so the particles really flow.
  */
-export function buildBands(bandCount: number, pointsPerBand: number, seed: number) {
+export function buildStreams(streamCount: number, perStream: number, seed: number) {
   const rand = mulberry32(seed);
-  const positions: number[] = [];
-  const along: number[] = [];
-  const band: number[] = [];
-  const warm: number[] = [];
-  const size: number[] = [];
-  const axis = new THREE.Vector3();
-  const q = new THREE.Quaternion();
-  const p = new THREE.Vector3();
-  for (let b = 0; b < bandCount; b++) {
+  const e1: number[] = [], e2: number[] = [], prm: number[] = [], prm2: number[] = [], pos: number[] = [];
+  const axis = new THREE.Vector3(), a = new THREE.Vector3(), b = new THREE.Vector3();
+  for (let s = 0; s < streamCount; s++) {
     axis.set(rand() * 2 - 1, rand() * 2 - 1, rand() * 2 - 1).normalize();
-    q.setFromUnitVectors(new THREE.Vector3(0, 1, 0), axis);
-    const span = Math.PI * (1.1 + rand() * 0.8);
-    const start = rand() * Math.PI * 2;
-    // Roughly half the strands warm amber, half cool blue, like the concept art.
-    const isWarm = b % 2 === 0 ? 1 : 0;
-    const width = 0.6 + rand() * 0.8;
-    for (let i = 0; i < pointsPerBand; i++) {
-      const u = i / (pointsPerBand - 1);
-      const a = start + u * span;
-      const jitter = (rand() - 0.5) * 0.035 * width;
-      p.set(Math.cos(a), jitter, Math.sin(a)).normalize().applyQuaternion(q).multiplyScalar(1.012 + rand() * 0.012);
-      positions.push(p.x, p.y, p.z);
-      along.push(u);
-      band.push(b / bandCount);
-      warm.push(isWarm);
-      // Strands taper at both ends.
-      size.push((0.6 + Math.sin(u * Math.PI) * 1.4) * (0.7 + rand() * 0.6) * width);
+    a.set(1, 0, 0); if (Math.abs(axis.x) > 0.9) a.set(0, 0, 1);
+    a.crossVectors(axis, a).normalize(); b.crossVectors(axis, a).normalize();
+    const start = rand() * Math.PI * 2, span = Math.PI * (0.9 + rand() * 0.7);
+    const speed = (0.012 + rand() * 0.01) * (rand() < 0.5 ? 1 : -1);
+    const warm = s % 2 === 0 ? 1 : 0, width = 0.05 + rand() * 0.045, wave = rand() * 6.28;
+    for (let i = 0; i < perStream; i++) {
+      // Lateral offset: gaussian across the ribbon, so its edges fade softly.
+      const g = (rand() + rand() + rand() - 1.5) / 1.5;
+      e1.push(a.x, a.y, a.z); e2.push(b.x, b.y, b.z);
+      prm.push(start, span, rand(), speed);          // start angle, arc length, position along (0–1), flow speed
+      prm2.push(g * width, warm, wave, rand());       // lateral offset, warm, wave phase, sparkle seed
+      pos.push(axis.x, axis.y, axis.z);               // the stream's axis (its normal); the arc is rebuilt in the shader
     }
   }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  g.setAttribute('aAlong', new THREE.Float32BufferAttribute(along, 1));
-  g.setAttribute('aBand', new THREE.Float32BufferAttribute(band, 1));
-  g.setAttribute('aWarm', new THREE.Float32BufferAttribute(warm, 1));
-  g.setAttribute('aSize', new THREE.Float32BufferAttribute(size, 1));
-  return g;
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  geo.setAttribute('aE1', new THREE.Float32BufferAttribute(e1, 3));
+  geo.setAttribute('aE2', new THREE.Float32BufferAttribute(e2, 3));
+  geo.setAttribute('aPrm', new THREE.Float32BufferAttribute(prm, 4));
+  geo.setAttribute('aPrm2', new THREE.Float32BufferAttribute(prm2, 4));
+  geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 4);
+  return geo;
 }
 
 /** Sparkle dust in a thin shell around the sphere. */

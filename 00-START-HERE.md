@@ -1,9 +1,10 @@
-# ODIN Oct ver05 Nasir - Engineering Handover
+# ODIN Oct ver05.1 Nasir - Engineering Handover
 
-Version 0.5.0 · generated 2026-10-21 · ODIN reference app 0.5.0
+Version ODIN Oct ver05.1 Nasir (0.5.1) · generated 2026-10-26 · ODIN reference app 0.5.1
 
 Everything an engineering team needs to take ODIN screens and effects into its own app, one at a time, without replacing its core.
 
+0. What changed in this version: `RELEASE-NOTES-ver05.1.md`.
 1. Open `00-START-HERE.html` for the visual catalogue.
 2. Read `INTEGRATION-GUIDE.md` (leads) and `STACK.md` (versions, already matched to your stack).
 3. Give your Claude `06-port-kit/CLAUDE.md` and a request from `06-port-kit/PORT-PROMPTS.md`.
@@ -31,30 +32,19 @@ Everything an engineering team needs to take ODIN screens and effects into its o
 | [V01](04-views/V01-executive-home/README.md) | Executive Home | Green | — | E00 E03 E05 E06 E07 E08 E10 |
 | [V02](04-views/V02-applications-in-processing/README.md) | Applications in Processing | Green | BQ01 | E00 E01 E02 E03 E04 E05 E06 E07 E08 E09 E11 |
 | [V04](04-views/V04-outcome-distribution/README.md) | Outcome Distribution | Green | BQ26 | E00 E01 E02 E03 E04 E06 E07 E08 E09 E11 |
-| [V05](04-views/V05-processing-time-matrix-online/README.md) | Processing Time Matrix · online | Green | BQ04, BQ07 | E00 E01 E02 E03 E05 E06 E07 E08 E09 E11 |
-| [V06](04-views/V06-processing-time-matrix-centre-visits/README.md) | Processing Time Matrix · centre visits | Red | — | E00 E01 E02 E03 E05 E06 E07 E08 E09 E11 |
-| [V07](04-views/V07-time-matrix-focus-stage/README.md) | Time Matrix · focus stage | Red | BQ08, BQ09, BQ10 | E00 E01 E02 E03 E05 E06 E07 E08 E09 E11 |
-| [V08](04-views/V08-vas-revenue-v1/README.md) | VAS Revenue · v1 | Green | BQ05, BQ27 | E00 E01 E02 E03 E04 E06 E07 E08 E09 E11 |
-| [V09](04-views/V09-application-journey-v1/README.md) | Application Journey · v1 | Green | — | E00 E01 E02 E03 E04 E06 E07 E08 E09 E11 |
+| [V05](04-views/V05-processing-time-matrix-online/README.md) | Processing Time Matrix · online | Green | BQ04, BQ07, BQ08, BQ09, BQ10 | E00 E01 E02 E03 E05 E06 E07 E08 E09 E11 |
+| [V09](04-views/V09-application-journey/README.md) | Application Journey | Green | — | E00 E01 E02 E03 E04 E06 E07 E08 E09 E11 |
 | [V12](04-views/V12-centre-ranking-by-time/README.md) | Centre Ranking by Time | Red | BQ11 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
-| [V13](04-views/V13-stage-queue-online/README.md) | Stage Queue · online | Red | BQ13 | E00 E01 E02 E03 E04 E06 E07 E08 E09 E11 |
-| [V14](04-views/V14-stage-queue-centres/README.md) | Stage Queue · centres | Red | — | E00 E01 E02 E03 E04 E06 E07 E08 E09 E11 |
 | [V15](04-views/V15-performance-comparison/README.md) | Performance Comparison | Green | BQ14, BQ15, BQ16, BQ17 | E00 E01 E02 E03 E04 E06 E07 E08 E09 E11 |
 | [V16](04-views/V16-top-countries-nationalities-and-centres/README.md) | Top Countries, Nationalities & Centres | Green | BQ18, BQ22 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
 | [V17](04-views/V17-top-countries-on-the-globe/README.md) | Top Countries on the Globe | Green | — | E00 E01 E02 E03 E04 E06 E07 E08 E09 E11 |
-| [V18](04-views/V18-channels-notice/README.md) | Channels Notice | Amber | BQ21 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
-| [V20](04-views/V20-travel-purpose-mix/README.md) | Travel Purpose Mix | Red | BQ19 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
-| [V21](04-views/V21-applicant-occupation-mix/README.md) | Applicant Occupation Mix | Red | BQ20 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
 | [V22](04-views/V22-applications-focus-v1/README.md) | Applications (focus) · v1 | Green | — | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
 | [V23](04-views/V23-processing-time-focus/README.md) | Processing Time (focus) | Green | — | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
-| [V24](04-views/V24-not-available-yet/README.md) | Not Available Yet | Out | BQ06, BQ12, BQ23, BQ24, BQ25, BQ28, BQ29, BQ30, BQ31 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
-| [V26](04-views/V26-application-journey-v2/README.md) | Application Journey · v2 | Green | — | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
+| [V24](04-views/V24-not-available-yet/README.md) | Not Available Yet | Out | BQ06, BQ12, BQ13, BQ19, BQ20, BQ21, BQ23, BQ24, BQ25, BQ28, BQ29, BQ30, BQ31 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
 | [V27](04-views/V27-application-outcomes/README.md) | Application Outcomes | Green | BQ02, BQ03 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
-| [V28](04-views/V28-vas-revenue-v2/README.md) | VAS Revenue · v2 | Green | BQ05, BQ27 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
 | [V29](04-views/V29-applications-v2/README.md) | Applications · v2 | Green | BQ01, BQ02, BQ03 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
 | [V30](04-views/V30-answer/README.md) | Answer | Green | BQ01, BQ02, BQ03, BQ04, BQ05, BQ26 | E00 E01 E02 E03 E06 E07 E08 E09 E11 E12 |
-| [V31](04-views/V31-top-countries-nationalities-and-centres-v2/README.md) | Top Countries, Nationalities & Centres · v2 | Green | BQ18, BQ22 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
-| [V32](04-views/V32-vas-revenue-v3/README.md) | VAS Revenue · v3 | Green | BQ05, BQ27 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
+| [V32](04-views/V32-vas-revenue/README.md) | VAS Revenue | Green | BQ05, BQ27 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
 | [V25](04-views/V25-didnt-understand/README.md) | Didn’t Understand | System | — | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
 
 ## Effects

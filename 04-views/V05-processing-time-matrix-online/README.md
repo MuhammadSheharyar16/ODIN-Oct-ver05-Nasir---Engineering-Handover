@@ -6,7 +6,7 @@
 |---|---|
 | Type | Screen |
 | Opens with | “How long does it take to process a visa?” |
-| Business questions | BQ04, BQ07 |
+| Business questions | BQ04, BQ07, BQ08, BQ09, BQ10 |
 | Feature | F11 · F12a |
 | Scope status | **Green** · In October scope. |
 | Template | `matrix` |
@@ -14,7 +14,7 @@
 | Effects | [E00](../../03-effects/E00-canvas-layer/SPEC.md) · [E01](../../03-effects/E01-morph/SPEC.md) · [E02](../../03-effects/E02-particles/SPEC.md) · [E03](../../03-effects/E03-globe-aura/SPEC.md) · [E05](../../03-effects/E05-energy-streams/SPEC.md) · [E06](../../03-effects/E06-environment/SPEC.md) · [E07](../../03-effects/E07-post-fx/SPEC.md) · [E08](../../03-effects/E08-count-up/SPEC.md) · [E09](../../03-effects/E09-sound/SPEC.md) · [E11](../../03-effects/E11-composer/SPEC.md) |
 | Preview (reference app) | `http://localhost:5173/?view=V05` |
 
-**Notes.** Fixed 1920×1080 frame scaled to fit (wide). SLA shown as Not available (threshold not agreed).
+**Notes.** Fixed 1920×1080 frame scaled to fit (wide). SLA shown as Not available (threshold not agreed). Stage questions (BQ07–BQ10) highlight their stage here; there is no separate centre or focus-stage matrix.
 
 ## Captures
 

@@ -7,7 +7,6 @@ import type { Box } from '../../../lib/homeLayout';
 import { formatCount } from '../../../lib/format';
 import { useOdinLayout } from '../../bridge';
 import { JourneyFloor } from './JourneyFloor';
-import { JourneyJars } from './JourneyJars';
 import { Count } from './shared';
 
 function StageCard({ n, label, sub, count, days, delta, accent, emphasis, icon, unavailable, tag = 'Most waiting now', style }: { n?: number; label: string; sub?: string; count: number; days: number; delta?: number; accent: string; emphasis?: boolean; icon?: ReactNode; unavailable?: boolean; tag?: string; style: CSSProperties }) {
@@ -40,7 +39,6 @@ function StageCard({ n, label, sub, count, days, delta, accent, emphasis, icon, 
 
 export function Journey({ spec, box }: { spec: JourneySpec; box: Box }) {
   const mode = useOdinLayout().mode;
-  if (spec.variant === 'jars' && spec.floor && mode === 'wide') return <JourneyJars spec={spec} />;
   if (spec.floor && mode === 'wide') return <JourneyFloor spec={spec} />;
   const vertical = box.w / box.h < 1.25;
   return vertical ? <JourneyVertical spec={spec} /> : <JourneyHorizontal spec={spec} aspect={box.h / box.w} />;

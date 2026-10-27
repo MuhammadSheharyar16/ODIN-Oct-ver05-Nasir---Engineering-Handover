@@ -23,7 +23,7 @@ export const PHRASINGS: PhrasingRow[] = [
   ['In processing, briefly', 'V30', 'glance', 'in_processing'],
   ['Give me the full picture of applications in processing', 'V02', 'context', 'hero'],
   ['Show me everything on applications in processing', 'V02', 'context', 'hero'],
-  ['Where are the applications in processing?', 'V26', 'explore'],
+  ['Where are the applications in processing?', 'V09', 'explore'],
   ['How many applications from India are in processing?', 'V30', 'glance', 'in_processing'],
   ['How many applications are being processed in Mumbai?', 'V30', 'glance', 'in_processing'],
   // ── Entered today ──
@@ -72,12 +72,12 @@ export const PHRASINGS: PhrasingRow[] = [
   ['How long do tourist visas take?', 'V30', 'glance', 'processing_time'],
   ['Which stage takes the longest?', 'V05', 'context', 'stages'],
   ['How long is each stage?', 'V05', 'context', 'stages'],
-  ['Stage times in detail', 'V26', 'explore'],
+  ['Stage times in detail', 'V09', 'explore'],
   // ── Journey ──
-  ['Show the online visa journey', 'V26', 'context'],
-  ['Walk me through the pipeline', 'V26', 'context'],
-  ['Where are the online applications?', 'V26', 'explore'],
-  ['Show me the funnel', 'V26', 'context'],
+  ['Show the online visa journey', 'V09', 'context'],
+  ['Walk me through the pipeline', 'V09', 'context'],
+  ['Where are the online applications?', 'V09', 'explore'],
+  ['Show me the funnel', 'V09', 'context'],
   // ── Where from (BQ18, BQ22) ──
   ['Which countries generate the most applications?', 'V16', 'context', 'res'],
   ['Where do applicants come from?', 'V16', 'context', 'res'],
@@ -91,9 +91,9 @@ export const PHRASINGS: PhrasingRow[] = [
   ['What is our revenue?', 'V30', 'glance', 'revenue'],
   ['How much money have we made?', 'V30', 'glance', 'revenue'],
   ['Just the revenue number', 'V30', 'glance', 'revenue'],
-  ['Revenue by country', 'V28', 'explore', 'countries'],
-  ['Break down revenue', 'V28', 'explore', 'countries'],
-  ['Which countries bring in the most revenue?', 'V28', 'context', 'countries'],
+  ['Revenue by country', 'V32', 'explore', 'countries'],
+  ['Break down revenue', 'V32', 'explore', 'countries'],
+  ['Which countries bring in the most revenue?', 'V32', 'context', 'countries'],
   // ── Periods (BQ14–BQ17) ──
   ["How does today's performance compare with yesterday?", 'V15', 'context', 'today'],
   ['How are we trending this week?', 'V15', 'context', 'today'],
@@ -114,7 +114,7 @@ export const FOLLOW_UP_SCRIPTS: { name: string; steps: [string, string, Response
   { name: 'A fourth metric opens the full page', steps: [['Approved and rejected', 'V30', 'glance', 'approved+rejected'], ['Also in processing', 'V30', 'glance', 'approved+rejected+in_processing'], ['And entered today as well', 'V27', 'context']] },
   { name: 'A new question replaces the answer', steps: [['How many were rejected?', 'V30', 'glance', 'rejected'], ['What is the closure rate?', 'V30', 'glance', 'closure_rate']] },
   { name: 'Already on screen → highlight only', steps: [['Give me the full picture of applications in processing', 'V02', 'context'], ['How many came in today?', 'V02', 'context']] },
-  { name: 'More, more, less, less', steps: [['How many applications are in processing?', 'V30', 'glance'], ['Tell me more', 'V02', 'context'], ['More detail', 'V26', 'explore'], ['Less detail', 'V02', 'context'], ['Just the number', 'V30', 'glance']] },
+  { name: 'More, more, less, less', steps: [['How many applications are in processing?', 'V30', 'glance'], ['Tell me more', 'V02', 'context'], ['More detail', 'V09', 'explore'], ['Less detail', 'V02', 'context'], ['Just the number', 'V30', 'glance']] },
   { name: 'Glance, then more', steps: [['Just the closure rate', 'V30', 'glance'], ['Tell me more', 'V04', 'context']] },
   { name: 'Filter keeps the subject', steps: [['How many were rejected?', 'V30', 'glance', 'rejected'], ['And for India?', 'V30', 'glance', 'rejected']] },
 ];

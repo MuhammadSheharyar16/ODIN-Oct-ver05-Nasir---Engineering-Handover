@@ -28,6 +28,7 @@ function readAnchors(root: HTMLElement): Anchor[] {
       stack: el.dataset.stack ? parseFloat(el.dataset.stack) : undefined,
       objectScale: el.dataset.scale ? parseFloat(el.dataset.scale) : undefined,
       noBloom: el.dataset.nobloom !== undefined,
+      tilt: el.dataset.tilt ? parseFloat(el.dataset.tilt) : undefined,
     },
   }));
 }

@@ -31,8 +31,8 @@ Every content sphere is built from the same parts:
 Variations by meaning (not by taste):
 - **Applications**: blue lights; status ring when split (V02, V29).
 - **Outcomes**: galaxy arms sized by share, anticlockwise (V27). Closure rate: segmented ring (V04).
-- **Revenue**: gold lights (V08, V28).
-- **Time**: progress ring around the days (V05, V06).
+- **Revenue**: gold lights (V32).
+- **Time**: progress ring around the days (V05).
 - **Geography**: the Earth (V17).
 - **The answer (V30)**: the Applications v2 sphere. Its lights are status-coloured applications; they turn gold for revenue and take the time palette for durations. Home keeps ODIN's own globe.
 
@@ -69,13 +69,16 @@ Never place two content spheres on one screen.
 - The Journey v2 icon hops quickly (0.8 s). ODIN speaks only at the end stops.
 - Waiting: check-ins at 10/15/20/30/45/60 s; numbers can load progressively (`docs/waiting-spec.md`).
 
-## Audit · 20 Oct findings and fixes
-| Screen | Finding | ver05 |
+## Build 5 approved screens (22 Oct)
+Development uses **17 screens**: V01, V02, V04, V05, V09, V12, V15, V16, V17, V22, V23, V24, V25, V27, V29, V30 and V32. One question gets one screen, and other questions on the same subject highlight items on it rather than opening a second screen.
+
+| Rejected | Why | Its questions now open |
 |---|---|---|
-| V04 Outcome Distribution | Oversized boxes; 2×2 legend block; cluttered | Fixed: cards at capsule size; legend in one row of pills |
-| V10 Centre Visit Journey | White cards look like another product | Fixed: dark hero glass, white ink |
-| V19 Compare | Two empty tables | Fixed: duel rows on glass with split bars; the better value glows |
-| V16 / V31 Top countries | Asked breakdown not obvious | Fixed: asked card to the centre with glow and spectrum |
-| V30 Answer | New | Answer-first, 1–3 metrics |
-| V22 / V23 | Single metrics now open the answer view (V30) | V23 stays the full page for a filtered time question ("How long for India?" → "full picture"); filtered counts open V29 |
-| V12 Centre ranking, V20/V21 mixes | Plain list and flat donut (post-October, red) | Next: the same tile family and sphere rules when in scope |
+| V08 Revenue v1, V28 Revenue v2 | Extra versions | V32 (the revenue full page) |
+| V26 Journey v2 (jars) | Extra version | V09 |
+| V31 Top Countries v2 (skyline) | Extra version | V16 |
+| V13 / V14 Stage queue | Extra version (and F12b post-October) | V24 notice |
+| V06 centre matrix, V07 focus-stage matrix | Repetition | V05 (stage highlighted) |
+| V18 Channels, V20 Purpose mix, V21 Occupation mix | Out of scope (Amber / Red) | V24 notice |
+
+Retired earlier (21 Oct): V10 Centre Visit Journey, V11 Journey Map, V19 Compare.

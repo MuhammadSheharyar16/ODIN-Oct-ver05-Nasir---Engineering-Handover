@@ -10,7 +10,7 @@
 @keyframes apc-in { from { opacity: 0; transform: scale(0.9); } }
 .apc-core__orb { position: absolute; border-radius: 50%;
   /* Glass: the room shows through, softened (opacity reduced, 21 Oct). */
-  background: radial-gradient(circle at 50% 44%, rgba(5, 15, 48, 0.62) 0%, rgba(8, 26, 82, 0.56) 46%, rgba(15, 49, 146, 0.5) 74%, rgba(42, 99, 240, 0.48) 90%, rgba(143, 198, 255, 0.62) 98%);
+  background: radial-gradient(circle at 50% 44%, rgba(5, 15, 48, 0.734) 0%, rgba(8, 26, 82, 0.692) 46%, rgba(15, 49, 146, 0.65) 74%, rgba(42, 99, 240, 0.636) 90%, rgba(143, 198, 255, 0.734) 98%);
   -webkit-backdrop-filter: blur(9px) saturate(1.3); backdrop-filter: blur(9px) saturate(1.3);
   box-shadow: 0 0 30px rgba(90, 170, 255, 0.8), 0 0 90px rgba(80, 150, 255, 0.42), 0 0 170px rgba(90, 120, 255, 0.2), inset 0 0 50px rgba(140, 200, 255, 0.55), inset 0 -26px 70px rgba(120, 90, 255, 0.3); }
 .apc-core__orb::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(60% 30% at 50% 8%, rgba(255, 255, 255, 0.26), rgba(255, 255, 255, 0) 70%); box-shadow: inset 0 0 0 1.5px rgba(190, 230, 255, 0.75); }
@@ -29,9 +29,9 @@
 
 /* Readout on a dark lens (white ink AA+ over the lights) */
 .apc-readout { position: relative; text-align: center; isolation: isolate; }
-.apc-readout::before { content: ''; position: absolute; left: -8%; right: -8%; top: -16%; bottom: -16%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(3, 8, 30, 0.78), rgba(3, 8, 30, 0.42) 60%, rgba(3, 8, 30, 0)); }
+.apc-readout::before { content: ''; position: absolute; left: -8%; right: -8%; top: -16%; bottom: -16%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(3, 8, 30, 0.663), rgba(3, 8, 30, 0.357) 60%, rgba(3, 8, 30, 0.0)); }
 .apc-readout__k { font-size: 16px; letter-spacing: 0.18em; font-weight: 650; text-transform: uppercase; color: #cfe4ff; }
-.apc-readout__v { display: block; margin-top: 4px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; text-shadow: 0 2px 20px rgba(3, 8, 30, 0.85); }
+.apc-readout__v { display: block; margin-top: 4px; font-size: 92px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; text-shadow: 0 2px 20px rgba(3, 8, 30, 0.722); }
 .apc-readout__c { margin-top: 10px; font-size: 18px; color: rgba(226, 236, 255, 0.88); }
 .apc-readout__hint { margin-top: 6px; font-size: 13px; color: rgba(205, 222, 255, 0.82); }
 

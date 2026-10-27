@@ -58,8 +58,6 @@ export type JourneySpec = {
   emphasisLabel?: string;
   /** Floor journey data (online map incl. biometric branch). Wide screens render it on the floor. */
   floor?: FloorData;
-  /** 'pedestals' (3.1 primary), 'orbs' (3.2 journey map) or 'jars' (online journey v2, wide). */
-  variant?: 'pedestals' | 'orbs' | 'jars';
   /** Heading drawn inside the v2 jar board. */
   heading?: { title: string; subtitle: string };
 };
@@ -94,11 +92,6 @@ export type RankingSpec = {
   accent: string;
 };
 
-export type CompareSpec = {
-  kind: 'compare';
-  key: string;
-  sides: { key: string; code?: string; label: string; accent: string; rows: { label: string; value: number; format: ValueFormat }[] }[];
-};
 
 export type BarsSpec = {
   kind: 'bars';
@@ -110,13 +103,6 @@ export type BarsSpec = {
   accent: string;
 };
 
-export type FactsSpec = {
-  kind: 'facts';
-  key: string;
-  title: string;
-  items: { icon: IconName; text: string; sub?: string; accent: string }[];
-  ring?: { label: string; value: number; basis: string };
-};
 
 export type NoticeSpec = {
   kind: 'notice';
@@ -149,19 +135,11 @@ export type TimeMatrixSpec = {
   previewNote?: string;
 };
 
-export type ChannelsSpec = {
-  kind: 'channels';
-  key: string;
-  total: number;
-  online: { count: number; share: number; delta: number; bars: number[] };
-  centre: { count: number; share: number; delta: number; bars: number[] };
-  status: 'valid' | 'amber';
-};
 
 /** `share`: the column's items are shares of all applications (centres are attributed applications only, so no share). */
 export type PodiumColumn = { key: string; title: string; sub: string; icon: IconName; accent: string; share?: boolean; items: { label: string; code?: string; value: number; sub?: string }[] };
-/** v1 leaderboards (default) · v2 'skyline': glass pillars with rising particles. `total` = all applications (for shares). */
-export type PodiumsSpec = { kind: 'podiums'; key: string; columns: PodiumColumn[]; total?: number; variant?: 'skyline' };
+/** Leaderboards (V16). `total` = all applications (for shares). */
+export type PodiumsSpec = { kind: 'podiums'; key: string; columns: PodiumColumn[]; total?: number };
 
 export type GeoSpec = {
   kind: 'geo';
@@ -184,8 +162,6 @@ export type RevenueSpec = {
   dims: { key: string; label: string; share: number; accent: string; value: number | null; bars: number[]; top: { name: string; value: number }[] }[];
   /** v2 (revenue core): each dimension is a full breakdown of the same total. */
   breakdowns?: RevenueBreakdown[];
-  /** v3: the core in the centre, two breakdown panels on each side. */
-  layout?: 'sides';
 };
 
 export type RevenueBreakdown = {
@@ -205,20 +181,7 @@ export type PeriodsSpec = {
   items: { key: string; label: string; value: number; cmp: string; delta: number | null; accent: string; approval: number; days: number; approvalDelta: number | null; daysDelta: number | null }[];
 };
 
-export type QueueSpec = {
-  kind: 'queue';
-  key: string;
-  items: { key: string; label: string; icon: StageIcon; accent: string; waiting: number; avgWait: number; buckets: { lt1: number; d13: number; gt3: number } }[];
-};
 
-export type RingSpec = {
-  kind: 'ring';
-  key: string;
-  total: number;
-  totalLabel: string;
-  segments: { key: string; label: string; count: number; accent: string }[];
-  basis: string;
-};
 
 /** Home-style board: ODIN globe readout, four capsules, stage row (Applications in processing). */
 export type BoardSpec = {
@@ -250,8 +213,8 @@ export type GlanceSpec = {
 };
 
 export type ComponentSpec =
-  | BoardSpec | LegendSpec | MetricSpec | JourneySpec | DonutSpec | RankingSpec | CompareSpec | BarsSpec | FactsSpec | NoticeSpec
-  | TimeMatrixSpec | ChannelsSpec | PodiumsSpec | GeoSpec | RevenueSpec | PeriodsSpec | QueueSpec | RingSpec | AppCoreSpec | GlanceSpec;
+  | BoardSpec | LegendSpec | MetricSpec | JourneySpec | DonutSpec | RankingSpec | BarsSpec | NoticeSpec
+  | TimeMatrixSpec | PodiumsSpec | GeoSpec | RevenueSpec | PeriodsSpec | AppCoreSpec | GlanceSpec;
 
 /** Applications v2: application core (status-coloured lights + segmented ring) with rate cards and status breakdown. */
 export type AppCoreSpec = {
@@ -267,26 +230,26 @@ export type AppCoreSpec = {
 /** Where ODIN's globe goes in this scene. */
 export type PresenceMode = 'home' | 'core' | 'dissolved';
 
-export type Template = 'glance' | 'stageTall' | 'band' | 'journey' | 'floor' | 'jars' | 'galaxy' | 'revenue' | 'appcore' | 'board' | 'matrix' | 'outcomes' | 'focus' | 'notice' | 'stage' | 'ringCards';
+export type Template = 'glance' | 'band' | 'floor' | 'galaxy' | 'revenue' | 'appcore' | 'board' | 'matrix' | 'focus' | 'notice' | 'stage' | 'ringCards';
 
 export type Placed = { spec: ComponentSpec; slot: string };
 
 export type Intent =
   | { type: 'home' }
   | { type: 'back' }
-  | { type: 'journey'; channel: Channel; filters: Filters; /** 'jars' = online journey v2 (glass jar board). */ style?: 'jars' }
+  | { type: 'journey'; channel: Channel; filters: Filters }
   | { type: 'outcomes'; filters: Filters; /** 'galaxy' = Application Outcomes v2. */ style?: 'galaxy' }
   | { type: 'time'; filters: Filters }
   | { type: 'count'; filters: Filters; /** 'core' = Applications v2. */ style?: 'core' }
   | { type: 'ranking'; dimension: 'country' | 'centre' | 'visaType'; measure: 'applications' | 'approvalRate' | 'avgDays'; order: 'desc' | 'asc'; filters: Filters }
   | { type: 'compare'; entities: { kind: 'country' | 'centre' | 'visaType' | 'channel'; key: string }[]; filters: Filters }
-  | { type: 'revenue'; filters: Filters; preview?: boolean; breakdown?: boolean; /** 'core' = VAS Revenue v2; 'sides' = v3 (two panels each side). */ style?: 'core' | 'sides' }
+  | { type: 'revenue'; filters: Filters; preview?: boolean; breakdown?: boolean }
   | { type: 'processing' }
   | { type: 'timeMatrix'; channel: Channel | 'all'; filters: Filters; stage?: string }
   | { type: 'queue'; channel: Channel }
   | { type: 'periods' }
   | { type: 'channels' }
-  | { type: 'tops'; /** 'skyline' = Top countries v2. */ style?: 'skyline' }
+  | { type: 'tops' }
   /** Answer-first view (V30): only the asked metric(s), 1–3 composer measures, each read from its own screen. */
   | { type: 'answer'; items: string[]; filters: Filters }
   | { type: 'geo' }
