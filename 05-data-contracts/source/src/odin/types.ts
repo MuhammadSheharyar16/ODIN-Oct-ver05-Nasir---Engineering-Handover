@@ -58,6 +58,8 @@ export type JourneySpec = {
   emphasisLabel?: string;
   /** Floor journey data (online map incl. biometric branch). Wide screens render it on the floor. */
   floor?: FloorData;
+  /** Cinematic floor journey: 'v45' = Online Visa Journey v4.5 (V39). */
+  cinema?: 'v45';
   /** Heading drawn inside the v2 jar board. */
   heading?: { title: string; subtitle: string };
 };
@@ -149,6 +151,8 @@ export type GeoSpec = {
   basis: string;
   period: string;
   items: { code: string; name: string; value: number; delta: number; lat: number; lon: number }[];
+  /** 'sides' = Top 10 Countries v2 (V40): ranks 1–5 down the left, 6–10 down the right, the Earth centred. */
+  layout?: 'sides';
 };
 
 export type RevenueSpec = {
@@ -237,7 +241,7 @@ export type Placed = { spec: ComponentSpec; slot: string };
 export type Intent =
   | { type: 'home' }
   | { type: 'back' }
-  | { type: 'journey'; channel: Channel; filters: Filters }
+  | { type: 'journey'; channel: Channel; filters: Filters; /** 'cinema45' = Online Visa Journey v4.5 (V39). */ style?: 'cinema45' }
   | { type: 'outcomes'; filters: Filters; /** 'galaxy' = Application Outcomes v2. */ style?: 'galaxy' }
   | { type: 'time'; filters: Filters }
   | { type: 'count'; filters: Filters; /** 'core' = Applications v2. */ style?: 'core' }
@@ -252,7 +256,7 @@ export type Intent =
   | { type: 'tops' }
   /** Answer-first view (V30): only the asked metric(s), 1–3 composer measures, each read from its own screen. */
   | { type: 'answer'; items: string[]; filters: Filters }
-  | { type: 'geo' }
+  | { type: 'geo'; /** 'sides' = Top 10 Countries v2 (V40). */ style?: 'sides' }
   | { type: 'outcomeDist' }
   | { type: 'mix'; dim: 'purpose' | 'occupation' }
   | { type: 'journeyMap' }

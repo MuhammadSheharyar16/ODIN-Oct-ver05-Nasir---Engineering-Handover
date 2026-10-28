@@ -1,7 +1,7 @@
 {
-  "name": "ODIN Oct ver05.1 Nasir - Engineering Handover",
-  "version": "ODIN Oct ver05.1 Nasir (0.5.1)",
-  "generated": "2026-10-26T15:17:53.009Z",
+  "name": "ODIN Oct ver05.2 Nasir - Engineering Handover",
+  "version": "ODIN Oct ver05.2 Nasir (0.5.2)",
+  "generated": "2026-10-28T07:07:59.443Z",
   "referenceApp": "01-reference-app",
   "previewUrl": "http://localhost:5173/?view={id}",
   "effects": [
@@ -1527,6 +1527,157 @@
             "delta",
             "dims",
             "breakdowns"
+          ]
+        }
+      ],
+      "visualTolerance": 0.03
+    },
+    {
+      "id": "V39",
+      "title": "Online Visa Journey v4.5",
+      "kind": "screen",
+      "folder": "04-views/V39-online-visa-journey-v4-5",
+      "question": "Show the online visa journey v4.5",
+      "bq": [],
+      "feature": "F07a",
+      "status": "Green",
+      "purpose": "The application journey as a dashboard (Anupam, 27 Oct): a stage card on the left whose numbers follow the tour, every stage with its live number along the bottom, and the journey in between on equal, subtler units joined by a particle floor at the home sphere's quality. The highlighted stage glows, with rings of light rippling outward on the floor from its base; one application icon travels the route; Home lights the step the applicant is on. \"Tell me more\" (or the Detail view button) opens the detail view: only the stage the tour is at, larger on the left, morphing from stage to stage, with its dashboard on the right. ODIN speaks only the summary.",
+      "notes": "v5.2. The approved application journey (same data, route and tour as V09). Units in public/journey-v42; layout, stage copy and demo detail data in journeyCinema/v42.ts; JourneyCinema42.tsx; particles in FloorParticles.tsx, floor ripples in FloorRings.tsx; styles in journey42.css; voice phrases for the detail view in lib/journeyDetail.ts. Detail breakdowns and insights are demo values until the data team (Jafery, Layth) confirms the fields. Wide screens only; tablet and phone fall back to the vertical journey.",
+      "template": "floor",
+      "components": [
+        "metric",
+        "journey"
+      ],
+      "objects3d": [],
+      "effects": [
+        "E00",
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E11"
+      ],
+      "files": [
+        "src/ui/scene/components/Panels.tsx",
+        "src/ui/scene/components/Journey.tsx",
+        "src/ui/scene/components/journeyGeometry.ts",
+        "src/ui/scene/components/JourneyFloor.tsx",
+        "src/ui/scene/components/floorJourney.ts",
+        "src/ui/scene/components/floor.css"
+      ],
+      "shared": [
+        "src/ui/scene/components/shared.tsx",
+        "src/ui/scene/SceneIcon.tsx",
+        "src/ui/bridge.tsx",
+        "src/lib/format.ts",
+        "src/lib/homeLayout.ts"
+      ],
+      "morphKeys": [
+        "journey"
+      ],
+      "dataFields": [
+        {
+          "kind": "metric",
+          "key": "total-online",
+          "fields": [
+            "label",
+            "value",
+            "format",
+            "icon",
+            "accent",
+            "caption",
+            "delta",
+            "spark"
+          ]
+        },
+        {
+          "kind": "metric",
+          "key": "e2e-online",
+          "fields": [
+            "label",
+            "value",
+            "format",
+            "icon",
+            "accent",
+            "caption",
+            "delta",
+            "spark"
+          ]
+        },
+        {
+          "kind": "journey",
+          "key": "journey",
+          "fields": [
+            "channel",
+            "stages",
+            "approved",
+            "rejected",
+            "emphasisKey",
+            "floor",
+            "cinema"
+          ]
+        }
+      ],
+      "visualTolerance": 0.03
+    },
+    {
+      "id": "V40",
+      "title": "Top 10 Countries v2",
+      "kind": "screen",
+      "folder": "04-views/V40-top-10-countries-v2",
+      "question": "Show top 10 countries v2",
+      "bq": [],
+      "feature": "F08",
+      "status": "Green",
+      "purpose": "The Earth with the top ten countries, ordered for reading on a big screen (Anupam, 27 Oct): ranks 1–5 down the left, 6–10 down the right, the globe in the centre.",
+      "notes": "v5.2 design option for V17 (same data, cards and waving flags; V17 unchanged). Geo `layout: 'sides'`.",
+      "template": "stage",
+      "components": [
+        "geo"
+      ],
+      "objects3d": [
+        "earth + plinths"
+      ],
+      "effects": [
+        "E00",
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E06",
+        "E07",
+        "E08",
+        "E09",
+        "E11"
+      ],
+      "files": [
+        "src/ui/scene/components/Showcase.tsx"
+      ],
+      "shared": [
+        "src/ui/scene/components/shared.tsx",
+        "src/ui/scene/SceneIcon.tsx",
+        "src/ui/bridge.tsx",
+        "src/lib/format.ts",
+        "src/lib/homeLayout.ts"
+      ],
+      "morphKeys": [
+        "geo"
+      ],
+      "dataFields": [
+        {
+          "kind": "geo",
+          "key": "geo",
+          "fields": [
+            "heading",
+            "subheading",
+            "basis",
+            "period",
+            "items",
+            "layout"
           ]
         }
       ],

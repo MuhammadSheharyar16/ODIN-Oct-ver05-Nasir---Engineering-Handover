@@ -604,6 +604,14 @@
 .geo__base .geo-card__body { font-size: clamp(9px, 5.6cqi, 17px); }
 .geo__base .plinth-anchor { margin-top: 5cqi; }
 .geo.is-narrow .geo__earth { top: 0; height: 40cqh; translate: -50% 0; }
+/* Top 10 Countries v2 (V40): two ordered columns either side of the Earth */
+.geo.is-sides .geo__earth { top: 50%; height: 74cqh; }
+.geo__col { position: absolute; top: 4cqh; bottom: 4cqh; width: 19cqw; display: flex; flex-direction: column; justify-content: space-between; gap: 1.4cqh; container-type: inline-size; z-index: 2; }
+.geo__col.is-left { left: 4cqw; }
+.geo__col.is-right { right: 4cqw; }
+.geo__col .geo-card { padding: 2.6cqi 5cqi; width: 100%; box-sizing: border-box; }
+/* V40: every card the same width (Nasir, 27 Oct); No. 1 keeps its gold edge, without the enlargement. */
+.geo__col .geo-card.is-big { transform: none; }
 .geo__list {
   position: absolute;
   left: 0;

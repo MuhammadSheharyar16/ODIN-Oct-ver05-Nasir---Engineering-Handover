@@ -1,0 +1,248 @@
+/* Online Visa Journey v3 (V33): photoreal stage scenes, glass light-ribbons,
+   glossy colour-coded glass cards and stage micro-animations.
+   --u = floor scale (1 at the 1920×1080 reference); --c = the stage's phase colour. */
+.jc { position: absolute; inset: 0; pointer-events: none; }
+.jc__svg { position: absolute; left: 0; top: 0; z-index: 2; overflow: visible; }
+.jc__svg path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── ribbons: frosted glass tube, light inside, arrows on top ── */
+.jc__edge { opacity: .62; transition: opacity .6s; }
+.jc__edge.is-done, .jc__edge.is-live { opacity: 1; }
+.jc__cast { opacity: .24; mix-blend-mode: screen; transition: opacity .6s; }
+.jc__edge.is-done .jc__cast { opacity: .34; }
+.jc__edge.is-live .jc__cast { opacity: .46; }
+.jc__glass { opacity: .1; }
+.jc__tint { opacity: .3; }
+.jc__rim { opacity: .55; }
+.jc__light { opacity: 1; }
+.jc__core { opacity: .9; }
+.jc__sheen { opacity: .5; }
+.jc__flow { opacity: .85; animation: jcFlow 2.4s linear infinite; }
+.jc__edge.is-live .jc__flow { animation-duration: .9s; }
+@keyframes jcFlow { to { stroke-dashoffset: calc(-108px * var(--u)); } }
+.jc__arrow { stroke: #fff; opacity: .78; filter: drop-shadow(0 0 2px rgba(255,255,255,.8)); transition: opacity .4s; }
+.jc__arrow.is-live { opacity: 1; }
+.jc__pool { stroke: none !important; opacity: .2; mix-blend-mode: screen; transition: opacity .6s; }
+.jc__pool.is-on { opacity: .42; }
+
+/* ── mirror-floor reflections (ray-traced look) ── */
+.jc__refl { position: absolute; z-index: 1; height: auto; user-select: none; transform: scaleY(-.82);
+  filter: blur(calc(.7px * var(--u))) saturate(1.15) brightness(1.02) contrast(1.05); opacity: .78;
+  -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.7) 12%, rgba(0,0,0,.32) 30%, rgba(0,0,0,.1) 48%, transparent 64%);
+  mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,.7) 12%, rgba(0,0,0,.32) 30%, rgba(0,0,0,.1) 48%, transparent 64%);
+  transition: opacity .7s, filter .7s; }
+.jc__refl.is-on { opacity: .92; filter: blur(calc(.5px * var(--u))) saturate(1.25) brightness(1.12) contrast(1.05); }
+
+/* ── glossy number medallions (phase colour) ── */
+.jc__medal { position: absolute; width: calc(30px * var(--u)); height: calc(30px * var(--u)); transform: translate(-50%, -50%); border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 34% 28%, color-mix(in srgb, var(--c) 72%, #fff) 0%, color-mix(in srgb, var(--c) 88%, #050a1c) 42%, color-mix(in srgb, var(--c) 52%, #050a1c) 100%);
+  box-shadow: 0 0 0 calc(1.6px * var(--u)) color-mix(in srgb, var(--c) 40%, #fff), 0 0 0 calc(2.6px * var(--u)) color-mix(in srgb, var(--c) 55%, transparent),
+    0 0 calc(9px * var(--u)) color-mix(in srgb, var(--c) 75%, transparent), 0 0 calc(20px * var(--u)) color-mix(in srgb, var(--c) 38%, transparent), inset 0 calc(-3px * var(--u)) calc(6px * var(--u)) rgba(0,0,0,.35);
+  transition: transform .5s cubic-bezier(.3,1.5,.5,1), box-shadow .5s, filter .5s; filter: brightness(.9); }
+.jc__medal::before { content: ''; position: absolute; left: 16%; right: 16%; top: 7%; height: 42%; border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,0)); }
+.jc__medal b { position: relative; font-size: calc(15px * var(--u)); font-weight: 800; line-height: 1; color: #fff; text-shadow: 0 0 calc(4px * var(--u)) rgba(255,255,255,.45), 0 calc(1px * var(--u)) calc(2px * var(--u)) rgba(0,0,0,.55); }
+.jc__medal.is-seen { filter: brightness(1); }
+.jc__medal.is-on { filter: brightness(1.05); transform: translate(-50%, -50%) scale(1.22);
+  box-shadow: 0 0 0 calc(1.8px * var(--u)) #fff, 0 0 0 calc(3px * var(--u)) var(--c), 0 0 calc(14px * var(--u)) var(--c), 0 0 calc(30px * var(--u)) color-mix(in srgb, var(--c) 70%, transparent), inset 0 calc(-3px * var(--u)) calc(6px * var(--u)) rgba(0,0,0,.3); }
+.jc__medal.is-on::after { content: ''; position: absolute; inset: calc(-3px * var(--u)); border-radius: 50%; border: calc(1.5px * var(--u)) solid var(--c); animation: jmRing 1.8s ease-out infinite; }
+
+/* ── frosted glass display case around each scene (Nasir's Journey v3 assets) ── */
+.jc__unit { display: contents; }
+.jc__case { position: absolute; pointer-events: none; box-sizing: border-box;
+  border-radius: calc(14px * var(--u)) calc(14px * var(--u)) 50% 50% / calc(14px * var(--u)) calc(14px * var(--u)) var(--ry) var(--ry); transition: box-shadow .7s, opacity .7s; }
+.jc__case.is-back { background: linear-gradient(180deg, rgba(255,255,255,.46) 0%, rgba(255,255,255,.18) 8%, rgba(255,255,255,.08) 40%, rgba(255,255,255,.14) 100%);
+  -webkit-backdrop-filter: blur(calc(3px * var(--u))) saturate(1.1) brightness(1.06); backdrop-filter: blur(calc(3px * var(--u))) saturate(1.1) brightness(1.06);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.3), 0 0 calc(14px * var(--u)) rgba(255,255,255,.12); }
+.jc__case.is-front { border: 1px solid rgba(255,255,255,.55); border-bottom-color: transparent;
+  background: linear-gradient(90deg, rgba(255,255,255,.3) 0%, rgba(255,255,255,0) 6%, rgba(255,255,255,0) 94%, rgba(255,255,255,.3) 100%);
+  box-shadow: inset 0 calc(2px * var(--u)) 0 rgba(255,255,255,.85); }
+.jc__case.is-front::before { content: ''; position: absolute; left: 4%; right: 4%; top: 1%; height: 9%; border-radius: calc(12px * var(--u)) calc(12px * var(--u)) 40% 40%;
+  background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0)); }
+.jc__unit.is-active .jc__case.is-front { border-color: color-mix(in srgb, var(--c) 55%, #fff);
+  box-shadow: inset 0 calc(2px * var(--u)) 0 rgba(255,255,255,.9), 0 0 calc(18px * var(--u)) color-mix(in srgb, var(--c) 45%, transparent), inset 0 0 calc(22px * var(--u)) color-mix(in srgb, var(--c) 22%, transparent); }
+
+/* ── scenes ── */
+.jc__scene { position: absolute; height: auto; user-select: none; transform-origin: 50% 100%;
+  filter: brightness(.86) saturate(.92); transition: filter .7s ease, transform .7s cubic-bezier(.3,1.3,.5,1); }
+.jc__scene.is-reached { filter: brightness(.97) saturate(.98); }
+.jc__scene.is-active { filter: brightness(1.08) saturate(1.06) drop-shadow(0 0 calc(16px * var(--u)) color-mix(in srgb, var(--c) 60%, transparent));
+  transform: translateY(calc(-3px * var(--u))) scale(1.025); }
+.jc__rimglow { opacity: .5; transition: opacity .6s; }
+.jc__rims .is-on .jc__rimglow { opacity: .95; }
+.jc__spec { opacity: .8; }
+
+/* ── the application travelling the route ── */
+.jc__token { position: absolute; left: 0; top: 0; z-index: 2050; width: calc(13px * var(--u)); height: calc(17px * var(--u)); border-radius: calc(3px * var(--u));
+  background: linear-gradient(160deg, #fff, rgba(255,255,255,.65) 55%, color-mix(in srgb, var(--c) 50%, #fff));
+  box-shadow: 0 0 0 1px rgba(255,255,255,.9), 0 0 calc(14px * var(--u)) var(--c), 0 0 calc(30px * var(--u)) color-mix(in srgb, var(--c) 60%, transparent);
+  offset-rotate: 0deg; offset-distance: 0%; animation: jcTravel ease-in-out forwards; }
+@keyframes jcTravel { 0% { offset-distance: 0%; opacity: 0; transform: scale(.6); } 12% { opacity: 1; transform: scale(1); } 88% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; transform: scale(.7); } }
+
+/* ── route labels ── */
+.jc__chip { position: absolute; z-index: 2150; transform: translate(-50%, -50%) scale(var(--u)); white-space: nowrap; padding: 5px 12px; border-radius: 11px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #fff;
+  background: linear-gradient(170deg, rgba(255,255,255,.3), rgba(255,255,255,.06) 55%, color-mix(in srgb, var(--c) 35%, transparent)), rgba(18,24,44,.52);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.45);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 0 16px color-mix(in srgb, var(--c) 45%, transparent); text-shadow: 0 1px 4px rgba(0,0,0,.35); }
+
+/* ── glossy glass cards (colour = phase) ── */
+.jc__card { position: absolute; z-index: 2200; box-sizing: border-box; padding: 9px 12px; border-radius: 16px; color: #fff; text-align: center; overflow: hidden;
+  transform: translateX(-50%) scale(var(--u)); transform-origin: 50% 0;
+  background: linear-gradient(165deg, rgba(255,255,255,.34) 0%, rgba(255,255,255,.1) 38%, rgba(255,255,255,.04) 60%, color-mix(in srgb, var(--c) 26%, transparent) 100%), rgba(18,24,44,.48);
+  -webkit-backdrop-filter: blur(16px) saturate(1.35); backdrop-filter: blur(16px) saturate(1.35); border: 1px solid rgba(255,255,255,.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.75), inset 0 -1px 0 color-mix(in srgb, var(--c) 70%, transparent), 0 0 0 1px color-mix(in srgb, var(--c) 30%, transparent),
+    0 10px 26px rgba(4,8,20,.35), 0 0 22px color-mix(in srgb, var(--c) 30%, transparent);
+  text-shadow: 0 1px 6px rgba(0,0,0,.4); transition: transform .5s cubic-bezier(.3,1.4,.5,1), box-shadow .45s; }
+.jc__card::before { content: ''; position: absolute; left: -20%; top: -60%; width: 140%; height: 90%; pointer-events: none; transform: rotate(-6deg);
+  background: radial-gradient(ellipse at 50% 100%, rgba(255,255,255,.28), transparent 60%); }
+.jc__card::after { content: ''; position: absolute; left: 14px; right: 14px; top: 0; height: 2px; border-radius: 2px; background: var(--c); box-shadow: 0 0 10px var(--c); }
+.jc__card.is-seen { border-color: color-mix(in srgb, var(--c) 55%, rgba(255,255,255,.5)); }
+.jc__card.is-on { transform: translateX(-50%) scale(calc(var(--u) * 1.1)); z-index: 2210;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 0 0 1.5px var(--c), 0 12px 30px rgba(4,8,20,.38), 0 0 36px color-mix(in srgb, var(--c) 62%, transparent); }
+.jc__num b { font-size: 25px; font-weight: 720; letter-spacing: -.01em; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.jc__num em { font-style: normal; font-size: 11.5px; font-weight: 650; margin-left: 6px; vertical-align: 4px; }
+.jc__num em.is-up { color: #6ff3bb; } .jc__num em.is-down { color: #ff9aa5; }
+.jc__lab { margin-top: 5px; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 10.2px; font-weight: 650; letter-spacing: .09em; line-height: 1.25; text-transform: uppercase; }
+.jc__badge { flex: none; min-width: 17px; height: 17px; padding: 0 3px; box-sizing: border-box; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center;
+  background: var(--c); color: #0b1222; font-size: 10px; font-weight: 800; text-shadow: none; box-shadow: 0 0 10px var(--c); }
+.jc__split { margin-top: 6px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,.2); display: grid; gap: 2px; text-align: left; font-size: 10.5px; }
+.jc__split span { display: flex; align-items: center; gap: 6px; } .jc__split i { width: 7px; height: 7px; border-radius: 50%; } .jc__split b { margin-left: auto; font-weight: 700; }
+
+/* ── micro-animations (1em = 10 reference px) ── */
+.jc__fx { position: absolute; inset: 0; z-index: 2100; }
+.jm { position: absolute; width: 0; height: 0; font-size: calc(14px * var(--u)); }
+.jm > *, .jm i, .jm b { position: absolute; display: block; }
+.jm.is-still * { animation-iteration-count: 1 !important; animation-duration: 1ms !important; }
+.jm__glow { left: -2em; top: -2em; width: 4em; height: 4em; border-radius: 50%; mix-blend-mode: screen;
+  background: radial-gradient(circle, color-mix(in srgb, var(--c) 70%, #fff) 0%, color-mix(in srgb, var(--c) 30%, transparent) 40%, transparent 70%); animation: jmPulse 2s ease-in-out infinite; }
+@keyframes jmPulse { 50% { transform: scale(1.25); opacity: .65; } }
+.jm__tick { left: -.8em; top: -3.4em; width: 1.6em; height: 1.6em; border-radius: 50%; display: grid !important; place-items: center; font-size: 1.05em; font-weight: 800; color: #0b1222;
+  background: var(--c); box-shadow: 0 0 0 .15em rgba(255,255,255,.85), 0 0 1.2em var(--c); animation: jmPop 2.6s cubic-bezier(.3,1.6,.5,1) infinite; }
+.jm__tick--late { animation-delay: 1.3s; }
+@keyframes jmPop { 0%, 30% { transform: scale(0); opacity: 0; } 42% { transform: scale(1.15); opacity: 1; } 50%, 85% { transform: scale(1); opacity: 1; } 100% { transform: scale(.8); opacity: 0; } }
+.jm__ring { left: -1em; top: -1em; width: 2em; height: 2em; border-radius: 50%; border: .14em solid var(--c); box-shadow: 0 0 .6em var(--c); opacity: 0; animation: jmRing 1.8s ease-out infinite; }
+.jm__ring:nth-of-type(2) { animation-delay: .6s; } .jm__ring:nth-of-type(3) { animation-delay: 1.2s; }
+@keyframes jmRing { 0% { transform: scale(.3); opacity: .95; } 100% { transform: scale(2.6); opacity: 0; } }
+
+/* 1 draft: pages lift off the laptop */
+.jm__page { left: -.5em; top: -.7em; width: 1em; height: 1.3em; border-radius: .14em; background: linear-gradient(160deg, #fff, #dbe9ff);
+  box-shadow: 0 0 .7em var(--c), 0 0 0 .06em rgba(255,255,255,.9); opacity: 0; animation: jmLift 2.4s ease-out infinite; }
+.jm__page:nth-of-type(2) { animation-delay: .8s; } .jm__page:nth-of-type(3) { animation-delay: 1.6s; }
+@keyframes jmLift { 0% { transform: translate(0, 0) rotate(-4deg) scale(.5); opacity: 0; } 18% { opacity: 1; } 100% { transform: translate(1.2em, -4.6em) rotate(10deg) scale(1); opacity: 0; } }
+/* 2 upload: the application leaves the monitor */
+.jm__doc { left: -.6em; top: -.8em; width: 1.2em; height: 1.55em; border-radius: .16em; color: var(--c); background: linear-gradient(160deg, #fff, #dfeaff);
+  box-shadow: 0 0 .9em var(--c); animation: jmUpload 2.2s cubic-bezier(.5,0,.3,1) infinite; }
+.jm__doc svg { width: 100%; height: 100%; }
+.jm__streak { left: -.08em; top: -5.4em; width: .16em; height: 4.4em; border-radius: .1em; transform-origin: 50% 100%;
+  background: linear-gradient(to top, transparent, #fff 50%, transparent); box-shadow: 0 0 .6em var(--c); opacity: 0; animation: jmStreak 2.2s ease-out infinite; }
+.jm__up { position: absolute; left: -.7em; top: -2.4em; width: 1.4em; height: 1.4em; border-radius: 50%; background: var(--c); box-shadow: 0 0 1em var(--c); animation: jmPop 2.2s ease infinite; }
+@keyframes jmUpload { 0% { transform: translateY(.4em) scale(.6); opacity: 0; } 20% { transform: translateY(0) scale(1); opacity: 1; } 55% { transform: translateY(-3.6em) scale(.85); opacity: 1; } 70%, 100% { transform: translateY(-5em) scale(.3); opacity: 0; } }
+@keyframes jmStreak { 0%, 55% { opacity: 0; transform: scaleY(.2); } 65% { opacity: 1; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(1) translateY(-2em); } }
+/* 3 tap: payment rings */
+.jm--tap .jm__tick { top: -2.8em; }
+/* waiting in the garden */
+.jm__clock { left: -1.1em; top: -4.6em; width: 2.2em; height: 2.2em; border-radius: 50%; border: .14em dashed color-mix(in srgb, var(--c) 70%, #fff); box-shadow: 0 0 .8em var(--c); animation: jmSpin 6s linear infinite; }
+@keyframes jmSpin { to { transform: rotate(360deg); } }
+.jm__dots { left: -1.1em; top: -6.1em; width: 2.2em; height: 1em; display: flex !important; justify-content: center; gap: .3em; }
+.jm__dots i { position: static !important; width: .42em; height: .42em; border-radius: 50%; background: #fff; box-shadow: 0 0 .5em var(--c); animation: jmDot 1.4s ease-in-out infinite; }
+.jm__dots i:nth-child(2) { animation-delay: .2s; } .jm__dots i:nth-child(3) { animation-delay: .4s; }
+@keyframes jmDot { 0%, 100% { opacity: .25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-.35em); } }
+/* 4 shuffle: VAS reviews the stack */
+.jm__sheet { left: -.6em; top: -1.2em; width: 1.2em; height: 1.5em; border-radius: .14em; background: linear-gradient(160deg, #fff, #e8f7f3); box-shadow: 0 0 .5em color-mix(in srgb, var(--c) 70%, transparent), 0 .1em .2em rgba(0,0,0,.25);
+  animation: jmShuffle 2.4s ease-in-out infinite; }
+.jm__sheet:nth-of-type(2) { animation-delay: .8s; } .jm__sheet:nth-of-type(3) { animation-delay: 1.6s; }
+@keyframes jmShuffle { 0% { transform: translate(0, 0) rotate(0); z-index: 3; } 30% { transform: translate(1.7em, -.9em) rotate(14deg); } 55% { transform: translate(.3em, -.3em) rotate(-4deg); z-index: 1; } 100% { transform: translate(0, 0) rotate(0); z-index: 1; } }
+.jm__lens { left: -.7em; top: -2.2em; width: 1.4em; height: 1.4em; border-radius: 50%; border: .16em solid #fff; background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.6), rgba(255,255,255,.08));
+  box-shadow: 0 0 .8em var(--c); animation: jmLens 2.4s ease-in-out infinite; }
+.jm__lens::after { content: ''; position: absolute; right: -.5em; bottom: -.5em; width: .6em; height: .18em; background: #fff; border-radius: .1em; transform: rotate(45deg); }
+@keyframes jmLens { 0%, 100% { transform: translate(-1.1em, .2em); } 50% { transform: translate(1.1em, -.2em); } }
+/* 5 handover: the file crosses the counter */
+.jm__folder { left: -.7em; top: -.9em; width: 1.4em; height: 1em; border-radius: .14em; background: linear-gradient(160deg, #ffe6b0, #d9a24a); box-shadow: 0 0 .8em var(--c), 0 0 0 .06em rgba(255,255,255,.8);
+  animation: jmHand 2.6s cubic-bezier(.5,0,.3,1) infinite; }
+@keyframes jmHand { 0%, 12% { transform: translate(0, 0); opacity: 0; } 20% { opacity: 1; } 62% { transform: translate(var(--dx), var(--dy)); opacity: 1; } 85%, 100% { transform: translate(var(--dx), var(--dy)); opacity: 0; } }
+.jm__ring--at { translate: var(--dx) var(--dy); animation-delay: 1.5s; }
+/* 6 scan: both screens read the file */
+.jm__screen { left: -.8em; top: -.9em; width: 1.6em; height: 1em; border-radius: .14em; border: .1em solid color-mix(in srgb, var(--c) 60%, #fff); background: color-mix(in srgb, var(--c) 25%, transparent);
+  box-shadow: 0 0 .8em var(--c); overflow: hidden; }
+.jm__line { left: 0; right: 0; top: 0; height: .14em; background: #fff; box-shadow: 0 0 .5em #fff, 0 0 1em var(--c); animation: jmScan 1.3s ease-in-out infinite; }
+@keyframes jmScan { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(.85em); } }
+/* 7 notify: ICP's notice reaches the phone */
+.jm__env { left: -.9em; top: -3.6em; width: 1.8em; height: 1.35em; color: var(--c); filter: drop-shadow(0 0 .5em var(--c)); animation: jmEnv 2.4s cubic-bezier(.3,1.5,.5,1) infinite; }
+.jm__env svg { width: 100%; height: 100%; }
+@keyframes jmEnv { 0%, 10% { transform: translateY(1em) scale(.3); opacity: 0; } 30% { transform: translateY(0) scale(1.1); opacity: 1; } 40%, 80% { transform: translateY(-.15em) scale(1); opacity: 1; } 100% { transform: translateY(-.6em); opacity: 0; } }
+/* 8 booked: the slot flips */
+.jm__slot { left: -2em; top: -4.4em; width: 4em; height: 1.7em; perspective: 10em; }
+.jm__face { position: absolute; inset: 0; display: grid !important; place-items: center; border-radius: .45em; font-size: .95em; font-weight: 750; letter-spacing: .02em; color: #fff; white-space: nowrap;
+  background: linear-gradient(170deg, rgba(255,255,255,.4), rgba(255,255,255,.08) 55%, color-mix(in srgb, var(--c) 45%, transparent)), rgba(18,24,44,.55);
+  border: .08em solid rgba(255,255,255,.6); box-shadow: 0 0 1em var(--c); backface-visibility: hidden; animation: jmFlip 3s ease-in-out infinite; }
+.jm__face--back { transform: rotateX(180deg); animation-name: jmFlipBack; }
+@keyframes jmFlip { 0%, 35% { transform: rotateX(0); } 50%, 90% { transform: rotateX(-180deg); } 100% { transform: rotateX(-360deg); } }
+@keyframes jmFlipBack { 0%, 35% { transform: rotateX(180deg); } 50%, 90% { transform: rotateX(0); } 100% { transform: rotateX(-180deg); } }
+/* 9 finger: fingerprint scan */
+.jm__print { left: -1.1em; top: -4.6em; width: 2.2em; height: 2.6em; color: color-mix(in srgb, var(--c) 70%, #fff); filter: drop-shadow(0 0 .45em var(--c)); overflow: hidden; }
+.jm__print svg, .jm__half svg { width: 100%; height: 100%; }
+.jm__print .jm__line { animation: jmScanTall 1.6s ease-in-out infinite; }
+@keyframes jmScanTall { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(2.4em); } }
+/* 10 match: biometrics meet the file */
+.jm__half { top: -4.6em; width: 2.2em; height: 2.6em; color: color-mix(in srgb, var(--c) 65%, #fff); filter: drop-shadow(0 0 .45em var(--c)); }
+.jm__half--l { left: -1.1em; clip-path: inset(0 50% 0 0); animation: jmHalfL 2.8s ease-in-out infinite; }
+.jm__half--r { left: -1.1em; clip-path: inset(0 0 0 50%); animation: jmHalfR 2.8s ease-in-out infinite; }
+@keyframes jmHalfL { 0%, 10% { transform: translateX(-1.3em); opacity: 0; } 25% { opacity: 1; } 50%, 100% { transform: translateX(0); opacity: 1; } }
+@keyframes jmHalfR { 0%, 10% { transform: translateX(1.3em); opacity: 0; } 25% { opacity: 1; } 50%, 100% { transform: translateX(0); opacity: 1; } }
+.jm--match .jm__tick { top: -6.4em; }
+/* 11 stamp: the decision */
+.jm__stamp { left: -.7em; top: -2.2em; width: 1.4em; height: 2.2em; animation: jmStamp 2.6s cubic-bezier(.6,0,.4,1) infinite; }
+.jm__stamp i:first-child { left: .45em; top: 0; width: .5em; height: 1.3em; border-radius: .25em; background: linear-gradient(90deg, #6b4a2a, #a77a4c, #6b4a2a); }
+.jm__stamp i:last-child { left: 0; top: 1.25em; width: 1.4em; height: .6em; border-radius: .14em; background: linear-gradient(180deg, #c9a86e, #7a5530); box-shadow: 0 .1em .3em rgba(0,0,0,.4); }
+@keyframes jmStamp { 0%, 15% { transform: translateY(-2.6em); } 38% { transform: translateY(0) scaleY(.92); } 44% { transform: translateY(-.1em) scaleY(1); } 70%, 100% { transform: translateY(-2.6em); } }
+.jm--stamp .jm__ring { animation: jmRing 2.6s ease-out infinite; animation-delay: .95s; }
+.jm__ink { left: -.9em; top: -.35em; width: 1.8em; height: .7em; border-radius: .2em; border: .12em solid var(--c); box-shadow: 0 0 .6em var(--c); opacity: 0; animation: jmInk 2.6s ease infinite; }
+@keyframes jmInk { 0%, 36% { opacity: 0; transform: scale(.7); } 42% { opacity: 1; transform: scale(1.08); } 50%, 88% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+/* approved: warm sparkles */
+.jm__spark { left: calc((var(--i) - 4) * .7em); top: -1em; width: .35em; height: .35em; border-radius: 50%; background: #fff; box-shadow: 0 0 .5em #fff, 0 0 1em var(--c);
+  opacity: 0; animation: jmSpark 2.6s ease-out infinite; animation-delay: calc(var(--i) * .27s); }
+@keyframes jmSpark { 0% { transform: translateY(1em) scale(.4); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-5.5em) scale(1); opacity: 0; } }
+/* rejected: a slow quiet pulse */
+.jm__halo { left: -3em; top: -1.2em; width: 6em; height: 2.4em; border-radius: 50%; border: .12em solid color-mix(in srgb, var(--c) 70%, #fff); box-shadow: 0 0 1em var(--c); opacity: 0; animation: jmHalo 3.4s ease-out infinite; }
+.jm__halo:nth-of-type(2) { animation-delay: 1.7s; }
+@keyframes jmHalo { 0% { transform: scale(.6); opacity: .7; } 100% { transform: scale(1.5); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .jc__flow, .jm * { animation: none !important; }
+}
+
+/* ── Online Visa Journey v4 (V34): Nasir's stage units with baked plate + reflection ── */
+.jc4__unit { position: absolute; height: auto; user-select: none;
+  filter: brightness(.9) saturate(.95); transition: filter .7s ease, transform .7s cubic-bezier(.3,1.3,.5,1); }
+.jc4__unit.is-reached { filter: brightness(1) saturate(1); }
+.jc4__unit.is-active { filter: brightness(1.1) saturate(1.08) drop-shadow(0 0 calc(18px * var(--u)) color-mix(in srgb, var(--c) 55%, transparent));
+  transform: translateY(calc(-3px * var(--u))) scale(1.03); }
+/* metric capsules: glossy glass, colour = phase (the stage name lives on the unit's plate) */
+.jc4__cap { position: absolute; z-index: 2200; box-sizing: border-box; padding: 7px 14px 8px; border-radius: 14px; color: #fff; text-align: center; white-space: nowrap;
+  transform: translateX(-50%) scale(var(--u)); transform-origin: 50% 0;
+  background: linear-gradient(165deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,.08) 42%, color-mix(in srgb, var(--c) 26%, transparent) 100%), rgba(16,22,42,.56);
+  -webkit-backdrop-filter: blur(14px) saturate(1.35); backdrop-filter: blur(14px) saturate(1.35); border: 1px solid rgba(255,255,255,.48);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.75), inset 0 -1px 0 color-mix(in srgb, var(--c) 70%, transparent), 0 8px 22px rgba(4,8,20,.32), 0 0 18px color-mix(in srgb, var(--c) 28%, transparent);
+  text-shadow: 0 1px 6px rgba(0,0,0,.4); transition: transform .5s cubic-bezier(.3,1.4,.5,1), box-shadow .45s, opacity .45s; opacity: .9; }
+.jc4__cap.is-seen { opacity: 1; border-color: color-mix(in srgb, var(--c) 55%, rgba(255,255,255,.5)); }
+.jc4__cap.is-on { opacity: 1; transform: translateX(-50%) scale(calc(var(--u) * 1.12)); z-index: 2210;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 0 0 1.5px var(--c), 0 10px 26px rgba(4,8,20,.36), 0 0 32px color-mix(in srgb, var(--c) 62%, transparent); }
+.jc4__cap .jc__num b { font-size: 22px; }
+.jc4__cap.is-pair { display: flex; gap: 16px; text-align: left; }
+.jc4__row { transition: opacity .4s; }
+.jc4__cap.is-pair .jc4__row:not(.is-on) { opacity: .72; }
+.jc4__cap.is-on.is-pair .jc4__row.is-on { opacity: 1; }
+.jc4__lab { display: block; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+/* floor ribbons: under the units, a wider light pool on the floor, brighter core */
+.jc4 .jc__edge { opacity: .78; }
+.jc4 .jc__edge.is-done, .jc4 .jc__edge.is-live { opacity: 1; }
+.jc4 .jc__cast { opacity: .42; }
+.jc4 .jc__edge.is-done .jc__cast { opacity: .52; }
+.jc4 .jc__edge.is-live .jc__cast { opacity: .7; }
+.jc4 .jc__tint { opacity: .42; }
+
+/* ── Cinematic journey (V39): the Ask ODIN bar sits lower, leaving a gap between it and the
+   cards above (Nasir, 27 Oct). `translate` composes with the bar's own centring transform. ── */
+html[data-journey-cinema] .mic-bar { translate: 0 26px; }
+html[data-journey-cinema] .dev-note { left: auto; right: 24px; transform: none; }

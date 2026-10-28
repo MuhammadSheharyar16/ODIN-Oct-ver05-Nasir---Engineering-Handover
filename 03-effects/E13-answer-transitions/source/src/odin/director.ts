@@ -19,6 +19,8 @@ import { useCaption } from '../state/caption';
 import { useLayout } from '../state/layout';
 import { setAuraTarget, type AuraShape } from '../lib/aura';
 import { backdrop, backdropMode, setBackdropBlur, setSceneBackdrop, toggleBackdropBlur } from '../lib/backdrop';
+import { detailCommand, useJourneyDetail } from '../lib/journeyDetail';
+import { floorRing } from '../lib/floorRing';
 const backdropApi = { set: setBackdropBlur, toggle: toggleBackdropBlur, mode: backdropMode, state: backdrop };
 import { useStage } from '../state/store';
 import { prefersReducedMotion } from '../lib/motion';
@@ -195,6 +197,9 @@ function applyEnv(s: SceneAnswer | null) {
   envView.target = floor ? floorView(home.width, home.height, (FLOOR_CX - 960) * sx) : low ? lowView(home.width, home.height) : { ...REST_VIEW };
   useStage.getState().setFocus(s ? 1 : 0);
   setSceneBackdrop(s?.backdrop);
+  // Journeys stand on a flat floor: ODIN's floor circle goes away as soon as one starts opening
+  // (and the voice lines take the home screen's strength there, SpectrumAura uFlat).
+  floorRing.hidden = !!s && s.env === 'floor';
 }
 
 function presenceFor(s: SceneAnswer | null) {
@@ -208,6 +213,14 @@ export function ask(text: string) {
   const q = text.trim();
   if (!q) return;
   const st = useExperience.getState();
+  // On the v4.5 journey (V39), "tell me more" / "back to the journey" open and close the stage dashboard in place.
+  const more = detailCommand(q);
+  if (more && st.active?.components.some((c) => c.spec.kind === 'journey' && c.spec.cinema === 'v45')) {
+    useExperience.setState({ heard: q });
+    useJourneyDetail.getState().set(more === 'on');
+    startSpeechPreview(more === 'on' ? 'Here are the details for each stage as the journey moves.' : 'Back to the whole journey.');
+    return;
+  }
   const picked = matchQuestion(q)?.intent;
   const p = picked ? planFromIntent(picked) : plan(understand(q, st.lastIntent), { last: st.lastPlan });
   const intent = p.intent;

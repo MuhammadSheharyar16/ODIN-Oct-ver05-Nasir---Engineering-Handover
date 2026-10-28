@@ -209,6 +209,28 @@ write its adapter from our data (fields in odin-handover/04-views/V32-vas-revenu
 add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V32.
 ```
 
+### V39 · Online Visa Journey v4.5
+
+```
+Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
+port V39 "Online Visa Journey v4.5" into this app.
+Effects it needs: E00, E01, E02, E03, E04, E06, E07, E08, E09, E11 (skip any already integrated).
+Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
+write its adapter from our data (fields in odin-handover/04-views/V39-online-visa-journey-v4-5/spec.sample.json),
+add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V39.
+```
+
+### V40 · Top 10 Countries v2
+
+```
+Using the ODIN port kit in ./odin-handover (read odin-handover/06-port-kit/CLAUDE.md first),
+port V40 "Top 10 Countries v2" into this app.
+Effects it needs: E00, E01, E02, E03, E04, E06, E07, E08, E09, E11 (skip any already integrated).
+Follow steps 2–5: write INTEGRATION-PLAN.md and wait for my approval; then port the screen,
+write its adapter from our data (fields in odin-handover/04-views/V40-top-10-countries-v2/spec.sample.json),
+add it to the ODIN preview route, and run the contract and acceptance tests with ODIN_VIEWS=V40.
+```
+
 ### V25 · Didn’t Understand
 
 ```

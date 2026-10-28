@@ -50,7 +50,7 @@ export function JourneyFloor({ spec }: { spec: JourneySpec }) {
       <span
         className="fj__aura"
         data-aura="floor"
-        data-rise="0.015"
+        data-rise="0.09"
         style={{ left: width / 2 + (f.x0 - FLOOR_CX) * sx, top: f.y0 * sy, width: (f.x1 - f.x0) * sx, height: (f.y1 - f.y0) * sy }}
       />
     </div>

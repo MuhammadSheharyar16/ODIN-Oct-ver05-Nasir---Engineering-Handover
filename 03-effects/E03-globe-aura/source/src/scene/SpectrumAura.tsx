@@ -5,6 +5,7 @@ import { BIN_COUNT, odinAudio } from '../audio/odinAudio';
 import { auraSnap, auraTarget } from '../lib/aura';
 import { PRESENCE_DEPTH, screenLengthToWorld, screenToWorld } from '../lib/layout';
 import { damp } from '../lib/motion';
+import { floorRing } from '../lib/floorRing';
 
 /**
  * ODIN speaking spectrum. Driven only by ODIN's OUTPUT audio. Two forms that
@@ -34,6 +35,7 @@ const fragment = /* glsl */ `
   uniform float uGain;
   uniform sampler2D uBins;
   uniform float uMode;
+  uniform float uFlat;   // 1 on journey pages: the voice lines at the home screen's strength (rings, glow, gain) plus a full curtain
   uniform float uRise;
   varying vec2 vUv;
 
@@ -70,7 +72,7 @@ const fragment = /* glsl */ `
       float w = (1.2 + fk * 0.5) * S * persp;
       rings += exp(-(((d - rk) / w) * ((d - rk) / w))) * (1.0 - fk * 0.24);
     }
-    rings *= 0.62;
+    rings *= mix(0.62, 1.15, uFlat);
     // Floor wash inside the ring.
     float wash = smoothstep(1.0, 0.0, er) * 0.06 * (0.4 + 0.6 * lvl);
     // Curtain: spectrum bars rising from the back arc, behind the objects.
@@ -87,10 +89,11 @@ const fragment = /* glsl */ `
     float below = -yBack - p.y;
     float refl = step(fract(p.x / (7.0 * S)), 0.36) * step(0.0, below) * step(below, H * 0.35) * step(abs(p.x), h.x)
                * (1.0 - clamp(below / max(H * 0.35, 1.0), 0.0, 1.0)) * 0.22;
-    float glow = exp(-abs(d) / (22.0 * S)) * (0.18 + 0.4 * lvl);
+    float glow = exp(-abs(d) / (22.0 * S)) * (0.18 + 0.4 * lvl) * (1.0 + 0.4 * uFlat);
     vec3 c = palette(u);
-    float I = rings + glow * 0.45 + wash + (curtain * 0.85 + refl) * (0.3 + 0.7 * lvl);
-    return c * I + vec3(1.0) * rings * 0.22;
+    // Flat floor (journeys): the curtain and its reflection carry ODIN's voice at full strength.
+    float I = rings + glow * 0.45 + wash + (curtain * (0.85 + 0.75 * uFlat) + refl * (1.0 + 1.2 * uFlat)) * (0.3 + 0.7 * lvl);
+    return c * I + vec3(1.0) * rings * (0.22 + 0.06 * uFlat);
   }
 
   void main() {
@@ -170,6 +173,7 @@ export function SpectrumAura() {
       uBins: { value: binsTex },
       uMode: { value: 0 },
       uRise: { value: 0 },
+      uFlat: { value: 0 },
     }),
     [binsTex],
   );
@@ -222,10 +226,12 @@ export function SpectrumAura() {
     un.uTime.value += dt;
     un.uS.value = S;
     un.uMode.value = c.mode;
+    un.uFlat.value = damp(un.uFlat.value, floorRing.hidden ? 1 : 0, 6, dt);
     un.uRise.value = c.rise;
     // Large panels get a quieter edge so content stays the subject; the floor form keeps full voice.
     const wrapGain = Math.min(1, Math.max(0.42, 300 / Math.max(c.hw, c.hh)));
-    un.uGain.value = wrapGain + (0.78 - wrapGain) * c.mode;
+    // On the flat journey floor the voice gets the full gain of the home screen.
+    un.uGain.value = wrapGain + (0.78 + 0.22 * un.uFlat.value - wrapGain) * c.mode;
   });
 
   return (

@@ -1,10 +1,10 @@
-# ODIN Oct ver05.1 Nasir - Engineering Handover
+# ODIN Oct ver05.2 Nasir - Engineering Handover
 
-Version ODIN Oct ver05.1 Nasir (0.5.1) · generated 2026-10-26 · ODIN reference app 0.5.1
+Version ODIN Oct ver05.2 Nasir (0.5.2) · generated 2026-10-28 · ODIN reference app 0.5.2
 
 Everything an engineering team needs to take ODIN screens and effects into its own app, one at a time, without replacing its core.
 
-0. What changed in this version: `RELEASE-NOTES-ver05.1.md`.
+0. What changed in this version: `RELEASE-NOTES-ver05.2.md`.
 1. Open `00-START-HERE.html` for the visual catalogue.
 2. Read `INTEGRATION-GUIDE.md` (leads) and `STACK.md` (versions, already matched to your stack).
 3. Give your Claude `06-port-kit/CLAUDE.md` and a request from `06-port-kit/PORT-PROMPTS.md`.
@@ -14,7 +14,7 @@ Everything an engineering team needs to take ODIN screens and effects into its o
 | `01-reference-app/` | Runnable ODIN prototype (`npm ci && npm run dev`, `?view=V05`) |
 | `02-design-system/` | Tokens, card system A/B/C, type, colour by meaning |
 | `03-effects/` | E00–E13: SPEC, source, videos/frames (E12: response composer, LLM prompt, phrasing table) |
-| `04-views/` | S01–S05 system states, V01–V32 screens: README, component, spec.sample.json, captures |
+| `04-views/` | S01–S05 system states, V01–V40 screens: README, component, spec.sample.json, captures |
 | `05-data-contracts/` | Types, JSON Schema, question → screen → data |
 | `06-port-kit/` | Claude instructions, prompts, contract + acceptance tests, golden frames |
 | `07-assets/` | Room imagery, sounds |
@@ -45,6 +45,8 @@ Everything an engineering team needs to take ODIN screens and effects into its o
 | [V29](04-views/V29-applications-v2/README.md) | Applications · v2 | Green | BQ01, BQ02, BQ03 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
 | [V30](04-views/V30-answer/README.md) | Answer | Green | BQ01, BQ02, BQ03, BQ04, BQ05, BQ26 | E00 E01 E02 E03 E06 E07 E08 E09 E11 E12 |
 | [V32](04-views/V32-vas-revenue/README.md) | VAS Revenue | Green | BQ05, BQ27 | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
+| [V39](04-views/V39-online-visa-journey-v4-5/README.md) | Online Visa Journey v4.5 | Green | — | E00 E01 E02 E03 E04 E06 E07 E08 E09 E11 |
+| [V40](04-views/V40-top-10-countries-v2/README.md) | Top 10 Countries v2 | Green | — | E00 E01 E02 E03 E04 E06 E07 E08 E09 E11 |
 | [V25](04-views/V25-didnt-understand/README.md) | Didn’t Understand | System | — | E00 E01 E02 E03 E06 E07 E08 E09 E11 |
 
 ## Effects

@@ -7,6 +7,7 @@ import type { Box } from '../../../lib/homeLayout';
 import { formatCount } from '../../../lib/format';
 import { useOdinLayout } from '../../bridge';
 import { JourneyFloor } from './JourneyFloor';
+import { JourneyCinema42 } from './journeyCinema/JourneyCinema42';
 import { Count } from './shared';
 
 function StageCard({ n, label, sub, count, days, delta, accent, emphasis, icon, unavailable, tag = 'Most waiting now', style }: { n?: number; label: string; sub?: string; count: number; days: number; delta?: number; accent: string; emphasis?: boolean; icon?: ReactNode; unavailable?: boolean; tag?: string; style: CSSProperties }) {
@@ -39,6 +40,14 @@ function StageCard({ n, label, sub, count, days, delta, accent, emphasis, icon, 
 
 export function Journey({ spec, box }: { spec: JourneySpec; box: Box }) {
   const mode = useOdinLayout().mode;
+  // Online Visa Journey v4.5 (V39): the Ask ODIN bar sits a little lower, leaving a gap above it (cinema.css).
+  const cinema = !!(spec.floor && spec.cinema && mode === 'wide');
+  useEffect(() => {
+    if (!cinema) return;
+    document.documentElement.dataset.journeyCinema = '1';
+    return () => { delete document.documentElement.dataset.journeyCinema; };
+  }, [cinema]);
+  if (spec.floor && spec.cinema === 'v45' && mode === 'wide') return <JourneyCinema42 spec={spec} />;
   if (spec.floor && mode === 'wide') return <JourneyFloor spec={spec} />;
   const vertical = box.w / box.h < 1.25;
   return vertical ? <JourneyVertical spec={spec} /> : <JourneyHorizontal spec={spec} aspect={box.h / box.w} />;

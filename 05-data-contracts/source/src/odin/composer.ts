@@ -165,9 +165,10 @@ const PASSTHROUGH: Intent['type'][] = ['home', 'back', 'outOfScope', 'unsupporte
 
 /** The composer answers the volume rankings and plain time questions itself; specific variants stay with the catalogue. */
 const passes = (i: Intent) =>
-  PASSTHROUGH.includes(i.type) &&
+  (i.type === 'journey' && !!i.style) ||
+  (PASSTHROUGH.includes(i.type) &&
   !(i.type === 'ranking' && i.measure === 'applications' && i.order === 'desc') &&
-  !(i.type === 'timeMatrix' && !i.stage && !i.filters.country && !i.filters.visaType);
+  !(i.type === 'timeMatrix' && !i.stage && !i.filters.country && !i.filters.visaType));
 
 export function understand(raw: string, last?: Intent): Query {
   const t = norm(raw);

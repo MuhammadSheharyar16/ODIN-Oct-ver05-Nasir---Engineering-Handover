@@ -136,3 +136,25 @@ describe('backdrop blur control', () => {
     b.setSceneBackdrop(undefined);
   });
 });
+
+describe('composer: Online Visa Journey v4.5 (V39)', () => {
+  it('"v4.5" opens V39; the plain question keeps V09', () => {
+    expect(ask('Show the online visa journey v4.5').intent).toMatchObject({ type: 'journey', channel: 'online', style: 'cinema45' });
+    const v1 = ask('Show the online visa journey');
+    expect(v1.view).toBe('V09');
+    expect(v1.intent).not.toHaveProperty('style');
+  });
+});
+
+describe('Top 10 Countries v2 (V40) and the V39 detail phrases', () => {
+  it('"top 10 countries v2" opens V40; detail phrases toggle', async () => {
+    expect(ask('Show top 10 countries v2').intent).toMatchObject({ type: 'geo', style: 'sides' });
+    expect(ask('Show top countries on the globe').intent).toEqual({ type: 'geo' });
+    const { detailCommand } = await import('../lib/journeyDetail');
+    expect(detailCommand('Tell me more about draft applications')).toBe('on');
+    expect(detailCommand('Show the details')).toBe('on');
+    expect(detailCommand('Back to the journey')).toBe('off');
+    expect(detailCommand('Hide the details')).toBe('off');
+    expect(detailCommand('How many visas have been approved?')).toBeNull();
+  });
+});

@@ -56,6 +56,19 @@ export function Geo({ spec, box }: { spec: GeoSpec; box: Box }) {
   const earth = useProxy(`earth:${spec.key}`, 'earth', { pins, focusLon: 55, focusLat: 22 });
   const top = spec.items.slice(0, 5);
   const rest = spec.items.slice(5, 10);
+  // Top 10 Countries v2 (V40): one reading order, 1–5 down the left and 6–10 down the right, the Earth centred.
+  if (spec.layout === 'sides' && !narrow) {
+    return (
+      <div className="geo is-sides" data-surface>
+        <div className="geo__earth" ref={earth} data-aura="" />
+        {[top, rest].map((col, c) => (
+          <div key={c} className={`geo__col is-${c ? 'right' : 'left'}`}>
+            {col.map((it, i) => <GeoCard key={it.code} it={it} rank={c * 5 + i + 1} big={c === 0 && i === 0} />)}
+          </div>
+        ))}
+      </div>
+    );
+  }
   if (narrow) {
     return (
       <div className="geo is-narrow" data-surface ref={plinths}>

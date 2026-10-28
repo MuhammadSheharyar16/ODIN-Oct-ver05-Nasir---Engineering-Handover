@@ -74,7 +74,8 @@ export function parse(raw: string, last?: Intent): Intent {
   if (has(t, /\b(occupation|profession|types of applicants|kind of applicants|what applicants)\b/)) return { type: 'mix', dim: 'occupation' };
   if ((has(t, /\bonline\b/) && has(t, /\b(cent(re|er)s?|physical|offline)\b/)) || has(t, /\b(channel|channels|submission channel)\b/))
     if (!has(t, /journey/) && !f.country) return { type: 'channels' };
-  if (has(t, /\b(globe|world|map)\b/) && has(t, /\b(countr\w*|top)\b/)) return { type: 'geo' };
+  if (has(t, /\b(globe|world|map)\b/) && has(t, /\b(countr\w*|top)\b/)) return has(t, /\b(v2|version 2|version two)\b/) ? { type: 'geo', style: 'sides' } : { type: 'geo' };
+  if (has(t, /\btop (10|ten) countr\w*\b/) && has(t, /\b(v2|version 2|version two)\b/)) return { type: 'geo', style: 'sides' };
   const topsV2 = has(t, /\b(v2|version 2|version two|skyline)\b/) ? { style: 'skyline' as const } : {};
   if (has(t, /\bnationalit\w*\b/) && !f.country && !has(t, /compare/)) return { type: 'tops', ...topsV2 };
   if (has(t, /\b(top|most|highest)\b/) && has(t, /\bcountr\w*\b/) && has(t, /\bcent(re|er)s?\b/)) return { type: 'tops', ...topsV2 };
@@ -94,7 +95,10 @@ export function parse(raw: string, last?: Intent): Intent {
 
   if (has(t, /\b(journey|stages?|pipeline|funnel|flow|where (are|is) (the )?(online |centre |center )?applications)\b/)) {
     const channel = f.channel ?? (last?.type === 'journey' ? last.channel : 'online');
-    return { type: 'journey', channel, filters: clean({ country: f.country, centre: f.centre, visaType: f.visaType }) };
+    // "v4.5" arrives as "v4 5" (punctuation becomes a space).
+    const v45 = channel === 'online' && has(t, /\b(v4 5|v45|version 4 5|version four point five|4 point 5)\b/);
+    const style = v45 ? ('cinema45' as const) : undefined;
+    return { type: 'journey', channel, filters: clean({ country: f.country, centre: f.centre, visaType: f.visaType }), ...(style ? { style } : {}) };
   }
 
   // Rankings: top / most / slowest / under- or well-performing.

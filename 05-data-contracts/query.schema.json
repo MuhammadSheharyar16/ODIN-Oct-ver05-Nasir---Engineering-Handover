@@ -98,6 +98,10 @@
             "filters": {
               "$ref": "#/definitions/Filters"
             },
+            "style": {
+              "const": "cinema45",
+              "type": "string"
+            },
             "type": {
               "const": "journey",
               "type": "string"
@@ -406,6 +410,10 @@
         {
           "additionalProperties": false,
           "properties": {
+            "style": {
+              "const": "sides",
+              "type": "string"
+            },
             "type": {
               "const": "geo",
               "type": "string"

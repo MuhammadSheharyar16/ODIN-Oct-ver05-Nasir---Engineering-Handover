@@ -689,6 +689,11 @@
           "const": "geo",
           "type": "string"
         },
+        "layout": {
+          "const": "sides",
+          "description": "'sides' = Top 10 Countries v2 (V40): ranks 1–5 down the left, 6–10 down the right, the Earth centred.",
+          "type": "string"
+        },
         "period": {
           "type": "string"
         },
@@ -929,6 +934,10 @@
             },
             "filters": {
               "$ref": "#/definitions/Filters"
+            },
+            "style": {
+              "const": "cinema45",
+              "type": "string"
             },
             "type": {
               "const": "journey",
@@ -1238,6 +1247,10 @@
         {
           "additionalProperties": false,
           "properties": {
+            "style": {
+              "const": "sides",
+              "type": "string"
+            },
             "type": {
               "const": "geo",
               "type": "string"
@@ -1363,6 +1376,11 @@
         },
         "channel": {
           "$ref": "#/definitions/Channel"
+        },
+        "cinema": {
+          "const": "v45",
+          "description": "Cinematic floor journey: 'v45' = Online Visa Journey v4.5 (V39).",
+          "type": "string"
         },
         "emphasisKey": {
           "description": "Stage with the most applications currently waiting (factual emphasis).",

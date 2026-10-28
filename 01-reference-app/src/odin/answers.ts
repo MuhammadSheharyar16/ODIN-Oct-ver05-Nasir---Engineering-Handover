@@ -115,13 +115,17 @@ function journey(channel: Channel, f: Filters, intent: Intent): SceneAnswer {
           rejected: j.rejected,
           emphasisKey: busiest.key,
           floor,
+          cinema: intent.type === 'journey' && intent.style === 'cinema45' ? 'v45' : undefined,
         },
         'main',
       ),
     ],
+    // V39 opens with the depth-of-field backdrop (exterior lens blur; F toggles it).
+    backdrop: intent.type === 'journey' && intent.style === 'cinema45' ? 'dof' : undefined,
     // Wide: opening line = the Home stop, then the floor tour narrates each stage.
     // Phones/portrait (vertical journey, no tour): the full summary sentence.
-    spoken: useLayout.getState().home.mode === 'wide' ? floor.home.say : spoken,
+    // V39 speaks only the summary (CEO's time, 26 Oct); its stages play silently.
+    spoken: intent.type === 'journey' && intent.style === 'cinema45' ? spoken : useLayout.getState().home.mode === 'wide' ? floor.home.say : spoken,
     summary: useLayout.getState().home.mode === 'wide' ? {
       primary: `${formatCount(m.submitted.count)} online applications on the journey · ${formatCount(m.approvedTotal)} approved · ${formatCount(m.rejected.count)} rejected.`,
       secondary: `${formatCount(m.bioRequest.count)} took the biometric route · ${days(m.endToEnd)} end to end on average.`,
@@ -591,7 +595,7 @@ function geo(intent: Intent): SceneAnswer {
     subtitle: 'Applications by country of residence to date',
     focusKey: 'geo',
     presence: 'dissolved',
-    components: [place({ kind: 'geo', key: 'geo', heading: 'Top Countries', subheading: 'By applications', basis: 'Country of residence', period: 'To date', items }, 'stage')],
+    components: [place({ kind: 'geo', key: 'geo', heading: 'Top Countries', subheading: 'By applications', basis: 'Country of residence', period: 'To date', items, ...(intent.type === 'geo' && intent.style ? { layout: intent.style } : {}) }, 'stage')],
     spoken: `${items[0].name} has the most applications, ${formatCount(items[0].value)}, followed by ${items[1].name} with ${formatCount(items[1].value)} and ${items[2].name} with ${formatCount(items[2].value)}. Countries are by applicant residence, not nationality.`,
     summary: { primary: `${items[0].name} leads with ${formatCount(items[0].value)} applications.`, secondary: `Then ${items[1].name} (${formatCount(items[1].value)}) and ${items[2].name} (${formatCount(items[2].value)}) · by residence.` },
   });

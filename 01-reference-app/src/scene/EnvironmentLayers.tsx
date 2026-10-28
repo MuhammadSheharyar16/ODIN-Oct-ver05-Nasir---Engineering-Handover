@@ -8,6 +8,7 @@ import { damp, prefersReducedMotion } from '../lib/motion';
 import { CAMERA_FOV, IMAGE_ASPECT, OVERSCAN, envView } from '../lib/envFit';
 import { intro } from '../lib/intro';
 import { envParallax } from '../lib/layout';
+import { floorRing } from '../lib/floorRing';
 
 /**
  * The canonical daylight environment as two real depth layers:
@@ -16,6 +17,8 @@ import { envParallax } from '../lib/layout';
  * are scaled proportionally to depth so that, at rest, they project to the
  * same screen rectangle as the original composite; camera drift then gives
  * genuine parallax. The sky drifts; skyline, sun and water stay put.
+ * The interior's floor circle is a third layer (RingLayer) over a flat-floor interior, so it
+ * can sink into the floor on the cinematic journeys (lib/floorRing.ts).
  */
 
 export const INTERIOR_DEPTH = 10;
@@ -140,7 +143,7 @@ const fragment = /* glsl */ `
 const DOF_RADIUS = 0.0016;
 
 type LayerProps = {
-  name: 'exterior' | 'interior';
+  name: 'exterior' | 'interior' | 'interior-flat';
   depth: number;
   transparent?: boolean;
   effects?: boolean;
@@ -259,6 +262,85 @@ function Layer({ name, depth, transparent, effects, focusBlur, focusDim, focusSa
   );
 }
 
+/** The floor circle's band in the interior plate, UV space (0 = bottom): rows 3040–3560 of 4652. */
+const RING_V0 = 1 - 3560 / 4652, RING_V1 = 1 - 3040 / 4652;
+
+const ringFragment = /* glsl */ `
+  uniform sampler2D map;
+  uniform float uShow;    // 1 = on the floor as supplied, 0 = sunk away
+  uniform float uReveal;  // intro, as the other layers
+  varying vec2 vUv;
+  void main() {
+    float t = (vUv.y - ${RING_V0.toFixed(5)}) / ${(RING_V1 - RING_V0).toFixed(5)};
+    if (t < 0.0 || t > 1.0) discard;
+    // Sinking: the ring flattens toward its lower edge (perspective as it goes under) and fades.
+    float k = mix(0.12, 1.0, uShow);
+    float tt = t / k;
+    if (tt > 1.0) discard;
+    vec4 c = texture2D(map, vec2(vUv.x, tt));
+    c.a *= smoothstep(0.0, 0.7, uShow);
+    c.rgb *= mix(0.0, 1.0, pow(uReveal, 0.7));
+    gl_FragColor = c;
+    #include <colorspace_fragment>
+  }
+`;
+
+/** ODIN's floor circle over the flat-floor interior; sinks into the floor while a cinematic journey is open. */
+function RingLayer() {
+  const [small] = useTexture(['/env/floor-ring-1600.webp']);
+  const viewport = useThree((s) => s.size);
+  const reduced = useMemo(prefersReducedMotion, []);
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
+  const show = useRef(1);
+  useMemo(() => { small.colorSpace = THREE.SRGBColorSpace; small.anisotropy = 4; small.needsUpdate = true; }, [small]);
+  useEffect(() => {
+    const variant = pickVariant();
+    if (variant === 1600) return;
+    let cancelled = false;
+    new THREE.TextureLoader().load(`/env/floor-ring-${variant}.webp`, (hi) => {
+      if (cancelled) return hi.dispose();
+      hi.colorSpace = THREE.SRGBColorSpace;
+      hi.anisotropy = 8;
+      const u = materialRef.current?.uniforms;
+      if (u) u.map.value = hi;
+    });
+    return () => { cancelled = true; };
+  }, []);
+  const uniforms = useMemo(() => ({ map: { value: small }, uShow: { value: 1 }, uReveal: { value: 0 } }), [small]);
+  const scale = useMemo(() => {
+    const visibleH = 2 * INTERIOR_DEPTH * Math.tan(THREE.MathUtils.degToRad(CAMERA_FOV / 2));
+    const aspect = viewport.width / viewport.height;
+    let h = visibleH * OVERSCAN;
+    let w = h * IMAGE_ASPECT;
+    if (aspect > IMAGE_ASPECT) { w = visibleH * aspect * OVERSCAN; h = w / IMAGE_ASPECT; }
+    return [w, h, 1] as const;
+  }, [viewport.width, viewport.height]);
+  useFrame((_, dt) => {
+    const u = materialRef.current?.uniforms;
+    if (!u) return;
+    const target = floorRing.hidden ? 0 : 1;
+    // Away quickly (gone before the journey appears), back gently.
+    show.current = reduced ? target : damp(show.current, target, target ? 2.2 : 7, dt);
+    u.uShow.value = show.current;
+    u.uReveal.value = intro.env;
+    const m = meshRef.current;
+    if (m) {
+      const v = envView.cur;
+      m.scale.set(scale[0] * v.zoom, scale[1] * v.zoom, 1);
+      m.position.y = (v.cy - 0.5) * scale[1] * v.zoom - envParallax.y;
+      m.position.x = -(v.cx - 0.5) * scale[0] * v.zoom - envParallax.x;
+      m.visible = show.current > 0.004;
+    }
+  });
+  return (
+    <mesh ref={meshRef} position={[0, 0, -INTERIOR_DEPTH]} scale={scale} renderOrder={2}>
+      <planeGeometry args={[1, 1]} />
+      <shaderMaterial ref={materialRef} vertexShader={vertex} fragmentShader={ringFragment} uniforms={uniforms} transparent depthWrite={false} toneMapped={false} />
+    </mesh>
+  );
+}
+
 export function EnvironmentLayers() {
   useFrame((_, dt) => {
     const c = envView.cur, t = envView.target;
@@ -270,13 +352,14 @@ export function EnvironmentLayers() {
     <group>
       <Layer name="exterior" depth={EXTERIOR_DEPTH} effects focusBlur={0.85} focusDim={0.78} focusSaturation={0.82} />
       <Layer
-        name="interior"
+        name="interior-flat"
         depth={INTERIOR_DEPTH}
         transparent
         focusBlur={0.45}
         focusDim={0.72}
         focusSaturation={0.85}
       />
+      <RingLayer />
     </group>
   );
 }

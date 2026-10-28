@@ -16,12 +16,12 @@ main{max-width:1320px;margin:0 auto;padding:48px 24px 80px}h1{font-size:clamp(28
 footer{margin-top:56px;color:var(--ink3);font-size:13px}code{background:rgba(255,255,255,.08);padding:1px 6px;border-radius:6px}
 @media (max-width:600px){main{padding:28px 16px 60px}}
 </style></head><body><main>
-<h1>ODIN Oct ver05.1 Nasir - Engineering Handover</h1>
-<p class="lead">Every ODIN screen and effect, numbered so engineering can take one at a time into its own app without replacing its core. Version ODIN Oct ver05.1 Nasir (0.5.1) · reference app 0.5.1 · stack matched to engineering (React 19.2, three 0.180, Vite 7, TS 5.8).</p>
-<p class="lead">What changed in this version: <code>RELEASE-NOTES-ver05.1.md</code></p>
+<h1>ODIN Oct ver05.2 Nasir - Engineering Handover</h1>
+<p class="lead">Every ODIN screen and effect, numbered so engineering can take one at a time into its own app without replacing its core. Version ODIN Oct ver05.2 Nasir (0.5.2) · reference app 0.5.2 · stack matched to engineering (React 19.2, three 0.180, Vite 7, TS 5.8).</p>
+<p class="lead">What changed in this version: <code>RELEASE-NOTES-ver05.2.md</code></p>
 <div class="steps">
 <div class="step"><b>1 · Read</b><p><code>INTEGRATION-GUIDE.md</code> and <code>STACK.md</code></p></div>
-<div class="step"><b>2 · Pick</b><p>A screen below (V01–V32) or an effect (E00–E13)</p></div>
+<div class="step"><b>2 · Pick</b><p>A screen below (V01–V40) or an effect (E00–E13)</p></div>
 <div class="step"><b>3 · Port</b><p>Give your Claude <code>06-port-kit/CLAUDE.md</code> + a prompt from <code>PORT-PROMPTS.md</code></p></div>
 <div class="step"><b>4 · Verify</b><p>Contract + acceptance tests in <code>06-port-kit/tests</code></p></div>
 </div>
@@ -89,7 +89,15 @@ footer{margin-top:56px;color:var(--ink3);font-size:13px}code{background:rgba(255
   <img src="04-views/V32-vas-revenue/screens/wide.jpg" alt="VAS Revenue capture" loading="lazy">
   <div class="meta"><span class="id">V32</span><span class="st" style="--s:#3ed6a0">Green</span></div>
   <h3>VAS Revenue</h3><p>The gold revenue core in the centre on its floor beam, with two breakdown panels on each side (country and centre left; service and nationality right) feeding it through Home’s energy links.</p>
-  <div class="chips"><span>BQ05</span><span>BQ27</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V25-didnt-understand/README.md">
+  <div class="chips"><span>BQ05</span><span>BQ27</span><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V39-online-visa-journey-v4-5/README.md">
+  <img src="04-views/V39-online-visa-journey-v4-5/screens/wide.jpg" alt="Online Visa Journey v4.5 capture" loading="lazy">
+  <div class="meta"><span class="id">V39</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Online Visa Journey v4.5</h3><p>The application journey as a dashboard (Anupam, 27 Oct): a stage card on the left whose numbers follow the tour, every stage with its live number along the bottom, and the journey in between on equal, subtler units joined by a particle floor at the home sphere's quality. The highlighted stage glows, with rings of light rippling outward on the floor from its base; one application icon travels the route; Home lights the step the applicant is on. &quot;Tell me more&quot; (or the Detail view button) opens the detail view: only the stage the tour is at, larger on the left, morphing from stage to stage, with its dashboard on the right. ODIN speaks only the summary.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E04</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V40-top-10-countries-v2/README.md">
+  <img src="04-views/V40-top-10-countries-v2/screens/wide.jpg" alt="Top 10 Countries v2 capture" loading="lazy">
+  <div class="meta"><span class="id">V40</span><span class="st" style="--s:#3ed6a0">Green</span></div>
+  <h3>Top 10 Countries v2</h3><p>The Earth with the top ten countries, ordered for reading on a big screen (Anupam, 27 Oct): ranks 1–5 down the left, 6–10 down the right, the globe in the centre.</p>
+  <div class="chips"><span class="e">E00</span><span class="e">E01</span><span class="e">E02</span><span class="e">E03</span><span class="e">E04</span><span class="e">E06</span><span class="e">E07</span><span class="e">E08</span><span class="e">E09</span><span class="e">E11</span></div></a><a class="card" href="04-views/V25-didnt-understand/README.md">
   <img src="04-views/V25-didnt-understand/screens/wide.jpg" alt="Didn’t Understand capture" loading="lazy">
   <div class="meta"><span class="id">V25</span><span class="st" style="--s:#9fd0ff">System</span></div>
   <h3>Didn’t Understand</h3><p>Fallback when a question is outside ODIN’s data, with suggested questions.</p>
@@ -116,5 +124,5 @@ footer{margin-top:56px;color:var(--ink3);font-size:13px}code{background:rgba(255
   <h3>Speaking + summary</h3><p>ODIN speaks; the spectrum wraps the focus object and the summary strip captions it.</p>
   <div class="chips"><span class="e">E00</span><span class="e">E03</span><span class="e">E09</span></div></a></div>
 <h2>Effects</h2><div class="effects"><a class="eff" href="03-effects/E00-canvas-layer/SPEC.md"><b>E00</b><span>3D canvas layer (Stage)</span></a><a class="eff" href="03-effects/E01-morph/SPEC.md"><b>E01</b><span>Morph transitions (six choreographies)</span></a><a class="eff" href="03-effects/E02-particles/SPEC.md"><b>E02</b><span>Transition particles</span></a><a class="eff" href="03-effects/E03-globe-aura/SPEC.md"><b>E03</b><span>ODIN globe + speaking aura</span></a><a class="eff" href="03-effects/E04-3d-objects/SPEC.md"><b>E04</b><span>3D objects on HTML placeholders</span></a><a class="eff" href="03-effects/E05-energy-streams/SPEC.md"><b>E05</b><span>Energy streams</span></a><a class="eff" href="03-effects/E06-environment/SPEC.md"><b>E06</b><span>Environment: room, backdrop blur (none / depth of field / full), camera push</span></a><a class="eff" href="03-effects/E07-post-fx/SPEC.md"><b>E07</b><span>Post-FX glow</span></a><a class="eff" href="03-effects/E08-count-up/SPEC.md"><b>E08</b><span>Count-up numbers</span></a><a class="eff" href="03-effects/E09-sound/SPEC.md"><b>E09</b><span>Sound</span></a><a class="eff" href="03-effects/E10-intro/SPEC.md"><b>E10</b><span>Intro load-in</span></a><a class="eff" href="03-effects/E11-composer/SPEC.md"><b>E11</b><span>Screen composer + bridge</span></a><a class="eff" href="03-effects/E12-response-composer/SPEC.md"><b>E12</b><span>Response composer (any phrasing → screen, depth, spotlight)</span></a><a class="eff" href="03-effects/E13-answer-transitions/SPEC.md"><b>E13</b><span>Answer-state transitions (T01–T06) and screen morph IDs (M01–M06)</span></a></div>
-<footer>DEMO DATA · not live. LogicEra for AEGI / EIX. Generated 2026-10-26.</footer>
+<footer>DEMO DATA · not live. LogicEra for AEGI / EIX. Generated 2026-10-28.</footer>
 </main></body></html>

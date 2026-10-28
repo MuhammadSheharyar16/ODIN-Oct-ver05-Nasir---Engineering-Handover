@@ -1,5 +1,14 @@
 # Changelog
 
+## ODIN Oct ver05.2 Nasir — 28 Oct 2026 (0.5.2, engineering handover)
+
+The application journey approved by Anupam and the second Top 10 Countries layout. Full notes by screen: `RELEASE-NOTES-ver05.2.md`.
+
+- **New V39 · Online Visa Journey v4.5:** the approved application journey. It has a stage card on the left, the all-stages strip at the bottom, equal subtler units on a particle floor, and floor light rippling from the highlighted stage. One application icon travels the route, and the detail view shows a single hero stage morphing from stage to stage with its dashboard (demo KPIs until the data team confirms them).
+- **New V40 · Top 10 Countries v2:** ranks 1–5 down the left and 6–10 down the right, the Earth centred, all cards the same width.
+- **Journey environment (V09, V39):** a flat floor (ODIN's floor circle sinks away on journeys; new `interior-flat-*` and `floor-ring-*` plates and a `RingLayer`) and ODIN's voice spectrum at Home's strength on the journey floor.
+- **Not shipped:** the other journey design options explored on the way (v3, v4, v4.1–v4.4).
+
 ## ODIN Oct ver05.1 Nasir — 26 Oct 2026 (`odin-oct-ver05.1-nasir`)
 
 Engineering handover. Release notes by screen: `RELEASE-NOTES-ver05.1.md`. **The journey maps (V33 Online Visa Journey v3, V34 v4) are held back while client feedback is implemented and come to engineering in ver05.2**; they live on `main`, and this handover is built from branch `handover/ver05.1`. V09 is unchanged from ver05.
