@@ -19,6 +19,10 @@ import { composeHomeSummary } from './data/homeSummary';
 import { OdinBridgeProvider } from './ui/bridge';
 import { viewById } from './odin/views';
 import { useHomeFeed } from './data/homeFeed';
+import { PerfHud } from './ui/hud/PerfHud';
+import { setting } from './lib/environment';
+
+const SHOW_PERF = setting('perf') === '1';
 
 const speakHome = () => startSpeechPreview(composeHomeSummary(useHomeFeed.getState()).spoken);
 
@@ -93,6 +97,9 @@ export default function App() {
   return (
     <main className="app">
       <Stage />
+      {SHOW_PERF && <PerfHud />}
+      {/* Static film grain over the room (ver05.3 performance P4; was an animated post-FX pass). */}
+      <div className="stage-grain" aria-hidden />
       <div className="ui-root">
         <OdinBridgeProvider value={{ ask, layout }}>
           <HomeComposition data={homeData} current={homeCurrent} visible={homeVisible} />

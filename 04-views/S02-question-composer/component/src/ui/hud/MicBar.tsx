@@ -8,6 +8,7 @@ import { ask } from '../../odin/director';
 import { searchQuestions, type QScope } from '../../odin/questions';
 import { QuestionPicker } from './QuestionPicker';
 import { IconMic } from '../icons';
+import { requestFrame, cancelFrame } from '../../lib/ticker';
 
 const BARS = 46;
 
@@ -80,10 +81,10 @@ export function MicBar() {
       if (st.micLevel > 0.001) st.setMicLevel(st.micLevel * 0.92);
       draw(left.current, false, t);
       draw(right.current, true, t);
-      raf = requestAnimationFrame(loop);
+      raf = requestFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
+    raf = requestFrame(loop);
+    return () => cancelFrame(raf);
   }, []);
 
   const submit = (q: string) => {

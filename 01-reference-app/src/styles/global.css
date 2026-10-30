@@ -35,6 +35,31 @@ body {
   inset: 0;
 }
 
+/* No WebGL (ver05.4): the room as layered still plates. */
+.stage-static { overflow: hidden; background: #0b1424; }
+.stage-static img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* Lite mode (software WebGL, e.g. AVD without a GPU): no live blur or grain; panels keep their tint. */
+html[data-lite] *, html[data-lite] *::before, html[data-lite] *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+html[data-lite] .stage-grain { display: none; }
+
+/* Hidden layers keep no animation running (ver05.3 performance): it kept the compositor busy. */
+.is-off,
+.is-off * {
+  animation-play-state: paused !important;
+}
+
+/* Fine film grain, static (ver05.3 performance P4): same strength and blend as the old post-FX pass. */
+.stage-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url(/fx/grain.png) repeat;
+  background-size: 128px 128px;
+  mix-blend-mode: soft-light;
+  opacity: 0.045;
+}
+
 /* Full-screen overlay; children are positioned by the layout engine. */
 .ui-root,
 .hud-slot {

@@ -7,6 +7,7 @@ import { useHomeSummary } from '../../data/homeSummary';
 import { useExperience } from '../../odin/experience';
 import { IconSpark } from '../icons';
 import './hud.css';
+import { requestFrame, cancelFrame } from '../../lib/ticker';
 
 /** Index of the word being spoken now (-1 before start), from caption timing. */
 function useSpokenIndex() {
@@ -27,10 +28,10 @@ function useSpokenIndex() {
       let i = -1;
       while (i + 1 < current.wordStarts.length && current.wordStarts[i + 1] <= t) i++;
       setIndex(i);
-      raf = requestAnimationFrame(loop);
+      raf = requestFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
+    raf = requestFrame(loop);
+    return () => cancelFrame(raf);
   }, [current, startedAt, speaking]);
   return index;
 }

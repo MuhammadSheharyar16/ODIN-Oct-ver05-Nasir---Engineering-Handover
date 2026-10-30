@@ -1,10 +1,11 @@
-# ODIN Oct ver05.2 Nasir - Engineering Handover
+# ODIN Oct ver05.4 Nasir - Engineering Handover
 
-Version ODIN Oct ver05.2 Nasir (0.5.2) · generated 2026-10-28 · ODIN reference app 0.5.2
+Version ODIN Oct ver05.4 Nasir · generated 2026-10-29 · ODIN reference app 0.5.4
 
 Everything an engineering team needs to take ODIN screens and effects into its own app, one at a time, without replacing its core.
 
-0. What changed in this version: `RELEASE-NOTES-ver05.2.md`.
+0. What changed in this version (virtual desktops / AVD): `RELEASE-NOTES-ver05.4.md`. Already built on ver05.3? Apply `ver05.4-vm.patch` (section 5 of the notes has the prompt for your Claude). For AEGI's AVD deployment build with `VITE_ODIN_MOTION=on`.
+0. Earlier: `RELEASE-NOTES-ver05.3.md` (performance, `ver05.3-performance.patch`) and `RELEASE-NOTES-ver05.2.md` (the screens).
 1. Open `00-START-HERE.html` for the visual catalogue.
 2. Read `INTEGRATION-GUIDE.md` (leads) and `STACK.md` (versions, already matched to your stack).
 3. Give your Claude `06-port-kit/CLAUDE.md` and a request from `06-port-kit/PORT-PROMPTS.md`.

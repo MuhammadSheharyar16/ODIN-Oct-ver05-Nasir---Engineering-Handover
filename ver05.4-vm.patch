@@ -1,0 +1,455 @@
+diff --git a/src/App.tsx b/src/App.tsx
+index a830ef1..5f82ac4 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -19,6 +19,10 @@ import { composeHomeSummary } from './data/homeSummary';
+ import { OdinBridgeProvider } from './ui/bridge';
+ import { viewById } from './odin/views';
+ import { useHomeFeed } from './data/homeFeed';
++import { PerfHud } from './ui/hud/PerfHud';
++import { setting } from './lib/environment';
++
++const SHOW_PERF = setting('perf') === '1';
+ 
+ const speakHome = () => startSpeechPreview(composeHomeSummary(useHomeFeed.getState()).spoken);
+ 
+@@ -93,6 +97,7 @@ export default function App() {
+   return (
+     <main className="app">
+       <Stage />
++      {SHOW_PERF && <PerfHud />}
+       {/* Static film grain over the room (ver05.3 performance P4; was an animated post-FX pass). */}
+       <div className="stage-grain" aria-hidden />
+       <div className="ui-root">
+diff --git a/src/lib/backdrop.ts b/src/lib/backdrop.ts
+index fbd448c..e84d321 100644
+--- a/src/lib/backdrop.ts
++++ b/src/lib/backdrop.ts
+@@ -14,6 +14,7 @@
+  * Dimming is separate and off by default (?dim=1 brings back the old darkening).
+  * Changes ease in and out (about 0.4 s) in EnvironmentLayers.
+  */
++import { isLite } from './environment';
+ export type BackdropBlur = 'none' | 'dof' | 'full';
+ 
+ const fromUrl = (): BackdropBlur | null => {
+@@ -24,7 +25,8 @@ const fromUrl = (): BackdropBlur | null => {
+ 
+ export const backdrop = {
+   /** Set from code or the keyboard; wins over the screen's own mode. null = follow the screen. */
+-  manual: fromUrl() as BackdropBlur | null,
++  // Lite mode (software WebGL, ver05.4): the room stays sharp; the blur pass is a full-screen cost.
++  manual: (fromUrl() ?? (isLite() ? 'none' : null)) as BackdropBlur | null,
+   /** The open screen's own mode (SceneAnswer.backdrop). */
+   scene: 'none' as BackdropBlur,
+ };
+diff --git a/src/lib/environment.test.ts b/src/lib/environment.test.ts
+new file mode 100644
+index 0000000..0062bec
+--- /dev/null
++++ b/src/lib/environment.test.ts
+@@ -0,0 +1,52 @@
++import { afterEach, describe, expect, it, vi } from 'vitest';
++
++// A browser with a URL query, localStorage and an OS reduced-motion preference.
++function browser(search: string, reduce: boolean, kept: Record<string, string> = {}) {
++  const mem = { ...kept };
++  vi.stubGlobal('window', {
++    location: { search },
++    localStorage: { getItem: (k: string) => mem[k] ?? null, setItem: (k: string, v: string) => { mem[k] = v; } },
++    matchMedia: (q: string) => ({ matches: reduce && q.includes('reduce') }),
++  });
++  return mem;
++}
++
++afterEach(() => { vi.unstubAllGlobals(); vi.resetModules(); });
++
++describe('virtual-desktop settings (ver05.4)', () => {
++  it('follows the OS reduced-motion preference by default', async () => {
++    browser('', true);
++    const { prefersReducedMotion } = await import('./motion');
++    expect(prefersReducedMotion()).toBe(true);
++  });
++
++  it('?motion=on keeps ODIN moving on a remote desktop, and is remembered', async () => {
++    const mem = browser('?motion=on', true);
++    const { prefersReducedMotion } = await import('./motion');
++    expect(prefersReducedMotion()).toBe(false);
++    expect(mem['odin.motion']).toBe('on');
++  });
++
++  it('a remembered setting applies without the URL; ?motion=auto switches back', async () => {
++    browser('', true, { 'odin.motion': 'on' });
++    expect((await import('./motion')).prefersReducedMotion()).toBe(false);
++    vi.resetModules();
++    browser('?motion=auto', true, { 'odin.motion': 'on' });
++    expect((await import('./motion')).prefersReducedMotion()).toBe(true);
++  });
++
++  it('?lite=on and ?lite=off override the automatic choice', async () => {
++    browser('?lite=on', false);
++    expect((await import('./environment')).isLite()).toBe(true);
++    vi.resetModules();
++    browser('?lite=off', false);
++    expect((await import('./environment')).isLite()).toBe(false);
++  });
++
++  it('ignores unknown values', async () => {
++    browser('?motion=fast&lite=maybe', false);
++    const env = await import('./environment');
++    expect(env.setting('motion')).toBe('auto');
++    expect(env.setting('lite')).toBe('auto');
++  });
++});
+diff --git a/src/lib/environment.ts b/src/lib/environment.ts
+new file mode 100644
+index 0000000..d5fa1cf
+--- /dev/null
++++ b/src/lib/environment.ts
+@@ -0,0 +1,109 @@
++/**
++ * Where ODIN is running (ver05.4, virtual desktops). AEGI opens ODIN only inside Azure Virtual
++ * Desktop (AVD). There, two things change the experience:
++ *  1. Remote desktop sessions switch Windows animation effects off, so the browser reports
++ *     `prefers-reduced-motion: reduce` and ODIN would go static (no morphs, frozen globe).
++ *     `motion` lets a deployment keep ODIN's motion anyway.
++ *  2. AVD session hosts usually have no GPU, so WebGL is software-rendered or missing.
++ *     `lite` drops the heavy GPU finish so ODIN stays smooth; with no WebGL at all the room is
++ *     shown as a still picture and everything else keeps working.
++ *
++ * Settings (each: URL parameter, remembered in this browser; else the build default):
++ *  - `?motion=on | auto`  on = animate even when the OS asks for reduced motion.  Build: VITE_ODIN_MOTION.
++ *  - `?lite=auto | on | off`  auto = lite when WebGL is software or missing.       Build: VITE_ODIN_LITE.
++ *  - `?perf=1 | 0`  shows the on-screen diagnostic (renderer, motion, lite, fps).
++ */
++type Setting = 'motion' | 'lite' | 'perf';
++
++const DEFAULTS: Record<Setting, string> = {
++  motion: (import.meta.env.VITE_ODIN_MOTION as string | undefined) ?? 'auto',
++  lite: (import.meta.env.VITE_ODIN_LITE as string | undefined) ?? 'auto',
++  perf: '0',
++};
++const VALID: Record<Setting, string[]> = { motion: ['on', 'auto'], lite: ['auto', 'on', 'off'], perf: ['1', '0'] };
++
++const store = {
++  get(k: string) { try { return window.localStorage.getItem(k); } catch { return null; } },
++  set(k: string, v: string) { try { window.localStorage.setItem(k, v); } catch { /* private mode: URL only */ } },
++};
++
++/** URL wins and is remembered (an AVD user sets it once); otherwise the remembered value; otherwise the build default. */
++export function setting(name: Setting): string {
++  if (typeof window === 'undefined') return DEFAULTS[name];
++  const url = new URLSearchParams(window.location.search).get(name);
++  if (url && VALID[name].includes(url)) { store.set(`odin.${name}`, url); return url; }
++  const kept = store.get(`odin.${name}`);
++  return kept && VALID[name].includes(kept) ? kept : DEFAULTS[name];
++}
++
++export const motionForced = () => setting('motion') === 'on';
++
++/** The operating system's own preference, before any override (shown in the diagnostic). */
++export const osReducedMotion = () =>
++  typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
++
++export type GpuInfo = { webgl: 'hardware' | 'software' | 'none'; renderer: string };
++let gpuCache: GpuInfo | null = null;
++const SOFTWARE = /swiftshader|llvmpipe|softpipe|software|basic render|microsoft basic|mesa offscreen|warp/i;
++
++/** WebGL2 with a hardware renderer, a software renderer (SwiftShader, WARP, llvmpipe), or none. */
++export function gpuInfo(): GpuInfo {
++  if (gpuCache) return gpuCache;
++  if (typeof document === 'undefined') return (gpuCache = { webgl: 'hardware', renderer: 'n/a' });
++  try {
++    const c = document.createElement('canvas');
++    const gl = (c.getContext('webgl2') ?? c.getContext('webgl')) as WebGLRenderingContext | null;
++    if (!gl) return (gpuCache = { webgl: 'none', renderer: 'WebGL unavailable' });
++    const ext = gl.getExtension('WEBGL_debug_renderer_info');
++    const renderer = String(ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
++    // Chromium also flags a "major performance caveat" when only software rendering is available.
++    const strict = (document.createElement('canvas').getContext('webgl2', { failIfMajorPerformanceCaveat: true })
++      ?? document.createElement('canvas').getContext('webgl', { failIfMajorPerformanceCaveat: true })) as WebGLRenderingContext | null;
++    const caveat = !strict;
++    strict?.getExtension('WEBGL_lose_context')?.loseContext();
++    gl.getExtension('WEBGL_lose_context')?.loseContext();
++    return (gpuCache = { webgl: SOFTWARE.test(renderer) || caveat ? 'software' : 'hardware', renderer });
++  } catch {
++    return (gpuCache = { webgl: 'none', renderer: 'WebGL error' });
++  }
++}
++
++/** Lite mode: forced on/off, or automatic when the GPU is software or missing. */
++export function isLite(): boolean {
++  const s = setting('lite');
++  if (s === 'on') return true;
++  if (s === 'off') return false;
++  return gpuInfo().webgl !== 'hardware';
++}
++
++/** Removes the stylesheets' reduced-motion rules (used when motion is forced on). */
++function dropReducedMotionRules(sheet: CSSStyleSheet | CSSMediaRule | CSSSupportsRule) {
++  let rules: CSSRuleList;
++  try { rules = sheet.cssRules; } catch { return; } // cross-origin sheet: not ours
++  for (let i = rules.length - 1; i >= 0; i--) {
++    const r = rules[i];
++    if (r instanceof CSSMediaRule) {
++      if (/prefers-reduced-motion\s*:\s*reduce/.test(r.conditionText ?? r.media.mediaText)) sheet.deleteRule(i);
++      else dropReducedMotionRules(r);
++    } else if (r instanceof CSSSupportsRule) dropReducedMotionRules(r);
++  }
++}
++
++/** Run once at start-up: tags <html> (data-motion, data-lite, data-gpu) and applies the motion override. */
++export function applyEnvironment() {
++  if (typeof document === 'undefined') return;
++  const html = document.documentElement;
++  const g = gpuInfo();
++  html.dataset.gpu = g.webgl;
++  if (isLite()) html.dataset.lite = '1';
++  if (!motionForced()) return;
++  html.dataset.motion = 'on';
++  const sweep = () => { for (const s of Array.from(document.styleSheets)) dropReducedMotionRules(s); };
++  sweep();
++  // Stylesheets that arrive later (lazy chunks, dev HMR) get the same treatment.
++  new MutationObserver((list) => {
++    sweep();
++    for (const m of list) for (const n of Array.from(m.addedNodes)) if (n instanceof HTMLLinkElement) n.addEventListener('load', sweep, { once: true });
++  }).observe(document.head, { childList: true, subtree: true });
++  window.addEventListener('load', sweep, { once: true });
++}
+diff --git a/src/lib/motion.ts b/src/lib/motion.ts
+index 0b58143..3755e7f 100644
+--- a/src/lib/motion.ts
++++ b/src/lib/motion.ts
+@@ -1,8 +1,12 @@
++import { motionForced, osReducedMotion } from './environment';
++
+ /** Frame-rate independent exponential smoothing toward a target. */
+ export function damp(current: number, target: number, lambda: number, dt: number) {
+   return current + (target - current) * (1 - Math.exp(-lambda * dt));
+ }
+ 
+-export const prefersReducedMotion = () =>
+-  typeof window !== 'undefined' &&
+-  window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
++/**
++ * Reduced motion as ODIN applies it: the OS preference, unless the deployment forces motion on
++ * (`?motion=on` / VITE_ODIN_MOTION, lib/environment.ts) — remote desktops (AVD) report reduce by default.
++ */
++export const prefersReducedMotion = () => !motionForced() && osReducedMotion();
+diff --git a/src/main.tsx b/src/main.tsx
+index a0fe630..d5347ff 100644
+--- a/src/main.tsx
++++ b/src/main.tsx
+@@ -3,6 +3,10 @@ import { createRoot } from 'react-dom/client';
+ import '@fontsource-variable/inter';
+ import './styles/global.css';
+ import App from './App.tsx';
++import { applyEnvironment } from './lib/environment';
++
++// Virtual desktops (AVD): motion override, lite mode on software WebGL (ver05.4).
++applyEnvironment();
+ 
+ createRoot(document.getElementById('root')!).render(
+   <StrictMode>
+diff --git a/src/scene/Stage.tsx b/src/scene/Stage.tsx
+index a00f304..e29bfb0 100644
+--- a/src/scene/Stage.tsx
++++ b/src/scene/Stage.tsx
+@@ -16,6 +16,7 @@ import { TransitionParticles } from './TransitionParticles';
+ import { ProxyObjects } from './Donut3D';
+ import { PostFX } from './PostFX';
+ import { onTick } from '../lib/ticker';
++import { gpuInfo, isLite } from '../lib/environment';
+ import { odinAudio } from '../audio/odinAudio';
+ import { presence } from '../odin/experience';
+ import { fx } from '../odin/fx';
+@@ -38,6 +39,10 @@ function EnvReady() {
+  * (20 fps), which cannot be seen at that speed but lets the browser reuse the glass blurs above.
+  */
+ const IDLE_EVERY = 3;
++// Lite mode (software WebGL): 30 fps while something moves, 10 fps when calm, fewer pixels.
++const LITE = isLite();
++const BUSY_EVERY = LITE ? 2 : 1;
++const CALM_EVERY = LITE ? 6 : IDLE_EVERY;
+ function Driver() {
+   const advance = useThree((s) => s.advance);
+   useEffect(() => {
+@@ -56,7 +61,8 @@ function Driver() {
+       const why = { recent: now < busyUntil, speaking: odinAudio.speaking || odinAudio.level > 0.002, globe: presence.followHome || presence.target.form > 0.02, intro: intro.env < 1, camera: !settled() };
+       const busy = why.recent || why.speaking || why.globe || why.intro || why.camera;
+       if (import.meta.env.DEV) (window as unknown as { __odinRender: unknown }).__odinRender = { busy, ...why, env: intro.env, form: presence.target.form, view: { ...envView.cur }, target: { ...envView.target } };
+-      if (busy || ++n % IDLE_EVERY === 0) advance((now - t0) / 1000 + 1 / 60);
++      n++;
++      if (busy ? n % BUSY_EVERY === 0 : n % CALM_EVERY === 0) advance((now - t0) / 1000 + 1 / 60);
+     });
+     return () => { stop(); unsub(); window.removeEventListener('pointermove', onPointer); };
+   }, [advance]);
+@@ -70,10 +76,27 @@ function Driver() {
+  * text is HTML, so nothing gets visibly softer).
+  */
+ const DPR = { high: 2, medium: 1.5, low: 1 } as const;
+-const PIXEL_BUDGET = 4e6;
+-const budgetDpr = () => typeof window === 'undefined' ? 1 : Math.max(1, Math.sqrt(PIXEL_BUDGET / Math.max(1, window.innerWidth * window.innerHeight)));
++const PIXEL_BUDGET = LITE ? 0.8e6 : 4e6;
++const budgetDpr = () => typeof window === 'undefined' ? 1 : Math.max(LITE ? 0.6 : 1, Math.sqrt(PIXEL_BUDGET / Math.max(1, window.innerWidth * window.innerHeight)));
+ 
+ export function Stage() {
++  // No WebGL at all (a virtual desktop without GPU or software rendering): the room as a still picture.
++  if (gpuInfo().webgl === 'none') return <StaticRoom />;
++  return <StageCanvas />;
++}
++
++/** The ODIN room without WebGL: exterior and interior plates, layered like the 3D room at rest. */
++function StaticRoom() {
++  const base = import.meta.env.BASE_URL;
++  return (
++    <div className="stage-canvas stage-static" aria-hidden>
++      <img src={`${base}env/exterior-1600.webp`} alt="" />
++      <img src={`${base}env/interior-1600.webp`} alt="" onLoad={() => useStage.setState({ envReady: true })} onError={() => useStage.setState({ envReady: true })} />
++    </div>
++  );
++}
++
++function StageCanvas() {
+   const tier = useStage((s) => s.tier);
+   return (
+     <Canvas
+diff --git a/src/state/store.ts b/src/state/store.ts
+index 57bdda0..1ef17bb 100644
+--- a/src/state/store.ts
++++ b/src/state/store.ts
+@@ -1,4 +1,5 @@
+ import { create } from 'zustand';
++import { isLite } from '../lib/environment';
+ 
+ /**
+  * Render-level state shared between the WebGL stage and the DOM overlay.
+@@ -28,6 +29,8 @@ type StageState = {
+ };
+ 
+ const urlTier = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('tier') : null;
++// Lite mode (software or missing WebGL, e.g. AVD without a GPU) starts on the low tier: no post-FX.
++const liteTier = isLite();
+ 
+ const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+ 
+@@ -39,7 +42,7 @@ export const useStage = create<StageState>((set) => ({
+   micLevel: 0,
+   setMicLevel: (micLevel) => set({ micLevel: clamp01(micLevel) }),
+   envReady: false,
+-  tier: urlTier === 'low' || urlTier === 'medium' ? urlTier : 'high',
++  tier: urlTier === 'low' || urlTier === 'medium' ? urlTier : liteTier ? 'low' : 'high',
+   tierLocked: urlTier !== null,
+ }));
+ 
+diff --git a/src/styles/global.css b/src/styles/global.css
+index 77ecaed..1984be6 100644
+--- a/src/styles/global.css
++++ b/src/styles/global.css
+@@ -35,6 +35,14 @@ body {
+   inset: 0;
+ }
+ 
++/* No WebGL (ver05.4): the room as layered still plates. */
++.stage-static { overflow: hidden; background: #0b1424; }
++.stage-static img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
++
++/* Lite mode (software WebGL, e.g. AVD without a GPU): no live blur or grain; panels keep their tint. */
++html[data-lite] *, html[data-lite] *::before, html[data-lite] *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
++html[data-lite] .stage-grain { display: none; }
++
+ /* Hidden layers keep no animation running (ver05.3 performance): it kept the compositor busy. */
+ .is-off,
+ .is-off * {
+diff --git a/src/ui/hud/PerfHud.tsx b/src/ui/hud/PerfHud.tsx
+new file mode 100644
+index 0000000..97de71e
+--- /dev/null
++++ b/src/ui/hud/PerfHud.tsx
+@@ -0,0 +1,43 @@
++import { useEffect, useState } from 'react';
++import { gpuInfo, isLite, motionForced, osReducedMotion, setting } from '../../lib/environment';
++
++/**
++ * `?perf=1` (ver05.4): what this machine gives ODIN — renderer (hardware / software / none),
++ * the OS reduced-motion preference and whether ODIN overrides it, lite mode, frame rate and
++ * pixel density. For checking a virtual desktop (AVD) in seconds. `?perf=0` hides it again.
++ */
++export function PerfHud() {
++  const [fps, setFps] = useState(0);
++  useEffect(() => {
++    let n = 0, raf = 0, t0 = performance.now();
++    const loop = (t: number) => {
++      n++;
++      if (t - t0 >= 1000) { setFps(Math.round((n * 1000) / (t - t0))); n = 0; t0 = t; }
++      raf = requestAnimationFrame(loop);
++    };
++    raf = requestAnimationFrame(loop);
++    return () => cancelAnimationFrame(raf);
++  }, []);
++  const g = gpuInfo();
++  const canvas = document.querySelector('.stage-canvas canvas') as HTMLCanvasElement | null;
++  const rows: [string, string, 'ok' | 'warn' | 'bad'][] = [
++    ['WebGL', g.webgl, g.webgl === 'hardware' ? 'ok' : g.webgl === 'software' ? 'warn' : 'bad'],
++    ['Renderer', g.renderer.replace(/^ANGLE \(/, '').slice(0, 38), g.webgl === 'hardware' ? 'ok' : 'warn'],
++    ['OS reduced motion', osReducedMotion() ? 'on (remote desktop?)' : 'off', osReducedMotion() && !motionForced() ? 'bad' : 'ok'],
++    ['ODIN motion', motionForced() ? 'forced on' : osReducedMotion() ? 'reduced' : 'full', motionForced() || !osReducedMotion() ? 'ok' : 'bad'],
++    ['Lite mode', `${isLite() ? 'on' : 'off'} (${setting('lite')})`, isLite() ? 'warn' : 'ok'],
++    ['Frame rate', `${fps} fps`, fps >= 50 ? 'ok' : fps >= 25 ? 'warn' : 'bad'],
++    ['Pixel density', `${window.devicePixelRatio} screen · ${canvas ? (canvas.width / window.innerWidth).toFixed(2) : '–'} 3D`, 'ok'],
++  ];
++  const col = { ok: '#3fcf8e', warn: '#f2b544', bad: '#ff5468' } as const;
++  return (
++    <div role="status" aria-label="ODIN diagnostics" style={{ position: 'fixed', right: 12, bottom: 12, zIndex: 99999, font: '12px/1.45 ui-monospace, Menlo, monospace', color: '#e8eefc', background: 'rgba(8,12,24,.88)', border: '1px solid rgba(255,255,255,.18)', borderRadius: 10, padding: '10px 12px', minWidth: 300, pointerEvents: 'none' }}>
++      <div style={{ fontWeight: 700, marginBottom: 4 }}>ODIN diagnostics</div>
++      {rows.map(([k, v, s]) => (
++        <div key={k} style={{ display: 'flex', justifyContent: 'space-between', gap: 14 }}>
++          <span style={{ opacity: .75 }}>{k}</span><span style={{ color: col[s] }}>{v}</span>
++        </div>
++      ))}
++    </div>
++  );
++}
+diff --git a/src/ui/scene/components/journeyCinema/FloorParticles.tsx b/src/ui/scene/components/journeyCinema/FloorParticles.tsx
+index eedcbc4..b971f2a 100644
+--- a/src/ui/scene/components/journeyCinema/FloorParticles.tsx
++++ b/src/ui/scene/components/journeyCinema/FloorParticles.tsx
+@@ -1,5 +1,8 @@
+ import { useEffect, useRef } from 'react';
+ import { onTick } from '../../../../lib/ticker';
++import { isLite } from '../../../../lib/environment';
++
++const LITE = isLite();
+ 
+ /**
+  * Particle floor (V39): along each route a thick stream of white-cored particles flows over a
+@@ -81,7 +84,7 @@ export function FloorParticles({ W, H, u, streams, floor, pool, comet, beam, fla
+     // Particles per stream (density = volume), kept across frames by stream id.
+     const dots = new Map<string, Dot[]>();
+     const dotsFor = (s: Stream) => {
+-      const n = 440; // every route equally thick (Nasir, 27 Oct); was 620 before ver05.3 performance
++      const n = LITE ? 220 : 440; // every route equally thick (Nasir, 27 Oct); 620 before ver05.3; half in lite mode (ver05.4)
+       let d = dots.get(s.id);
+       if (!d || d.length !== n) {
+         d = Array.from({ length: n }, (_, i) => ({ s: Math.random(), v: 0.05 + Math.random() * 0.06, o: gauss(), w: i % 2, k: Math.random(), ph: Math.random() * 6.28 }));
+diff --git a/src/ui/scene/components/shared.tsx b/src/ui/scene/components/shared.tsx
+index 10da4e1..90c3495 100644
+--- a/src/ui/scene/components/shared.tsx
++++ b/src/ui/scene/components/shared.tsx
+@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from
+ import { registerProxy, type Proxy3D } from '../../../odin/fx';
+ import { formatCount } from '../../../lib/format';
+ import { useArrived, useWaiting } from '../../../odin/waiting';
++import { prefersReducedMotion } from '../../../lib/motion';
+ 
+ export const css = (v: Record<string, string | number>) => v as CSSProperties;
+ 
+@@ -78,7 +79,7 @@ export function Eyebrow({ children }: { children: ReactNode }) {
+  * the final value via aria-label, never the intermediate digits.
+  */
+ export function useCountUp(value: number, { delay = 520, duration = 1150, from: start }: { delay?: number; duration?: number; /** Start here instead of 0 (a number carried over from the previous screen). */ from?: number } = {}) {
+-  const reduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
++  const reduced = prefersReducedMotion();
+   const [shown, setShown] = useState(reduced ? value : start ?? 0);
+   const cur = useRef(reduced ? value : start ?? 0);
+   useEffect(() => {

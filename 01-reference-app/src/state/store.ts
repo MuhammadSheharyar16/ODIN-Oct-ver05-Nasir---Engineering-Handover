@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { isLite } from '../lib/environment';
 
 /**
  * Render-level state shared between the WebGL stage and the DOM overlay.
@@ -28,6 +29,8 @@ type StageState = {
 };
 
 const urlTier = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('tier') : null;
+// Lite mode (software or missing WebGL, e.g. AVD without a GPU) starts on the low tier: no post-FX.
+const liteTier = isLite();
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
@@ -39,7 +42,7 @@ export const useStage = create<StageState>((set) => ({
   micLevel: 0,
   setMicLevel: (micLevel) => set({ micLevel: clamp01(micLevel) }),
   envReady: false,
-  tier: urlTier === 'low' || urlTier === 'medium' ? urlTier : 'high',
+  tier: urlTier === 'low' || urlTier === 'medium' ? urlTier : liteTier ? 'low' : 'high',
   tierLocked: urlTier !== null,
 }));
 

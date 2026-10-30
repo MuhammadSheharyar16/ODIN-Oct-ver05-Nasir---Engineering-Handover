@@ -40,7 +40,7 @@ export function IntroDirector() {
 
     const q = (sel: string) => Array.from(document.querySelectorAll<HTMLElement>(sel));
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-    tl.to(loader.current, { autoAlpha: 0, duration: 0.7, ease: 'power2.inOut' }, 0)
+    tl.to(loader.current, { autoAlpha: 0, duration: 0.7, ease: 'power2.inOut', onComplete: () => { if (loader.current) loader.current.style.display = 'none'; } }, 0)
       .to(intro, { env: 1, duration: 2.1, ease: 'power2.out' }, 0)
       .to(intro, { camera: 1, duration: 2.8, ease: 'power3.out' }, 0)
       .to(intro, { beam: 1, duration: 1.1, ease: 'power2.inOut' }, 0.5)

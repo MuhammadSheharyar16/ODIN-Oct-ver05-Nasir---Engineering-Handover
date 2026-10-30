@@ -1,5 +1,25 @@
 # Changelog
 
+## ODIN Oct ver05.4 Nasir — 30 Oct 2026 (0.5.4, engineering handover)
+
+Virtual desktops: AEGI allows access only through Azure Virtual Desktop (AVD), where ODIN went static (remote sessions report reduced motion) and was heavy (no GPU). Full notes: `RELEASE-NOTES-ver05.4.md`; the kit has `ver05.4-vm.patch`.
+
+- **Motion override** (`src/lib/environment.ts`): `?motion=on` / `VITE_ODIN_MOTION=on` keeps ODIN animating when the OS asks for reduced motion; remembered per browser; removes the stylesheets' reduced-motion rules at runtime.
+- **Automatic lite mode** when WebGL is software or missing: low tier (no post-FX), 30 / 10 fps 3D at ~0.8 MP, no room blur, no live glass blur or grain, half the journey particles; no WebGL → the room as still plates, everything else working.
+- **`?perf=1`** diagnostic panel (`src/ui/hud/PerfHud.tsx`): renderer, OS reduced motion, ODIN motion, lite, fps, pixel density.
+- 5 new unit tests (133 in total). On a hardware GPU nothing changes.
+
+## ODIN Oct ver05.3 Nasir — 29 Oct 2026 (0.5.3, engineering handover)
+
+Performance: the same screens as ver05.2, using far less CPU and GPU, at a steady 60 fps on 120 Hz screens. No screen, data, routing or voice change. Full notes, measurements and the integration rule for the real voice: `RELEASE-NOTES-ver05.3.md`.
+
+- **Shared 60 fps ticker** (`src/lib/ticker.ts`, with tests): one animation clock for the app, capped at 60 fps on 120 Hz screens and stopped when the tab is hidden; every 2D animation loop runs on it (`onTick`, `requestFrame`).
+- **3D canvas on demand** (`Stage.tsx`): driven by the ticker (`frameloop="never"`); full rate while something moves (ODIN speaking, the globe, a transition, a scene change, camera or room easing, the pointer), 20 fps when calm. Pixel budget of about 4 million device pixels. drei's PerformanceMonitor removed.
+- **Static film grain** (`.stage-grain`, `public/fx/grain.png`) instead of the animated post-FX `Noise` pass; Bloom at half resolution.
+- **V39 floor:** the particle floor at 1x and 30 fps with 440 particles a route (was 620), a little brighter; it stops while the detail view's stage hero is shown. The floor rings at 1.25x, clearing only their own box and stopping when faded.
+- **Hidden layers stop working:** Home's energy streams stop when Home is off screen, its CSS animations pause (`.is-off`), and the startup loader is removed after the intro.
+- **Glass:** the stage number pills have no live blur (tint .64); live blurs above 14 px are lowered to 14 px.
+
 ## ODIN Oct ver05.2 Nasir — 28 Oct 2026 (0.5.2, engineering handover)
 
 The application journey approved by Anupam and the second Top 10 Countries layout. Full notes by screen: `RELEASE-NOTES-ver05.2.md`.

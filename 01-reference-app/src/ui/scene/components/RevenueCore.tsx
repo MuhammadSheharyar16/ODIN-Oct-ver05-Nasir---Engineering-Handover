@@ -7,6 +7,7 @@ import { prefersReducedMotion } from '../../../lib/motion';
 import { useOdinLayout } from '../../bridge';
 import { Count } from './shared';
 import './revcore.css';
+import { requestFrame, cancelFrame } from '../../../lib/ticker';
 
 /**
  * VAS Revenue (V32 · BQ05, BQ27): a gold revenue core (glass orb, swirling gold dust,
@@ -101,10 +102,10 @@ function GoldDust({ r: coreR }: { r: number }) {
         g.globalAlpha = (0.25 + z * 0.65) * Math.min(1, p.y * 6, (1 - p.y) * 6); g.drawImage(spr, px - s, py - s, s * 2, s * 2);
       }
       g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
-      if (!reduced) raf = requestAnimationFrame(draw);
+      if (!reduced) raf = requestFrame(draw);
     };
-    raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
+    raf = requestFrame(draw);
+    return () => cancelFrame(raf);
   }, [reduced, coreR]);
   return <canvas ref={ref} className="rvc-core__dust" style={{ width: coreR * 2, height: coreR * 2 }} aria-hidden />;
 }

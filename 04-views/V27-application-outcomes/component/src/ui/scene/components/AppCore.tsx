@@ -8,6 +8,7 @@ import { prefersReducedMotion } from '../../../lib/motion';
 import { useOdinLayout } from '../../bridge';
 import { Count } from './shared';
 import './appcore.css';
+import { requestFrame, cancelFrame } from '../../../lib/ticker';
 
 /**
  * Applications v2: the application core — a deep-blue glass orb filled with
@@ -61,10 +62,10 @@ export function Lights({ segments, size, gain = 1, fill = 1 }: { segments: AppCo
         g.globalAlpha = Math.min(1, (0.22 + depth * 0.78) * gain); g.drawImage(sprites[p.i], c + x1 * RR - S, c + y2 * RR - S, S * 2, S * 2);
       }
       g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
-      if (!reduced) raf = requestAnimationFrame(draw);
+      if (!reduced) raf = requestFrame(draw);
     };
-    raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
+    raf = requestFrame(draw);
+    return () => cancelFrame(raf);
   }, [segments, size, reduced, gain, fill]);
   return <canvas ref={ref} className="apc-core__lights" style={{ width: size, height: size }} aria-hidden />;
 }

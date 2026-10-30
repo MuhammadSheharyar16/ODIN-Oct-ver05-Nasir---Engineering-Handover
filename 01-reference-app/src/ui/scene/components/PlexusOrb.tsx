@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { prefersReducedMotion } from '../../../lib/motion';
+import { requestFrame, cancelFrame } from '../../../lib/ticker';
 
 /**
  * Deep-blue data sphere for the processing time matrix: a slowly rotating
@@ -62,10 +63,10 @@ export function PlexusOrb() {
         if (depth > 0.75) { g.fillStyle = `rgba(150, 210, 255, ${(depth - 0.75) * 1.1})`; g.beginPath(); g.arc(p.x, p.y, r * 3.4, 0, Math.PI * 2); g.fill(); }
       }
       g.globalCompositeOperation = 'source-over';
-      if (!reduced) raf = requestAnimationFrame(draw);
+      if (!reduced) raf = requestFrame(draw);
     };
-    raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
+    raf = requestFrame(draw);
+    return () => cancelFrame(raf);
   }, [reduced]);
 
   return (

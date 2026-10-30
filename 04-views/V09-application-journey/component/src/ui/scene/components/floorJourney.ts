@@ -1,3 +1,4 @@
+import { requestFrame, cancelFrame } from '../../../lib/ticker';
 /**
  * Application journey on the ODIN interior floor (imperative renderer).
  * Both ICP reviews (before and after biometrics) lead to one ICP decision, which
@@ -422,11 +423,11 @@ export function mountFloorJourney(host: HTMLElement, data: FloorData, o: FloorOp
       place(p, ahead.x < mid.x - 0.2, !o.reduced, t);
       if (k >= 1) { stop++; phase = 'stand'; t0 = now; arrive(); }
     }
-    raf = requestAnimationFrame(frame);
+    raf = requestFrame(frame);
   };
-  raf = requestAnimationFrame(frame);
+  raf = requestFrame(frame);
 
   return {
-    destroy() { cancelAnimationFrame(raf); host.innerHTML = ''; },
+    destroy() { cancelFrame(raf); host.innerHTML = ''; },
   };
 }

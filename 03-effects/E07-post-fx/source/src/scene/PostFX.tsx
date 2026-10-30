@@ -1,12 +1,14 @@
-import { EffectComposer, Bloom, Vignette, Noise, SMAA } from '@react-three/postprocessing';
+import { EffectComposer, Bloom, Vignette, SMAA } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
 import { useStage } from '../state/store';
 
 /**
  * Cinematic finish (Phase 1 premium pass): selective bloom on light sources
- * only (threshold above the photographic background), a soft vignette and fine
- * film grain. Disable with `?fx=0` for low-end devices or comparisons.
+ * only (threshold above the photographic background) and a soft vignette. The fine film grain is a
+ * static CSS layer over the canvas (`.stage-grain`, ver05.3 performance P4): animated grain changed
+ * every pixel every frame, so the canvas could never rest and every glass blur above it was redone.
+ * Bloom runs at half resolution. Disable with `?fx=0` for low-end devices or comparisons.
  */
 export const POSTFX_ON = typeof location === 'undefined' || new URLSearchParams(location.search).get('fx') !== '0';
 
@@ -43,9 +45,8 @@ export function PostFX() {
     // No MSAA / half-float targets: they fail on some GPUs (black canvas). SMAA restores edges.
     <EffectComposer multisampling={0}>
       {/* Threshold sits above the daylight plate so only light sources glow; keeps cards and text crisp. */}
-      <Bloom mipmapBlur luminanceThreshold={0.985} luminanceSmoothing={0.04} intensity={0.32} radius={0.6} />
+      <Bloom mipmapBlur resolutionScale={0.5} luminanceThreshold={0.985} luminanceSmoothing={0.04} intensity={0.32} radius={0.6} />
       <Vignette offset={0.36} darkness={0.32} blendFunction={BlendFunction.NORMAL} />
-      <Noise premultiply opacity={0.045} blendFunction={BlendFunction.SOFT_LIGHT} />
       <SMAA />
     </EffectComposer>
   );

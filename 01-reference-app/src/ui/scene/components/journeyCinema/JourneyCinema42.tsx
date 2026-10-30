@@ -157,7 +157,7 @@ export function JourneyCinema42({ spec }: { spec: JourneySpec }) {
         style={{ left: W / 2 + (ft.x0 - FLOOR_CX) * sx, top: ft.y0 * sy, width: (ft.x1 - ft.x0) * sx, height: (ft.y1 - ft.y0) * sy }} />
 
       <div className={`j42__cam${reduced ? ' is-still' : ''}`} style={{ transform: cam }}>
-        <FloorParticles W={W} H={H} u={u} streams={streams} pool={pool} comet={comet} beam={beamId} flat={FLOOR_FLAT} reduced={reduced}
+        <FloorParticles W={W} H={H} u={u} streams={streams} pool={pool} comet={comet} beam={beamId} flat={FLOOR_FLAT} reduced={reduced} paused={hero}
           floor={{ x0: X(FLOOR42.x0), x1: X(FLOOR42.x1), y0: Y(FLOOR42.y0), y1: Y(FLOOR42.y1) }} />
         <FloorRings W={W} H={H} u={u} target={orbit} reduced={reduced} zBack={orbitZ - 1} zFront={orbitZ + 1} />
 

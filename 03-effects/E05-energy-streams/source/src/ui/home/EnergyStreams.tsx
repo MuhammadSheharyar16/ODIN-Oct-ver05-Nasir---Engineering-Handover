@@ -3,9 +3,11 @@ import type { HomeLayout } from '../../lib/homeLayout';
 import { odinAudio } from '../../audio/odinAudio';
 import { intro } from '../../lib/intro';
 import { prefersReducedMotion } from '../../lib/motion';
+import { requestFrame, cancelFrame } from '../../lib/ticker';
 
 /** `land`: where strands meet the globe, as a share of globe.r (Home 0.9: into the glow; scenes ≈ 1: on the outer edge). */
-type Props = { layout: HomeLayout; accents: string[]; land?: number };
+/** `active`: draw only while on screen (ver05.3 performance; the loop rewrites every path each frame). */
+type Props = { layout: HomeLayout; accents: string[]; land?: number; active?: boolean };
 
 type Strand = {
   kind: 'link' | 'ambient';
@@ -29,7 +31,7 @@ function edgePoint(cx: number, cy: number, hw: number, hh: number, dx: number, d
  * Paths are recomputed each frame so strands breathe at idle and widen into
  * waves while ODIN speaks (driven by ODIN's own output level).
  */
-export function EnergyStreams({ layout, accents, land = 0.9 }: Props) {
+export function EnergyStreams({ layout, accents, land = 0.9, active = true }: Props) {
   const refs = useRef<(SVGPathElement | null)[]>([]);
   /** Per strand: glow, dust, comet tail, comet head (all follow the core's path). */
   const fxRefs = useRef<(SVGPathElement | null)[][]>([]);
@@ -64,6 +66,7 @@ export function EnergyStreams({ layout, accents, land = 0.9 }: Props) {
   }, [capsules, globe, accents, S, land]);
 
   useEffect(() => {
+    if (!active) return;
     let raf = 0;
     let t = 0;
     let last = performance.now();
@@ -101,11 +104,11 @@ export function EnergyStreams({ layout, accents, land = 0.9 }: Props) {
           });
         }
       });
-      raf = requestAnimationFrame(loop);
+      raf = requestFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [strands, reduced, S]);
+    raf = requestFrame(loop);
+    return () => cancelFrame(raf);
+  }, [strands, reduced, S, active]);
 
   return (
     <svg className="energy" viewBox={`0 0 ${layout.width} ${layout.height}`} aria-hidden>

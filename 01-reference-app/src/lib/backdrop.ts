@@ -14,6 +14,7 @@
  * Dimming is separate and off by default (?dim=1 brings back the old darkening).
  * Changes ease in and out (about 0.4 s) in EnvironmentLayers.
  */
+import { isLite } from './environment';
 export type BackdropBlur = 'none' | 'dof' | 'full';
 
 const fromUrl = (): BackdropBlur | null => {
@@ -24,7 +25,8 @@ const fromUrl = (): BackdropBlur | null => {
 
 export const backdrop = {
   /** Set from code or the keyboard; wins over the screen's own mode. null = follow the screen. */
-  manual: fromUrl() as BackdropBlur | null,
+  // Lite mode (software WebGL, ver05.4): the room stays sharp; the blur pass is a full-screen cost.
+  manual: (fromUrl() ?? (isLite() ? 'none' : null)) as BackdropBlur | null,
   /** The open screen's own mode (SceneAnswer.backdrop). */
   scene: 'none' as BackdropBlur,
 };

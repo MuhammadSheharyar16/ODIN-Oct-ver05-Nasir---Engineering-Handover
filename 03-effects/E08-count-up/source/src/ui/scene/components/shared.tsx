@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 import { registerProxy, type Proxy3D } from '../../../odin/fx';
 import { formatCount } from '../../../lib/format';
 import { useArrived, useWaiting } from '../../../odin/waiting';
+import { prefersReducedMotion } from '../../../lib/motion';
 
 export const css = (v: Record<string, string | number>) => v as CSSProperties;
 
@@ -78,7 +79,7 @@ export function Eyebrow({ children }: { children: ReactNode }) {
  * the final value via aria-label, never the intermediate digits.
  */
 export function useCountUp(value: number, { delay = 520, duration = 1150, from: start }: { delay?: number; duration?: number; /** Start here instead of 0 (a number carried over from the previous screen). */ from?: number } = {}) {
-  const reduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const reduced = prefersReducedMotion();
   const [shown, setShown] = useState(reduced ? value : start ?? 0);
   const cur = useRef(reduced ? value : start ?? 0);
   useEffect(() => {

@@ -36,11 +36,11 @@ export function HomeComposition({ data, current, visible }: { data: HomeData; cu
   const g = layout.globe;
   const root = useRef<HTMLDivElement>(null);
   return (
-    <div ref={root} className="presence-layer" data-layer="home" style={{ visibility: visible ? 'visible' : 'hidden' }}>
+    <div ref={root} className={`presence-layer${visible ? '' : ' is-off'}`} data-layer="home" style={{ visibility: visible ? 'visible' : 'hidden' }}>
       {/* Hairline rays each side of the globe's beam, floor ring → globe (the beam itself is in 3D). */}
       {visible && <FloorBeam root={root} />}
       <div className="home-energy" data-morph="home-energy" data-accent="#7fb6ff">
-        <EnergyStreams layout={layout} accents={ACCENTS} />
+        <EnergyStreams layout={layout} accents={ACCENTS} active={visible} />
         <span aria-hidden data-beam="" data-beam-mode="rays" style={{ position: 'absolute', left: g.x - g.r, top: g.y - g.r, width: g.r * 2, height: g.r * 2, pointerEvents: 'none' }} />
       </div>
 

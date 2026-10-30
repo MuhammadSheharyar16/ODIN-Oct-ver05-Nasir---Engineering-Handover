@@ -7,6 +7,7 @@ import { HeroGlassFx } from '../HeroGlass';
 import { Count } from './shared';
 import { segmentAngles } from './donutGeometry';
 import './galaxy.css';
+import { requestFrame, cancelFrame } from '../../../lib/ticker';
 
 /**
  * Application Outcomes (wide): a spiral galaxy inside a dark glass portal —
@@ -108,10 +109,10 @@ export function OutcomeGalaxy({ spec }: { spec: DonutSpec }) {
       }
       g.globalAlpha = 0.95; g.drawImage(coreSpr, ox - 90, oy - 60, 180, 120);
       g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
-      if (!reduced) raf = requestAnimationFrame(draw);
+      if (!reduced) raf = requestFrame(draw);
     };
-    raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
+    raf = requestFrame(draw);
+    return () => cancelFrame(raf);
   }, [spec, total, reduced]);
 
   const pctOf = (c: number) => (c / total) * 100;

@@ -1,4 +1,8 @@
 import { useEffect, useRef } from 'react';
+import { onTick } from '../../../../lib/ticker';
+import { isLite } from '../../../../lib/environment';
+
+const LITE = isLite();
 
 /**
  * Particle floor (V39): along each route a thick stream of white-cored particles flows over a
@@ -10,7 +14,10 @@ import { useEffect, useRef } from 'react';
  * lies over the whole floor; the stage the application has reached gets a soft pool of light
  * with rising sparkles; the travelling application (an icon
  * drawn by JourneyCinema42) leaves a soft trail.
- * 2D canvas, pre-rendered soft sprites. ODIN's floor is bright, so the streams are drawn as
+ * 2D canvas at 1x pixel density (soft glows), pre-rendered soft sprites, drawn at 30 fps from the
+ * shared ticker (the flow moves about a pixel a frame, so 30 fps reads the same) with 440 particles
+ * a route, a little brighter, for the same density (ver05.3 performance: the cost was the
+ * ~6,600 sprite draws a frame, not the pixels). ODIN's floor is bright, so the streams are drawn as
  * coloured particles with white cores over a faint guide of light (additive light alone would
  * vanish on it); stills under reduced motion.
  */
@@ -53,8 +60,9 @@ function sprite(color: string, px: number, core = false) {
   return c;
 }
 
-export function FloorParticles({ W, H, u, streams, floor, pool, comet, beam, flat = 0.5, reduced }: {
-  W: number; H: number; u: number; streams: Stream[]; floor: { x0: number; x1: number; y0: number; y1: number }; pool: Pool; comet: Comet; beam: string | null; flat?: number; reduced: boolean;
+/** `paused`: the floor is hidden (V39 detail view), so it stops drawing (ver05.3 performance). */
+export function FloorParticles({ W, H, u, streams, floor, pool, comet, beam, flat = 0.5, reduced, paused = false }: {
+  W: number; H: number; u: number; streams: Stream[]; floor: { x0: number; x1: number; y0: number; y1: number }; pool: Pool; comet: Comet; beam: string | null; flat?: number; reduced: boolean; paused?: boolean;
 }) {
   const cv = useRef<HTMLCanvasElement>(null);
   const live = useRef({ streams, floor, pool, comet, beam });
@@ -63,7 +71,7 @@ export function FloorParticles({ W, H, u, streams, floor, pool, comet, beam, fla
   useEffect(() => {
     const canvas = cv.current;
     if (!canvas) return;
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const dpr = 1;
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     const g = canvas.getContext('2d')!;
@@ -76,7 +84,7 @@ export function FloorParticles({ W, H, u, streams, floor, pool, comet, beam, fla
     // Particles per stream (density = volume), kept across frames by stream id.
     const dots = new Map<string, Dot[]>();
     const dotsFor = (s: Stream) => {
-      const n = 620; // every route equally thick (Nasir, 27 Oct)
+      const n = LITE ? 220 : 440; // every route equally thick (Nasir, 27 Oct); 620 before ver05.3; half in lite mode (ver05.4)
       let d = dots.get(s.id);
       if (!d || d.length !== n) {
         d = Array.from({ length: n }, (_, i) => ({ s: Math.random(), v: 0.05 + Math.random() * 0.06, o: gauss(), w: i % 2, k: Math.random(), ph: Math.random() * 6.28 }));
@@ -94,7 +102,7 @@ export function FloorParticles({ W, H, u, streams, floor, pool, comet, beam, fla
     const gg = guide.getContext('2d')!;
     let guideKey = '';
 
-    let raf = 0, last = performance.now();
+    let last = performance.now();
     const frame = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
@@ -172,7 +180,7 @@ export function FloorParticles({ W, H, u, streams, floor, pool, comet, beam, fla
           const fade = Math.sin(Math.PI * p.s);
           const z = 0.5 + 0.9 * p.k;
           const sz = (5.6 + 4.8 * z) * u;
-          g.globalAlpha = Math.min(1, fade * gain * (0.55 + 0.45 * z) * (1 - Math.min(1, Math.abs(p.o) * 0.4)) * 1.15);
+          g.globalAlpha = Math.min(1, fade * gain * (0.55 + 0.45 * z) * (1 - Math.min(1, Math.abs(p.o) * 0.4)) * 1.15 * 1.25);
           g.drawImage(p.s < 0.5 ? s0 : s1, px - sz / 2, py - (sz * 0.8) / 2, sz, sz * 0.8);
         }
       }
@@ -238,11 +246,12 @@ export function FloorParticles({ W, H, u, streams, floor, pool, comet, beam, fla
 
       g.globalAlpha = 1;
       g.globalCompositeOperation = 'source-over';
-      if (!reduced) raf = requestAnimationFrame(frame);
     };
-    raf = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(raf);
-  }, [W, H, u, flat, reduced]);
+    if (paused) return;
+    if (reduced) { const id = requestAnimationFrame(frame); return () => cancelAnimationFrame(id); }
+    let odd = false;
+    return onTick((now) => { odd = !odd; if (odd) frame(now); });
+  }, [W, H, u, flat, reduced, paused]);
 
   return <canvas ref={cv} className="j42__floor" style={{ width: W, height: H }} aria-hidden />;
 }

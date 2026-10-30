@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, type RefObject } from 'react';
 import { prefersReducedMotion } from '../../lib/motion';
 import { useOdinLayout } from '../bridge';
 import { intro } from '../../lib/intro';
+import { requestFrame, cancelFrame } from '../../lib/ticker';
 
 /**
  * Light beam from the floor ring up into a screen's central object (Home's beam language):
@@ -78,14 +79,14 @@ export function FloorBeam({ root }: { root: RefObject<HTMLElement | null> }) {
       const level = Math.min(1, Math.max(0, parseFloat(el?.dataset.beamLevel ?? '1') || 1));
       const raysOnly = el?.dataset.beamMode === 'rays';
       fade += ((fits ? op * level * (raysOnly ? intro.beam : 1) : 0) - fade) * Math.min(1, dt * 4);
-      if (fade < 0.01 || !r) { raf = requestAnimationFrame(draw); return; }
+      if (fade < 0.01 || !r) { raf = requestFrame(draw); return; }
       if (el && el.dataset.beam !== accents) { accents = el.dataset.beam ?? ''; sprites = [white, ...accents.split(',').filter(Boolean).map((a) => sprite(a.trim()))]; P.forEach((m) => (m.i = pick())); }
       // Squash < 1: a tilted ring (3D donut) whose visible lower edge sits at R × squash.
       const sq = parseFloat(el?.dataset.beamSquash ?? '1') || 1;
       // The beam meets the object's lower edge and stops there (never shows through glass).
       const cx = ring.x, fy = ring.y, ty = oy + R * sq * (sq < 1 ? 0.93 : 0.985);
       const h = fy - ty;
-      if (h < 8) { raf = requestAnimationFrame(draw); return; }
+      if (h < 8) { raf = requestFrame(draw); return; }
       if (!col || Math.abs(colH - h) > 2) buildColumn(h);
       g.globalCompositeOperation = 'lighter';
       // Column with a slow shimmer.
@@ -110,7 +111,7 @@ export function FloorBeam({ root }: { root: RefObject<HTMLElement | null> }) {
           g.drawImage(white, x - z, y - z, z * 2, z * 2);
         }
       });
-      if (raysOnly) { g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; raf = requestAnimationFrame(draw); return; }
+      if (raysOnly) { g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; raf = requestFrame(draw); return; }
       // Hotspot where the beam leaves the floor.
       g.globalAlpha = fade * (0.82 + 0.18 * Math.sin(T * 1.5));
       g.save(); g.translate(cx, fy); g.scale(1, 0.24);
@@ -126,10 +127,10 @@ export function FloorBeam({ root }: { root: RefObject<HTMLElement | null> }) {
         g.drawImage(sprites[m.i] ?? white, x - z, y - z, z * 2, z * 2);
       }
       g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
-      raf = requestAnimationFrame(draw);
+      raf = requestFrame(draw);
     };
-    raf = requestAnimationFrame(draw);
-    return () => cancelAnimationFrame(raf);
+    raf = requestFrame(draw);
+    return () => cancelFrame(raf);
   }, [wide, width, height, ring.x, ring.y, ring.halfWidth, root, reduced]);
 
   return <canvas ref={ref} className="floor-beam" aria-hidden style={{ position: 'absolute', left: 0, top: 0, width, height, pointerEvents: 'none' }} />;
